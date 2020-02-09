@@ -1,0 +1,12 @@
+<nav class="ui inverted menu">
+    <header class="header item"><a href="/"> POI - Islands of Ireland </a></header>
+    <div class="right menu">
+        <a id="home" class= "item" href="/home"> Islands </a>
+        <a id="settings" class= "item" href="/settings"> Settings </a>
+        <a id="logout" class= "item" href="/logout"> Logout</a>
+    </div>
+</nav>
+
+<script>
+    $("#{{_id}}").addClass("active item"); // we are passing a variable "_id" in that will either be for the report or home page, this will be substituted instead of "_id" and therefore the relevant tab will be highlighted
+</script>
