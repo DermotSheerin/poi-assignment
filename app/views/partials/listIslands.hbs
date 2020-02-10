@@ -1,0 +1,22 @@
+<div class="ui grid">
+    <aside class="three wide column">
+        <table class="ui celled table segment">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each islands}}
+                <tr>
+                    <td> {{name}} </td>
+                    <td> {{category}} </td>
+                    <td> {{description}} </td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </aside>
+</div>

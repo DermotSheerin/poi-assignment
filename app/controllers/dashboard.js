@@ -1,10 +1,10 @@
 const Boom = require('@hapi/boom');
+const Island = require('./islands');
 
 const Dashboard = {
     dashboard: {
         handler: function(request, h) {
-            console.log('any joy');
-            return h.view('home', { message: 'Finally I got to dashboard?????', title: 'POI Dashboard' });
+            return h.view('dashboard', { message: 'dashboard loaded now' });
         }
     },
 
