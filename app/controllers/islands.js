@@ -29,6 +29,32 @@ const Islands = {
         }
     },
 
+    // retrieveRegion: {
+    //     handler: async function(request, h) {
+    //         const path = request.path;
+    //         const query = new URLSearchParams(path);
+    //         const result = query.get('region');
+    //         console.log(result);
+    //         const islands = await Island.find().lean(); // find and return all documents in a simple POJO array and populate the donor object
+    //
+    //         return h.view('dashboard', {
+    //
+    //         });
+    //     }
+    // },
+
+    retrieveRegion: {
+        handler: async function(request, h) {
+            const region = request.query['region'];
+            const islands = await Island.find().lean(); // find and return all documents in a simple POJO array and populate the donor object
+
+            return h.view('dashboard', {
+                islands
+            });
+        }
+    },
+
+
 
 
 };

@@ -8,8 +8,10 @@ module.exports = [
     { method: 'GET', path: '/', config: Accounts.index },
     { method: 'POST', path: '/authenticate', config: Accounts.login },
     { method: 'GET', path: '/dashboard', config: Dashboard.dashboard },
+
     { method: 'POST', path: '/dashboard/addIsland', config: Island.addIsland },
     { method: 'GET', path: '/dashboard/listIslands', config: Island.listIslands },
+    { method: 'GET', path: '/dashboard/{getIslands*}', config: Island.retrieveRegion },
 
 
 
