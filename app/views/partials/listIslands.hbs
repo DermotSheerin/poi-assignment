@@ -3,16 +3,16 @@
         <table class="ui celled table segment">
             <thead>
             <tr>
-                <th>Name</th>
-                <th>Category</th>
+                <th>Region/Category</th>
+                <th>Island Name</th>
                 <th>Description</th>
             </tr>
             </thead>
             <tbody>
             {{#each islands}}
                 <tr>
+                    <td> {{region.region}} </td>
                     <td> {{name}} </td>
-                    <td> {{category}} </td>
                     <td> {{description}} </td>
                 </tr>
             {{/each}}
