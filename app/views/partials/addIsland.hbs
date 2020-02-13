@@ -1,21 +1,28 @@
-<section class="ui raised segment">
-        <form class="ui secondary segment form" action="addIsland" method="POST">
-            <h2>Add Island</h2>
-            <div class="three fields">
-                <div class="field">
-                    <label>Name</label>
-                    <textarea rows="1" input type="text" placeholder="Name" name="name"></textarea>
-                </div>
-                <div class="field">
-                    <label>Category</label>
-                    <textarea rows="1" input type="text" placeholder="Category" name="category"></textarea>
-                </div>
-                <div class="field">
-                    <label>Description</label>
-                    <textarea rows="1" input type="text" placeholder="Description" name="description"></textarea>
-                </div>
-            </div>
-            <button class="ui blue submit button">Add Island</button>
-        </form>
+<form class="ui primary segment form" action="/dashboard/addIsland" method="POST">
+    <h3>Add Island</h3>
+    <div class="three fields">
+        <div class="field">
+            <label>Region/Category <i class="ie flag"></i> </label>
+            <select name="region">
+                <option value="North East">North East</option>
+                <option value="East Coast">East Coast</option>
+                <option value="South Coast">South Coast</option>
+                <option value="Mid West">Mid West</option>
+            </select>
+        </div>
+        <div class="field">
+            <label>Island Name</label>
+            <textarea rows="1" input type="text" placeholder="Island Name" name="name"></textarea>
+        </div>
+        <div class="field">
+            <label>Description</label>
+            <textarea rows="1" input type="text" placeholder="Description" name="description"></textarea>
+        </div>
+        <div class="field">
+            <label>Image File</label>
+            <input type="file" id="fileUpload" name="filename"/> <!-- https://flaviocopes.com/file-upload-using-ajax/ -->
+        </div>
     </div>
-</section>
+    <button class="ui blue submit button">Add Island</button>
+</form>
+

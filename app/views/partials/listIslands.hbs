@@ -1,0 +1,30 @@
+<div>
+    <article class="four wide column">
+        <table class="ui striped celled table segment">
+            <thead>
+            <tr>
+                <th class="one wide">Region/Category</th>
+                <th class="two wide"> Image </th>
+                <th class="one wide">Island Name</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each islandsInRegion}}
+                <tr>
+                    <td> {{region.region}} </td>
+                    <td> {{filename}} </td>
+                    <td> {{name}} </td>
+                    <td> {{description}} </td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </article>
+</div>
+
+<!--
+<div class="ui placeholder">
+                        <div class="image"></div>
+                    </div>
+-->
