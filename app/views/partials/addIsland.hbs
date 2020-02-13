@@ -2,7 +2,7 @@
     <h3>Add Island</h3>
     <div class="three fields">
         <div class="field">
-            <label>Region/Category</label>
+            <label>Region/Category <i class="ie flag"></i> </label>
             <select name="region">
                 <option value="North East">North East</option>
                 <option value="East Coast">East Coast</option>
@@ -17,6 +17,10 @@
         <div class="field">
             <label>Description</label>
             <textarea rows="1" input type="text" placeholder="Description" name="description"></textarea>
+        </div>
+        <div class="field">
+            <label>Image File</label>
+            <input type="file" id="fileUpload" name="filename"/> <!-- https://flaviocopes.com/file-upload-using-ajax/ -->
         </div>
     </div>
     <button class="ui blue submit button">Add Island</button>

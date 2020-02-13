@@ -12,7 +12,7 @@ module.exports = [
     { method: 'POST', path: '/dashboard/addRegion', config: Island.addRegion },
     { method: 'POST', path: '/dashboard/addIsland', config: Island.addIsland },
     { method: 'GET', path: '/dashboard/listIslands', config: Island.listIslands },
-    { method: 'GET', path: '/dashboard/{getIslands*}', config: Island.retrieveRegion },
+    { method: 'GET', path: '/dashboard/{getIslands*}', config: Island.retrieveIslands },
 
 
   //  { method: 'GET', path: '/signup', config: Accounts.showSignup },

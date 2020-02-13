@@ -26,46 +26,35 @@ const Islands = {
 },
     listIslands: {
         handler: async function(request, h) {
-            const islands = await Island.find().populate('region').lean(); // find and return all documents in a simple POJO array and populate the donor object
-            //console.log(`here are islands: ${islands}`)
-            console.log(islands)
+            const islands = await Island.find().populate('region').lean(); // find and return all islands in a simple POJO array and populate the region object
             return h.view('dashboard', {
                islands,
             });
         }
     },
 
-    // retrieveRegion: {
-    //     handler: async function(request, h) {
-    //         const path = request.path;
-    //         const query = new URLSearchParams(path);
-    //         const result = query.get('region');
-    //         console.log(result);
-    //         const islands = await Island.find().lean(); // find and return all documents in a simple POJO array and populate the donor object
-    //
-    //         return h.view('dashboard', {
-    //
-    //         });
-    //     }
-    // },
-
-    retrieveRegion: {
+    retrieveIslands: {
         handler: async function(request, h) {
-            const region = request.query['region'];
-            const regionLean = await Region.findByRegionName(region).lean();
-            const regionId = regionLean._id;
-            //const islandsInRegion = Island.findById(regionId).populate().lean();
-            const islandsInRegion = Region.findAllInRegion(regionId).populate().lean();
-
-
-
-            console.log(`these are islands in region ${islandsInRegion}`);
-
+            const region = request.query['region']; // retrieve the query passed from the regionCategories partial e.g., "href="/dashboard/getIslands?region=North East"" The URL ends at ? and query starts after ?
+            let islandsInRegion;
+            if (region != "allRegions") {
+                const regionLean = await Region.findByRegionName(region); // find region object using region name above
+                const regionId = regionLean._id; // retrieve region object reference ID
+                islandsInRegion = await Island.findIslandsInRegion(regionId); // find all islands that have this region ID as a region object reference then render to dashboard
+            }
+            else islandsInRegion = await Island.find().populate('region').lean(); // if all Regions is requested then retrieve all islands and render to view
             return h.view('dashboard', {
-
+                islandsInRegion
             });
         }
     },
+
+            //
+            // if (this.region = "allRegions")
+            //     islandsInRegion = await Island.find().populate('region').lean();
+            // else islandsInRegion = await Island.findIslandsInRegion(regionId); // find all islands that have this region ID as a region object reference then render to dashboard
+            // //const islandsInRegion = await Island.findIslandsInRegion(regionId); // find all islands that have this region ID as a region object reference then render to dashboard
+
 
     addRegion: {
         handler: async function(request, h) {
@@ -81,6 +70,7 @@ const Islands = {
             }
         }
     },
+
 
 
 
