@@ -34,16 +34,16 @@ async function init() {
         isCached: false
     });
 
-    // server.auth.strategy('session', 'cookie', {
-    //     cookie: {
-    //         name: process.env.cookie_name,
-    //         password: process.env.cookie_password,
-    //         isSecure: false
-    //     },
-    //     redirectTo: '/'
-    // });
+    server.auth.strategy('session', 'cookie', {    // The parameters set a secure password for the cookie itself and a name for the cookie. Additionally, it is set to work over non-secure connections.
+        cookie: {
+            name: process.env.cookie_name,
+            password: process.env.cookie_password,
+            isSecure: false
+        },
+        redirectTo: '/'
+    });
 
-    //server.auth.default('session'); // protect all routes with the standard security strategy.
+    server.auth.default('session'); // protect all routes with the standard security strategy. We set this up as the strategy for all routes
 
     server.route(require('./routes'));
     await server.start();

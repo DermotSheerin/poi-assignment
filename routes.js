@@ -15,9 +15,10 @@ module.exports = [
     { method: 'GET', path: '/dashboard/{getIslands*}', config: Island.retrieveIslands },
 
 
-  //  { method: 'GET', path: '/signup', config: Accounts.showSignup },
-  //  { method: 'GET', path: '/login', config: Accounts.showLogin },
-  //  { method: 'POST', path: '/signup', config: Accounts.signup },
+    { method: 'GET', path: '/showSignup', config: Accounts.showSignup },
+    { method: 'POST', path: '/signup', config: Accounts.signup },
+
+    // { method: 'GET', path: '/login', config: Accounts.showLogin },
 
 
     {
@@ -28,6 +29,6 @@ module.exports = [
                 path: './public'
             }
         },
-        options: { auth: false }
+        options: { auth: false }    // disable authentication on the static route for public folder i.e., images stored there
     }
 ];

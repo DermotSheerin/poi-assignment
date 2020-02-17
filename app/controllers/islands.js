@@ -42,7 +42,7 @@ const Islands = {
                 const regionId = regionLean._id; // retrieve region object reference ID
                 islandsInRegion = await Island.findIslandsInRegion(regionId); // find all islands that have this region ID as a region object reference then render to dashboard
             }
-            else islandsInRegion = await Island.find().populate('region').lean(); // if all Regions is requested then retrieve all islands and render to view
+            else islandsInRegion = await Island.find().populate('region').lean(); // if 'all Regions' is requested then retrieve all islands and render to view
             return h.view('dashboard', {
                 islandsInRegion
             });
