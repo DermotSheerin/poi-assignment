@@ -33,7 +33,7 @@ const Accounts = {
                     lastName: payload.lastName,
                     email: payload.email,
                     password: payload.password,
-                    role: 'user'
+                    userRole: 'member'
                 });
                 user = await newUser.save();
                 request.cookieAuth.set({ id: user.id });    // This is how we can set a session cookie
@@ -44,13 +44,6 @@ const Accounts = {
         }
     },
 
-
-    // showLogin: {
-    //     auth: false,
-    //     handler: function(request, h) {
-    //         return h.view('login', { title: 'Login to Donations' });
-    //     }
-    // },
 
     login: {
         auth: false,

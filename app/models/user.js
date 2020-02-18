@@ -8,7 +8,7 @@ const userSchema = new Schema({
   lastName: String,
   email: String,
   password: String,
-  role: String
+  userRole: String
 });
 
 userSchema.statics.findByEmail = function(email) {
@@ -22,5 +22,6 @@ userSchema.methods.comparePassword = function(candidatePassword) {
   }
   return this;
 };
+
 
 module.exports = Mongoose.model('User', userSchema);

@@ -9,17 +9,26 @@ const islandSchema = new Schema({
     region: {
         type: Schema.Types.ObjectId,
         ref: 'Region'
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }
 });
 
-islandSchema.statics.findById = function(id) {
-    return this.findOne({ region: 'id' });
+// islandSchema.statics.findById = function(id) {
+//     return this.findOne({ region: 'id' });
+// };
+
+islandSchema.statics.findIslandsByUserId = function(userId) {
+    return this.find({ user: userId})
 };
 
-// pass in the region object reference ID and find all islands that have this region ID as a region object reference (http://thecodebarbarian.com/how-find-works-in-mongoose.html)
-islandSchema.statics.findIslandsInRegion = function(regionId) {
-    return this.find({ region: regionId}).populate('region').lean();
+
+islandSchema.statics.findUserIslandsInRegion = function(regionId, userId) {
+    return this.find({ region: regionId, user: userId});
 };
+
 
 
 module.exports = Mongoose.model('Island', islandSchema);
