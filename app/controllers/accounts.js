@@ -57,12 +57,23 @@ const Accounts = {
                 }
                 user.comparePassword(password);
                 request.cookieAuth.set({ id: user.id });
-                return h.redirect('/dashboard');
+                if (user.userRole == 'admin')
+                    return h.redirect('/adminDashboard');
+                else
+                    return h.redirect('/dashboard');
             } catch (err) {
-                return h.view('login', { errors: [{ message: err.message }] });
+                return h.view('main', { errors: [{ message: err.message }] });
             }
         }
     },
+
+    logout: {
+        auth: false,
+        handler: function(request, h) {
+            request.cookieAuth.clear(); // we can clear the session
+            return h.redirect('/');
+        }
+    }
 
 };
 
