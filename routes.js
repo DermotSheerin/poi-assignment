@@ -2,22 +2,26 @@
 
 const Accounts = require('./app/controllers/accounts');
 const Dashboard = require('./app/controllers/dashboard');
+const AdminDashboard = require('./app/controllers/adminDashboard');
 const Island = require('./app/controllers/islands');
 
 module.exports = [
     { method: 'GET', path: '/', config: Accounts.index },
     { method: 'POST', path: '/authenticate', config: Accounts.login },
     { method: 'GET', path: '/dashboard', config: Dashboard.dashboard },
+    { method: 'GET', path: '/adminDashboard', config: AdminDashboard.dashboard },
 
     { method: 'POST', path: '/dashboard/addRegion', config: Island.addRegion },
     { method: 'POST', path: '/dashboard/addIsland', config: Island.addIsland },
-    { method: 'GET', path: '/dashboard/listIslands', config: Island.listIslands },
-    { method: 'GET', path: '/dashboard/{getIslands*}', config: Island.retrieveIslands },
+   // { method: 'GET', path: '/dashboard/listIslands', config: Island.listIslands },
+    { method: 'GET', path: '/dashboard/{getIslands*}', config: Island.retrieveUserIslands },
 
 
-  //  { method: 'GET', path: '/signup', config: Accounts.showSignup },
-  //  { method: 'GET', path: '/login', config: Accounts.showLogin },
-  //  { method: 'POST', path: '/signup', config: Accounts.signup },
+    { method: 'GET', path: '/showSignup', config: Accounts.showSignup },
+    { method: 'POST', path: '/signup', config: Accounts.signup },
+    { method: 'GET', path: '/logout', config: Accounts.logout },
+
+    // { method: 'GET', path: '/login', config: Accounts.showLogin },
 
 
     {
@@ -28,6 +32,6 @@ module.exports = [
                 path: './public'
             }
         },
-        options: { auth: false }
+        options: { auth: false }    // disable authentication on the static route for public folder i.e., images stored there
     }
 ];

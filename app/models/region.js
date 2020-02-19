@@ -8,7 +8,7 @@ const regionSchema = new Schema({
 });
 
 regionSchema.statics.findByRegionName = function(region) { // pass in region name and use this to find and return the region object
-    return this.findOne({ region: region }).lean();
+    return this.findOne({ region: region });
 };
 
 
