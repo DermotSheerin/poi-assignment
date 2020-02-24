@@ -40,27 +40,31 @@ const Islands = {
 
   retrieveUserIslands: {
     handler: async function(request, h) {
-      const region = request.query["region"]; // retrieve the query passed from the regionCategories partial e.g., "href="/dashboard/getIslands?region=North East"" The URL ends at ? and query starts after ?
-      const userId = request.auth.credentials.id;
-      let userIslandsInRegion;
-      if (region != "allRegions") {
-        const regionLean = await Region.findByRegionName(region).lean(); // find region object using region name above
-        const regionId = regionLean._id; // retrieve region object reference ID
-        userIslandsInRegion = await Island.findUserIslandsInRegion(
-          regionId,
-          userId
-        )
-          .populate("region")
-          .populate("user")
-          .lean(); // find all islands that have this region ID as a region object reference AND user ID as a user object reference then render to dashboard
-      } else
-        userIslandsInRegion = await Island.findIslandsByUserId(userId)
-          .populate("user")
-          .populate("region")
-          .lean(); // if 'all Regions' is requested then retrieve all islands belonging to this user and render to view
-      return h.view("dashboard", {
-        userIslands: userIslandsInRegion
-      });
+      try {
+        const region = request.query["region"]; // retrieve the query passed from the regionCategories partial e.g., "href="/dashboard/getIslands?region=North East"" The URL ends at ? and query starts after ?
+        const userId = request.auth.credentials.id;
+        let userIslandsInRegion;
+        if (region != "allRegions") {
+          const regionLean = await Region.findByRegionName(region).lean(); // find region object using region name above
+          const regionId = regionLean._id; // retrieve region object reference ID
+          userIslandsInRegion = await Island.findUserIslandsInRegion(
+            regionId,
+            userId
+          )
+            .populate("region")
+            .populate("user")
+            .lean(); // find all islands that have this region ID as a region object reference AND user ID as a user object reference then render to dashboard
+        } else
+          userIslandsInRegion = await Island.findIslandsByUserId(userId)
+            .populate("user")
+            .populate("region")
+            .lean(); // if 'all Regions' is requested then retrieve all islands belonging to this user and render to view
+        return h.view("dashboard", {
+          userIslands: userIslandsInRegion
+        });
+      } catch (err) {
+        return h.view("dashboard", { errors: [{ message: err.message }] });
+      }
     }
   },
 

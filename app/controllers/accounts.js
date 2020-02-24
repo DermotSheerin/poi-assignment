@@ -1,4 +1,6 @@
 "use strict";
+
+// import modules
 const User = require("../models/user");
 const Boom = require("@hapi/boom");
 const Joi = require("@hapi/joi");
@@ -21,6 +23,25 @@ const Accounts = {
 
   signup: {
     auth: false,
+    validate: {
+      payload: {
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        email: Joi.string()
+          .email()
+          .required(),
+        password: Joi.string().required()
+      },
+      failAction: function(request, h, error) {
+        return h
+          .view("signup", {
+            title: "Sign up error",
+            errors: error.details
+          })
+          .takeover()
+          .code(400);
+      }
+    },
     handler: async function(request, h) {
       try {
         const payload = request.payload;
@@ -58,6 +79,7 @@ const Accounts = {
         user.comparePassword(password);
         request.cookieAuth.set({ id: user.id });
         if (user.userRole == "admin") return h.redirect("/adminDashboard");
+        // if user is an admin then redirect to the admin Dashboard, otherwise redirect to member dashboard for regular members
         else return h.redirect("/dashboard");
       } catch (err) {
         return h.view("main", { errors: [{ message: err.message }] });
