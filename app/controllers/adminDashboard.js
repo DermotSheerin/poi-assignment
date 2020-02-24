@@ -1,13 +1,13 @@
 const Boom = require('@hapi/boom');
 const Island = require('./islands');
 
-const Dashboard = {
+const AdminDashboard = {
     dashboard: {
         handler: function(request, h) {
-            return h.view('dashboard', {title: 'POI Dashboard' });
+            return h.view( 'adminDashboard', { title: 'POI Dashboard - ADMIN' });
         }
     },
 
 };
 
-module.exports = Dashboard;
+module.exports = AdminDashboard;

@@ -1,58 +1,61 @@
-'use strict';
+"use strict";
 
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 const result = dotenv.config();
 
 if (result.error) {
-    console.log(result.error.message);
-    process.exit(1);
+  console.log(result.error.message);
+  process.exit(1);
 }
 
-const Hapi = require('@hapi/hapi');
-require('./app/models/db');
+const Hapi = require("@hapi/hapi");
+require("./app/models/db");
 
 const server = Hapi.server({
-    port: 3000,
-    host: 'localhost'
+  port: 3000,
+  host: "localhost"
 });
 
 async function init() {
-    await server.register(require('@hapi/inert')); // registering the plugins
-    await server.register(require('@hapi/vision')); // https://hapi.dev/family/vision/ - Template rendering support for hapi.js - vision is part of the hapi ecosystem.
-    await server.register(require('@hapi/cookie'));
+  await server.register(require("@hapi/inert")); // registering the plugins
+  await server.register(require("@hapi/vision")); // https://hapi.dev/family/vision/ - Template rendering support for hapi.js - vision is part of the hapi ecosystem.
+  await server.register(require("@hapi/cookie"));
 
-    server.views({
-        // config object for vision in the views method
-        engines: {
-            hbs: require('handlebars')
-        },
-        relativeTo: __dirname,
-        path: './app/views',
-        layoutPath: './app/views/layouts',
-        partialsPath: './app/views/partials',
-        layout: true,
-        isCached: false
-    });
+  server.validator(require("@hapi/joi"));
 
-    // server.auth.strategy('session', 'cookie', {
-    //     cookie: {
-    //         name: process.env.cookie_name,
-    //         password: process.env.cookie_password,
-    //         isSecure: false
-    //     },
-    //     redirectTo: '/'
-    // });
+  server.views({
+    // config object for vision in the views method
+    engines: {
+      hbs: require("handlebars")
+    },
+    relativeTo: __dirname,
+    path: "./app/views",
+    layoutPath: "./app/views/layouts",
+    partialsPath: "./app/views/partials",
+    layout: true,
+    isCached: false
+  });
 
-    //server.auth.default('session'); // protect all routes with the standard security strategy.
+  server.auth.strategy("session", "cookie", {
+    // The parameters set a secure password for the cookie itself and a name for the cookie. Additionally, it is set to work over non-secure connections.
+    cookie: {
+      name: process.env.cookie_name,
+      password: process.env.cookie_password,
+      isSecure: false
+    },
+    redirectTo: "/"
+  });
 
-    server.route(require('./routes'));
-    await server.start();
-    console.log(`Server running at: ${server.info.uri}`);
+  server.auth.default("session"); // protect all routes with the standard security strategy. We set this up as the strategy for all routes
+
+  server.route(require("./routes"));
+  await server.start();
+  console.log(`Server running at: ${server.info.uri}`);
 }
 
-process.on('unhandledRejection', err => {
-    console.log(err);
-    process.exit(1);
+process.on("unhandledRejection", err => {
+  console.log(err);
+  process.exit(1);
 });
 
 init();
