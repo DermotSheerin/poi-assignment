@@ -11,7 +11,11 @@ module.exports = [
   { method: "GET", path: "/dashboard", config: Dashboard.dashboard },
   { method: "GET", path: "/adminDashboard", config: AdminDashboard.dashboard },
 
-  { method: "POST", path: "/dashboard/addRegion", config: Island.addRegion },
+  {
+    method: "POST",
+    path: "/adminDashboard/addRegion",
+    config: AdminDashboard.addRegion
+  },
   { method: "POST", path: "/dashboard/addIsland", config: Island.addIsland },
   // { method: 'GET', path: '/dashboard/listIslands', config: Island.listIslands },
   {
