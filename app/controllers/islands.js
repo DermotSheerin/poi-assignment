@@ -2,11 +2,29 @@
 const Island = require("../models/island");
 const Region = require("../models/region");
 const User = require("../models/user");
+const Joi = require("@hapi/joi");
 
 const Boom = require("@hapi/boom");
 
 const Islands = {
   addIsland: {
+    validate: {
+      //  Hapi scoped module for validation
+      payload: {
+        region: Joi.string(),
+        name: Joi.string().required(),
+        description: Joi.string().required()
+      },
+      failAction: function(request, h, error) {
+        return h
+          .view("dashboard", {
+            errors: error.details,
+            island: request.payload // pass the details entered by the user into the login view to avoid user having to re-enter fields
+          })
+          .takeover()
+          .code(400);
+      }
+    },
     handler: async function(request, h) {
       try {
         const userId = request.auth.credentials.id;

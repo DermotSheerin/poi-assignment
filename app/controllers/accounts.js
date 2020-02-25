@@ -24,6 +24,7 @@ const Accounts = {
   signup: {
     auth: false,
     validate: {
+      //  Hapi scoped module for validation
       payload: {
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
@@ -36,7 +37,8 @@ const Accounts = {
         return h
           .view("signup", {
             title: "Sign up error",
-            errors: error.details
+            errors: error.details,
+            user: request.payload // pass the details entered by the user into the signup view to avoid user having to re-enter some fields
           })
           .takeover()
           .code(400);
@@ -111,6 +113,26 @@ const Accounts = {
   },
 
   updateSettings: {
+    validate: {
+      payload: {
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        email: Joi.string()
+          .email()
+          .required(),
+        password: Joi.string().required()
+      },
+      failAction: function(request, h, error) {
+        return h
+          .view("settings", {
+            title: "Sign up error",
+            errors: error.details,
+            user: request.payload // On page refresh, re-populate the fields with their current values (leaving the problematic fields in their incorrect state)
+          })
+          .takeover()
+          .code(400);
+      }
+    },
     handler: async function(request, h) {
       try {
         let updateUser = request.payload; // retrieves the updated user settings

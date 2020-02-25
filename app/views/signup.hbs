@@ -12,20 +12,20 @@
                     <div class="two fields">
                         <div class="field">
                             <label>First Name</label>
-                            <input placeholder="First Name" type="text" name="firstName" required>
+                            <input placeholder="First Name" value="{{user.firstName}}" type="text" name="firstName" required> <!-- the value field is what I am retrieving from the controller, the name field will contain the data I sending to the controller -->
                         </div>
                         <div class="field">
                             <label>Last Name</label>
-                            <input placeholder="Last Name" type="text" name="lastName" required>
+                            <input placeholder="Last Name" value="{{user.lastName}}" type="text" name="lastName" required>
                         </div>
                     </div>
                     <div class="field">
                         <label>Email</label>
-                        <input placeholder="Email" type="text" name="email" required>
+                        <input placeholder="Email" value="{{user.email}}" type="text" name="email" required>
                     </div>
                     <div class="field">
                         <label>Password</label>
-                        <input type="password" name="password" required>
+                        <input placeholder="Password" value="{{user.password}}" type="password" name="password" required>
                     </div>
                     <button class="ui blue submit button">Submit</button>
                 </form>
