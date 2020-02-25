@@ -9,28 +9,25 @@
                     <div class="two fields">
                         <div class="field">
                             <label>First Name</label>
-                            <input value="{{user.firstName}}" type="text" name="firstName">
+                            <input value="{{user.firstName}}" type="text" name="firstName" required>
                         </div>
                         <div class="field">
                             <label>Last Name</label>
-                            <input value="{{user.lastName}}" type="text" name="lastName">
+                            <input value="{{user.lastName}}" type="text" name="lastName" required>
                         </div>
                     </div>
                     <div class="field">
                         <label>Email</label>
-                        <input value="{{user.email}}" type="text" name="email">
+                        <input value="{{user.email}}" type="text" name="email" required>
                     </div>
                     <div class="field">
                         <label>Password</label>
-                        <input value="{{user.password}}" type="password" name="password">
+                        <input value="{{user.password}}" type="password" name="password" required>
                     </div>
                     <button class="ui blue submit button">Save</button>
                 </form>
                 {{> error }}
             </div>
         </div>
-        <aside class="ui five wide column">
-            <img src="images/homer3.png" class="ui medium image">
-        </aside>
     </div>
 </section>

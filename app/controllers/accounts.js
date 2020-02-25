@@ -26,6 +26,7 @@ const Accounts = {
     validate: {
       //  Hapi scoped module for validation
       payload: {
+        // payload: his defines a schema which defines rules that our fields must adhere to
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
         email: Joi.string()
@@ -33,7 +34,11 @@ const Accounts = {
           .required(),
         password: Joi.string().required()
       },
+      options: {
+        abortEarly: false
+      },
       failAction: function(request, h, error) {
+        // failAction: This is the handler to invoke if one or more of the fields fails the validation.
         return h
           .view("signup", {
             title: "Sign up error",
@@ -70,6 +75,27 @@ const Accounts = {
 
   login: {
     auth: false,
+    validate: {
+      //  Hapi scoped module for validation
+      payload: {
+        email: Joi.string()
+          .email()
+          .required(),
+        password: Joi.string().required()
+      },
+      options: {
+        abortEarly: false
+      },
+      failAction: function(request, h, error) {
+        return h
+          .view("main", {
+            title: "Sign up error",
+            errors: error.details
+          })
+          .takeover()
+          .code(400);
+      }
+    },
     handler: async function(request, h) {
       const { email, password } = request.payload;
       try {
@@ -107,7 +133,12 @@ const Accounts = {
           user: user
         });
       } catch (err) {
-        return h.view("main", { errors: [{ message: err.message }] });
+        if (user.role == "member")
+          return h.view("dashboard", { errors: [{ message: err.message }] });
+        else
+          return h.view("adminDashboard", {
+            errors: [{ message: err.message }]
+          });
       }
     }
   },
@@ -121,6 +152,9 @@ const Accounts = {
           .email()
           .required(),
         password: Joi.string().required()
+      },
+      options: {
+        abortEarly: false
       },
       failAction: function(request, h, error) {
         return h
