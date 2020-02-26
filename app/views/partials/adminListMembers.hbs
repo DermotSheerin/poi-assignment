@@ -1,0 +1,21 @@
+{{#each users}}
+    <section class="ui segment">
+        <div class="ui center aligned four column grid">
+            <div class="two column row">
+                <div class="column">
+                    <a href="/adminDashboard/{{_id}}">
+                        <h3 class="ui image header">
+                            <i class="large map marked alternate icon"></i>
+                            <div class="content">
+                                <span style="color:#4183c4">{{firstName}} {{lastName}}</span>
+                                <div class="sub header"><strong>{{userAssessmentCount}} Island(s)</strong></div>
+                            </div>
+                        </h3>
+                    </a>
+                    <a href="/adminDashboard/deleteUser/{{_id}}">
+                        <i class="large red trash alternate icon"></i> </a>
+                </div>
+            </div>
+        </div>
+    </section>
+{{/each}}

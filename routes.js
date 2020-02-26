@@ -17,6 +17,12 @@ module.exports = [
     config: AdminDashboard.addRegion
   },
   { method: "POST", path: "/addIsland", config: Island.addIsland },
+  {
+    method: "GET",
+    path: "/adminDashboard/{id}",
+    config: AdminDashboard.memberPOI
+  },
+
   // {
   //   method: "POST",
   //   path: "/adminDashboard/addIsland",

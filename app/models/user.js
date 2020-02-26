@@ -23,4 +23,8 @@ userSchema.methods.comparePassword = function(candidatePassword) {
   return this;
 };
 
+// userSchema.statics.findAllMembers = function() {
+//   return this.find({ userRole: "member" });
+// };
+
 module.exports = Mongoose.model("User", userSchema);
