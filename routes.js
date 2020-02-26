@@ -16,7 +16,23 @@ module.exports = [
     path: "/adminDashboard/addRegion",
     config: AdminDashboard.addRegion
   },
-  { method: "POST", path: "/dashboard/addIsland", config: Island.addIsland },
+  { method: "POST", path: "/addIsland", config: Island.addIsland },
+  // {
+  //   method: "POST",
+  //   path: "/adminDashboard/addIsland",
+  //   config: Island.addIsland
+  // },
+  // {
+  //   method: "POST",
+  //   path: "/dashboard/addIsland",
+  //   config: {
+  //     auth: {
+  //       scope: "admin"
+  //     },
+  //     config: Island.addIsland
+  //   }
+  // },
+
   // { method: 'GET', path: '/dashboard/listIslands', config: Island.listIslands },
   {
     method: "GET",
