@@ -83,13 +83,17 @@ const Islands = {
 
   deleteUserIsland: {
     handler: async function(request, h) {
+      const loggedInUserId = request.auth.credentials.id;
+      const loggedInUser = await User.findById(loggedInUserId).lean();
       const islandId = request.params.id;
       const userID = request.params.userID;
       const deleteOneUserIsland = await Island.deleteOneUserIsland(
         userID,
         islandId
       );
-      return h.redirect("/adminDashboard/" + userID);
+      if (loggedInUser.userRole == "admin") {
+        return h.redirect("/adminDashboard/" + userID);
+      } else return h.redirect("/dashboard");
     }
   },
 
@@ -115,7 +119,8 @@ const Islands = {
             .populate("region")
             .lean(); // if 'all Regions' is requested then retrieve all islands belonging to this user and render to view
         return h.view("dashboard", {
-          userIslands: userIslandsInRegion
+          userIslands: userIslandsInRegion,
+          userId: userId
         });
       } catch (err) {
         return h.view("dashboard", { errors: [{ message: err.message }] });
@@ -161,7 +166,7 @@ const Islands = {
         .populate("user")
         .populate("region")
         .lean(); // if 'all Regions' is requested then retrieve all islands belonging to this user and render to view
-      return h.view("memberPOI", {
+      return h.view("adminListIslands", {
         userIslands: userIslands,
         userID: userID
       });

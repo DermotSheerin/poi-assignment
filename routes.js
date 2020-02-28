@@ -33,6 +33,11 @@ module.exports = [
     path: "/adminDashboard/{userID}/deleteIsland/{id}",
     config: Island.deleteUserIsland
   },
+  {
+    method: "GET",
+    path: "/dashboard/{userID}/deleteIsland/{id}",
+    config: Island.deleteUserIsland
+  },
 
   // {
   //   method: "POST",
