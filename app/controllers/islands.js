@@ -18,19 +18,32 @@ const Islands = {
       options: {
         abortEarly: false
       },
-      failAction: function(request, h, error) {
-        return h
-          .view("dashboard", {
-            errors: error.details,
-            island: request.payload // pass the details entered by the user into the login view to avoid user having to re-enter fields
-          })
-          .takeover()
-          .code(400);
+      failAction: async function(request, h, error) {
+        const id = request.auth.credentials.id;
+        const user = await User.findById(id).lean();
+        if (user.userRole == "member") {
+          return h
+            .view("dashboard", {
+              errors: error.details,
+              island: request.payload // pass the details entered by the user into the view to avoid user having to re-enter fields
+            })
+            .takeover()
+            .code(400);
+        } else {
+          return h
+            .view("adminDashboard", {
+              errors: error.details,
+              island: request.payload // pass the details entered by the user into the view to avoid user having to re-enter fields
+            })
+            .takeover()
+            .code(400);
+        }
       }
     },
     handler: async function(request, h) {
       try {
         const userId = request.auth.credentials.id;
+        const user = await User.findById(userId).lean();
         const data = request.payload;
         const userRegion = data.region;
         const regionLean = await Region.findByRegionName(userRegion).lean();
@@ -41,9 +54,18 @@ const Islands = {
           user: userId
         });
         await newIsland.save();
-        return h.redirect("/dashboard");
+        if (user.userRole == "member") {
+          return h.redirect("/dashboard");
+        } else return h.redirect("/adminDashboard");
       } catch (err) {
-        return h.view("dashboard", { errors: [{ message: err.message }] });
+        if (user.userRole === "member") {
+          return h.view("dashboard", user, {
+            errors: [{ message: err.message }]
+          });
+        } else
+          return h.view("adminDashboard", user, {
+            errors: [{ message: err.message }]
+          });
       }
     }
   },
@@ -58,6 +80,22 @@ const Islands = {
   //         });
   //     }
   // },
+
+  deleteUserIsland: {
+    handler: async function(request, h) {
+      const loggedInUserId = request.auth.credentials.id;
+      const loggedInUser = await User.findById(loggedInUserId).lean();
+      const islandId = request.params.id;
+      const userID = request.params.userID;
+      const deleteOneUserIsland = await Island.deleteOneUserIsland(
+        userID,
+        islandId
+      );
+      if (loggedInUser.userRole == "admin") {
+        return h.redirect("/adminDashboard/" + userID);
+      } else return h.redirect("/dashboard");
+    }
+  },
 
   retrieveUserIslands: {
     handler: async function(request, h) {
@@ -81,13 +119,14 @@ const Islands = {
             .populate("region")
             .lean(); // if 'all Regions' is requested then retrieve all islands belonging to this user and render to view
         return h.view("dashboard", {
-          userIslands: userIslandsInRegion
+          userIslands: userIslandsInRegion,
+          userId: userId
         });
       } catch (err) {
         return h.view("dashboard", { errors: [{ message: err.message }] });
       }
     }
-  }
+  },
 
   // addRegion: {
   //   validate: {
@@ -119,6 +158,20 @@ const Islands = {
   //     }
   //   }
   // }
+
+  showMembersIslands: {
+    handler: async function(request, h) {
+      const userID = request.params.id;
+      const userIslands = await Island.findIslandsByUserId(userID)
+        .populate("user")
+        .populate("region")
+        .lean(); // if 'all Regions' is requested then retrieve all islands belonging to this user and render to view
+      return h.view("adminListIslands", {
+        userIslands: userIslands,
+        userID: userID
+      });
+    }
+  }
 };
 
 module.exports = Islands;

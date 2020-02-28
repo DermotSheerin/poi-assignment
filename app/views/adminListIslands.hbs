@@ -1,14 +1,17 @@
+{{> mainmenuAdmin _id="dashboard" }}
+{{log userIslands}}
 <div>
     <article class="four wide column">
         <table class="ui striped celled table segment">
             <thead>
             <tr>
                 <th class="one wide">Region/Category</th>
-                <th class="two wide"> Image </th>
+                <th class="one wide"> Image </th>
                 <th class="one wide">Island Name</th>
-                <th>Description</th>
+                <th class="four wide">Description</th>
                 <th class="one wide"> User </th>
                 <th class="one wide"> View Details </th>
+                <th class="one wide"> </th>
             </tr>
             </thead>
             <tbody>
@@ -19,16 +22,13 @@
                     <td> {{name}} </td>
                     <td> {{description}} </td>
                     <td> {{user.firstName}} {{user.lastName}} </td>
-                    <td> </td>
+                    <td>  </td>
+                    <td> <a href="/adminDashboard/{{../userID}}/deleteIsland/{{_id}}" class="ui icon button">
+                        <i class="icon trash"></i> </a>
+                    </td>
                 </tr>
             {{/each}}
             </tbody>
         </table>
     </article>
 </div>
-
-<!--
-<div class="ui placeholder">
-                        <div class="image"></div>
-                    </div>
--->

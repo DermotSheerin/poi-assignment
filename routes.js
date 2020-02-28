@@ -16,7 +16,45 @@ module.exports = [
     path: "/adminDashboard/addRegion",
     config: AdminDashboard.addRegion
   },
-  { method: "POST", path: "/dashboard/addIsland", config: Island.addIsland },
+  { method: "POST", path: "/addIsland", config: Island.addIsland },
+  {
+    method: "GET",
+    path: "/adminDashboard/{id}",
+    config: Island.showMembersIslands
+  },
+  {
+    method: "GET",
+    path: "/adminDashboard/deleteUser/{id}",
+    config: AdminDashboard.deleteMember
+  },
+
+  {
+    method: "GET",
+    path: "/adminDashboard/{userID}/deleteIsland/{id}",
+    config: Island.deleteUserIsland
+  },
+  {
+    method: "GET",
+    path: "/dashboard/{userID}/deleteIsland/{id}",
+    config: Island.deleteUserIsland
+  },
+
+  // {
+  //   method: "POST",
+  //   path: "/adminDashboard/addIsland",
+  //   config: Island.addIsland
+  // },
+  // {
+  //   method: "POST",
+  //   path: "/dashboard/addIsland",
+  //   config: {
+  //     auth: {
+  //       scope: "admin"
+  //     },
+  //     config: Island.addIsland
+  //   }
+  // },
+
   // { method: 'GET', path: '/dashboard/listIslands', config: Island.listIslands },
   {
     method: "GET",
