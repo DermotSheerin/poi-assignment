@@ -8,6 +8,13 @@ const AdminDashboard = {
   dashboard: {
     handler: async function(request, h) {
       const users = await User.find({ userRole: "member" }).lean();
+
+      users.forEach(countUserIslands); // iterate through the users array and call countUserIslands function for each user
+      async function countUserIslands(user) {
+        // pass the user to the Island model to count the number of Islands created by that user
+        user.islandCount = await Island.countUserIslands(user._id);
+      }
+
       return h.view("adminDashboard", {
         title: "POI Dashboard - ADMIN",
         users: users
@@ -49,18 +56,12 @@ const AdminDashboard = {
     }
   },
 
-  memberPOI: {
+  deleteMember: {
     handler: async function(request, h) {
       const userID = request.params.id;
-      //const user = await User.findById(userID).lean();
-      const userIslands = await Island.findIslandsByUserId(userID)
-        .populate("user")
-        .populate("region")
-        .lean(); // if 'all Regions' is requested then retrieve all islands belonging to this user and render to view
-      console.log(userIslands);
-      return h.view("memberPOI", {
-        userIslands: userIslands
-      });
+      const deleteIslands = await Island.deleteIslandsByUserId(userID); // prior to deleting member, delete all islands associate with the member
+      const deleteMember = await User.findByIdAndDelete(userID);
+      return h.redirect("/adminDashboard/");
     }
   }
 };

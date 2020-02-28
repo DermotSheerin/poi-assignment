@@ -81,6 +81,18 @@ const Islands = {
   //     }
   // },
 
+  deleteUserIsland: {
+    handler: async function(request, h) {
+      const islandId = request.params.id;
+      const userID = request.params.userID;
+      const deleteOneUserIsland = await Island.deleteOneUserIsland(
+        userID,
+        islandId
+      );
+      return h.redirect("/adminDashboard/" + userID);
+    }
+  },
+
   retrieveUserIslands: {
     handler: async function(request, h) {
       try {
@@ -109,7 +121,7 @@ const Islands = {
         return h.view("dashboard", { errors: [{ message: err.message }] });
       }
     }
-  }
+  },
 
   // addRegion: {
   //   validate: {
@@ -141,6 +153,20 @@ const Islands = {
   //     }
   //   }
   // }
+
+  showMembersIslands: {
+    handler: async function(request, h) {
+      const userID = request.params.id;
+      const userIslands = await Island.findIslandsByUserId(userID)
+        .populate("user")
+        .populate("region")
+        .lean(); // if 'all Regions' is requested then retrieve all islands belonging to this user and render to view
+      return h.view("memberPOI", {
+        userIslands: userIslands,
+        userID: userID
+      });
+    }
+  }
 };
 
 module.exports = Islands;

@@ -11,6 +11,7 @@
                 <th>Description</th>
                 <th class="one wide"> User </th>
                 <th class="one wide"> View Details </th>
+                <th class="one wide"> </th>
             </tr>
             </thead>
             <tbody>
@@ -21,7 +22,10 @@
                     <td> {{name}} </td>
                     <td> {{description}} </td>
                     <td> {{user.firstName}} {{user.lastName}} </td>
-                    <td> </td>
+                    <td>  </td>
+                    <td> <a href="/adminDashboard/{{../userID}}/deleteIsland/{{_id}}" class="ui icon button">
+                        <i class="icon trash"></i> </a>
+                    </td>
                 </tr>
             {{/each}}
             </tbody>

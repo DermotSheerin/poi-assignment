@@ -20,7 +20,18 @@ module.exports = [
   {
     method: "GET",
     path: "/adminDashboard/{id}",
-    config: AdminDashboard.memberPOI
+    config: Island.showMembersIslands
+  },
+  {
+    method: "GET",
+    path: "/adminDashboard/deleteUser/{id}",
+    config: AdminDashboard.deleteMember
+  },
+
+  {
+    method: "GET",
+    path: "/adminDashboard/{userID}/deleteIsland/{id}",
+    config: Island.deleteUserIsland
   },
 
   // {
