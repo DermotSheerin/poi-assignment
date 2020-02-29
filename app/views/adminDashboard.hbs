@@ -1,21 +1,7 @@
-{{> mainmenu _id="adminDashboard" }}
+{{> mainmenuAdmin _id="dashboard" }}
 
 <section class="ui raised segment">
-    <!-- <button class="ui submit button">
-        <a href="/dashboard/listIslands"> <span class="ui black text">List all Islands</span></a>
-    </button> -->
-    {{> addIsland}}
-
-    <div class="ui  divider"></div>
-
-    {{> regionCategories }}
-
-    <div class="ui  divider"></div>
-
-    {{> listIslands}}
-
-    <div class="ui  divider"></div>
-
-    {{> addRegion}}
-
+    <div class="column">
+        {{> adminListMembers}}
+    </div>
 </section>

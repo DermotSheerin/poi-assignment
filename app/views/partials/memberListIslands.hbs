@@ -8,18 +8,24 @@
                 <th class="one wide">Island Name</th>
                 <th>Description</th>
                 <th class="one wide"> User </th>
-                <th class="one wide"> View Details </th>
+                <th class="one wide"> Edit Details </th>
+                <th class="one wide"> Delete Island </th>
             </tr>
             </thead>
             <tbody>
-            {{#each userIslands}}
+                {{#each userIslands}}
                 <tr>
                     <td> {{region.region}} </td>
                     <td> {{filename}} </td>
                     <td> {{name}} </td>
                     <td> {{description}} </td>
                     <td> {{user.firstName}} {{user.lastName}} </td>
-                    <td> </td>
+                    <td> <a href="/dashboard/showIslandDetails/{{_id}}" class="ui icon button">
+                        <i class="edit icon"></i> </a>
+                    </td>
+                    <td> <a href="/dashboard/deleteIsland/{{_id}}" class="ui icon button">
+                        <i class="icon trash"></i> </a>
+                    </td>
                 </tr>
             {{/each}}
             </tbody>

@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const result = dotenv.config();
 
 if (result.error) {
+  //  introduce a more orderly and informative error message + exit if there are problems starting the application
   console.log(result.error.message);
   process.exit(1);
 }
@@ -21,7 +22,7 @@ async function init() {
   await server.register(require("@hapi/vision")); // https://hapi.dev/family/vision/ - Template rendering support for hapi.js - vision is part of the hapi ecosystem.
   await server.register(require("@hapi/cookie"));
 
-  server.validator(require("@hapi/joi"));
+  server.validator(require("@hapi/joi")); // initialise Hapi
 
   server.views({
     // config object for vision in the views method

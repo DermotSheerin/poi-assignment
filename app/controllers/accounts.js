@@ -1,4 +1,6 @@
 "use strict";
+
+// import modules
 const User = require("../models/user");
 const Boom = require("@hapi/boom");
 const Joi = require("@hapi/joi");
@@ -21,6 +23,32 @@ const Accounts = {
 
   signup: {
     auth: false,
+    validate: {
+      //  Hapi scoped module for validation
+      payload: {
+        // payload: his defines a schema which defines rules that our fields must adhere to
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        email: Joi.string()
+          .email()
+          .required(),
+        password: Joi.string().required()
+      },
+      options: {
+        abortEarly: false
+      },
+      failAction: function(request, h, error) {
+        // failAction: This is the handler to invoke if one or more of the fields fails the validation.
+        return h
+          .view("signup", {
+            title: "Sign up error",
+            errors: error.details,
+            user: request.payload // pass the details entered by the user into the signup view to avoid user having to re-enter some fields
+          })
+          .takeover()
+          .code(400);
+      }
+    },
     handler: async function(request, h) {
       try {
         const payload = request.payload;
@@ -47,6 +75,27 @@ const Accounts = {
 
   login: {
     auth: false,
+    validate: {
+      //  Hapi scoped module for validation
+      payload: {
+        email: Joi.string()
+          .email()
+          .required(),
+        password: Joi.string().required()
+      },
+      options: {
+        abortEarly: false
+      },
+      failAction: function(request, h, error) {
+        return h
+          .view("main", {
+            title: "Sign up error",
+            errors: error.details
+          })
+          .takeover()
+          .code(400);
+      }
+    },
     handler: async function(request, h) {
       const { email, password } = request.payload;
       try {
@@ -58,6 +107,7 @@ const Accounts = {
         user.comparePassword(password);
         request.cookieAuth.set({ id: user.id });
         if (user.userRole == "admin") return h.redirect("/adminDashboard");
+        // if user is an admin then redirect to the admin Dashboard, otherwise redirect to member dashboard for regular members
         else return h.redirect("/dashboard");
       } catch (err) {
         return h.view("main", { errors: [{ message: err.message }] });
@@ -83,12 +133,40 @@ const Accounts = {
           user: user
         });
       } catch (err) {
-        return h.view("main", { errors: [{ message: err.message }] });
+        if (user.role == "member")
+          return h.view("dashboard", { errors: [{ message: err.message }] });
+        else
+          return h.view("adminDashboard", {
+            errors: [{ message: err.message }]
+          });
       }
     }
   },
 
   updateSettings: {
+    validate: {
+      payload: {
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        email: Joi.string()
+          .email()
+          .required(),
+        password: Joi.string().required()
+      },
+      options: {
+        abortEarly: false
+      },
+      failAction: function(request, h, error) {
+        return h
+          .view("settings", {
+            title: "Sign up error",
+            errors: error.details,
+            user: request.payload // On page refresh, re-populate the fields with their current values (leaving the problematic fields in their incorrect state)
+          })
+          .takeover()
+          .code(400);
+      }
+    },
     handler: async function(request, h) {
       try {
         let updateUser = request.payload; // retrieves the updated user settings
@@ -99,7 +177,7 @@ const Accounts = {
         user.email = updateUser.email;
         user.password = updateUser.password;
         await user.save();
-        return h.redirect("/settings");
+        return h.redirect("/dashboard/listIslands");
       } catch (err) {
         return h.view("settings", { errors: [{ message: err.message }] });
       }

@@ -1,5 +1,4 @@
-<form class="ui primary segment form" action="/dashboard/addIsland" method="POST">
-    <h3>Add Island</h3>
+<form class="ui primary segment form" action="/addIsland" method="POST">
     <div class="three fields">
         <div class="field">
             <label>Region/Category <i class="ie flag"></i> </label>
@@ -12,15 +11,15 @@
         </div>
         <div class="field">
             <label>Island Name</label>
-            <textarea rows="1" input type="text" placeholder="Island Name" name="name"></textarea>
+            <input placeholder="Island Name" value="{{island.name}}" type="text" name="name" >
         </div>
         <div class="field">
             <label>Description</label>
-            <textarea rows="1" input type="text" placeholder="Description" name="description"></textarea>
+            <input placeholder="Description"  value="{{island.description}}" type="text"  name="description" >
         </div>
-        <div class="field">
+  <!--      <div class="field">
             <label>Image File</label>
-            <input type="file" id="fileUpload" name="filename"/> <!-- https://flaviocopes.com/file-upload-using-ajax/ -->
+            <input type="file" id="fileUpload" name="filename"/>  https://flaviocopes.com/file-upload-using-ajax/ -->
         </div>
     </div>
     <button class="ui blue submit button">Add Island</button>
