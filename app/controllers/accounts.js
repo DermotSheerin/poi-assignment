@@ -177,7 +177,7 @@ const Accounts = {
         user.email = updateUser.email;
         user.password = updateUser.password;
         await user.save();
-        return h.redirect("/settings");
+        return h.redirect("/dashboard/listIslands");
       } catch (err) {
         return h.view("settings", { errors: [{ message: err.message }] });
       }

@@ -28,9 +28,10 @@ islandSchema.statics.deleteIslandsByUserId = function(userId) {
   return this.find({ user: userId }).deleteMany(); // deletes every island document that matches the filter i.e., the userId passed in, in the collection
 };
 
-islandSchema.statics.deleteOneUserIsland = function(userId, islandID) {
-  return this.find({ user: userId }).deleteOne({ _id: islandID }); // deletes a single island document that belongs to a specific user
-};
+// method no longer needed
+// islandSchema.statics.deleteOneUserIsland = function(userId, islandID) {
+//   return this.find({ user: userId }).deleteOne({ _id: islandID }); // deletes a single island document that belongs to a specific user
+// };
 
 islandSchema.statics.countUserIslands = function(userId) {
   return this.find({ user: userId }).countDocuments(); // return a count of the islands belonging to a particular user
