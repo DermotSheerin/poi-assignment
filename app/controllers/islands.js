@@ -19,31 +19,18 @@ const Islands = {
         abortEarly: false
       },
       failAction: async function(request, h, error) {
-        const id = request.auth.credentials.id;
-        const user = await User.findById(id).lean();
-        if (user.userRole == "member") {
-          return h
-            .view("dashboard", {
-              errors: error.details,
-              island: request.payload // pass the details entered by the user into the view to avoid user having to re-enter fields
-            })
-            .takeover()
-            .code(400);
-        } else {
-          return h
-            .view("adminDashboard", {
-              errors: error.details,
-              island: request.payload // pass the details entered by the user into the view to avoid user having to re-enter fields
-            })
-            .takeover()
-            .code(400);
-        }
+        return h
+          .view("dashboard", {
+            errors: error.details,
+            island: request.payload // pass the details entered by the user into the view to avoid user having to re-enter fields
+          })
+          .takeover()
+          .code(400);
       }
     },
     handler: async function(request, h) {
       try {
         const userId = request.auth.credentials.id;
-        const user = await User.findById(userId).lean();
         const data = request.payload;
         const userRegion = data.region;
         const regionLean = await Region.findByRegionName(userRegion).lean();
@@ -54,32 +41,27 @@ const Islands = {
           user: userId
         });
         await newIsland.save();
-        if (user.userRole == "member") {
-          return h.redirect("/dashboard");
-        } else return h.redirect("/adminDashboard");
+        return h.redirect("/dashboard/listIslands"); // display full list of islands for user once they add a new island
       } catch (err) {
-        if (user.userRole === "member") {
-          return h.view("dashboard", user, {
-            errors: [{ message: err.message }]
-          });
-        } else
-          return h.view("adminDashboard", user, {
-            errors: [{ message: err.message }]
-          });
+        errors: [{ message: err.message }];
       }
     }
   },
-  // listIslands: {
-  //     handler: async function(request, h) {
-  //         const id = request.auth.credentials.id;
-  //         const user = await User.findById(id).lean();
-  //         const islands = await Island.find().populate('region').lean(); // find and return all islands in a simple POJO array and populate the region object
-  //         console.log(islands)
-  //         return h.view('dashboard', {
-  //            islands, user
-  //         });
-  //     }
-  // },
+
+  listIslands: {
+    handler: async function(request, h) {
+      const userId = request.auth.credentials.id;
+      const user = await User.findById(userId).lean();
+      const userIslands = await Island.findIslandsByUserId(userId)
+        .populate("user")
+        .populate("region")
+        .lean(); // Retrieve all islands belonging to this user and render to view
+      return h.view("dashboard", {
+        userIslands,
+        user
+      });
+    }
+  },
 
   deleteUserIsland: {
     handler: async function(request, h) {
@@ -91,9 +73,9 @@ const Islands = {
         userID,
         islandId
       );
-      if (loggedInUser.userRole == "admin") {
+      if (loggedInUser.userRole === "admin") {
         return h.redirect("/adminDashboard/" + userID);
-      } else return h.redirect("/dashboard");
+      } else return h.redirect("/dashboard/listIslands");
     }
   },
 
@@ -103,7 +85,7 @@ const Islands = {
         const region = request.query["region"]; // retrieve the query passed from the regionCategories partial e.g., "href="/dashboard/getIslands?region=North East"" The URL ends at ? and query starts after ?
         const userId = request.auth.credentials.id;
         let userIslandsInRegion;
-        if (region != "allRegions") {
+        if (region !== "allRegions") {
           const regionLean = await Region.findByRegionName(region).lean(); // find region object using region name above
           const regionId = regionLean._id; // retrieve region object reference ID
           userIslandsInRegion = await Island.findUserIslandsInRegion(
@@ -128,38 +110,8 @@ const Islands = {
     }
   },
 
-  // addRegion: {
-  //   validate: {
-  //     //  Hapi scoped module for validation
-  //     payload: {
-  //       region: Joi.string()
-  //     },
-  //     failAction: function(request, h, error) {
-  //       return h
-  //         .view("/adminDashboard", {
-  //           errors: error.details
-  //         })
-  //         .takeover()
-  //         .code(400);
-  //     }
-  //   },
-  //   handler: async function(request, h) {
-  //     try {
-  //       const region = request.payload.region;
-  //       const newRegion = new Region({
-  //         region: region
-  //       });
-  //       await newRegion.save();
-  //       return h.redirect("adminDashboard");
-  //     } catch (err) {
-  //       return h.view("adminDashboard", {
-  //         errors: [{ message: err.message }]
-  //       });
-  //     }
-  //   }
-  // }
-
   showMembersIslands: {
+    // retrieve member islands for the admin view
     handler: async function(request, h) {
       const userID = request.params.id;
       const userIslands = await Island.findIslandsByUserId(userID)
@@ -170,6 +122,43 @@ const Islands = {
         userIslands: userIslands,
         userID: userID
       });
+    }
+  },
+
+  showIslandDetails: {
+    handler: async function(request, h) {
+      const islandId = request.params.id;
+      const islandDetails = await Island.findById(islandId)
+        .populate("region")
+        .populate("user")
+        .lean();
+      return h.view("memberEditIslandDetails", {
+        islandDetails: islandDetails
+      });
+    }
+  },
+
+  editIslandDetails: {
+    handler: async function(request, h) {
+      try {
+        const updateIsland = request.payload;
+        const newRegionName = updateIsland.region;
+        const newRegionObject = await Region.findByRegionName(newRegionName); // retrieve region object using region name
+        const islandId = request.params.id;
+        const islandDetails = await Island.findById(islandId).populate(
+          // retrieve island object using the island ID
+          "region"
+        );
+        console.log(`here are islands details BEFORE change ${islandDetails}`);
+        islandDetails.region = newRegionObject; // set the new region
+        islandDetails.name = updateIsland.name; // update island name
+        islandDetails.description = updateIsland.description; // update island description
+        await islandDetails.save();
+        console.log(`here are islands details AFTER save ${islandDetails}`);
+        return h.redirect("/dashboard/listIslands");
+      } catch (err) {
+        return h.view("dashboard", { errors: [{ message: err.message }] });
+      }
     }
   }
 };
