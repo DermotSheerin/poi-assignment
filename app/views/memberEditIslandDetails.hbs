@@ -8,12 +8,12 @@
         <div class="ui twelve wide column">
             <div class="ui stacked fluid form segment">
                 <form action="/dashboard/editIslandDetails/{{islandDetails._id}}" method="POST">
-                    <h3 class="ui header">Edit details for ......</h3>
+                    <h3 class="ui header">Edit Island Details</h3>
                     <div class="two fields">
                         <div class="field">
                             <label>Region/Category</label>
                             <select class="ui dropdown" name="region">
-                                <option value="">{{islandDetails.region.region}}</option>
+                                <option value="{{islandDetails.region.region}}">Current Region({{islandDetails.region.region}})</option>
                                 <option value="North East">North East</option>
                                 <option value="East Coast">East Coast</option>
                                 <option value="South Coast">South Coast</option>
@@ -32,14 +32,17 @@
                     <div class="two fields">
                         <div class="field">
                             <label>Latitude</label>
-                            <input placeholder="Latitude" type="text"  name="latitude" required maxlength="15">
+                            <input placeholder="Latitude" type="text"  name="latitude"  maxlength="15">
                         </div>
                         <div class="field">
                             <label>Longitude</label>
-                            <input placeholder="Longitude" type="text"  name="longitude" required maxlength="15">
+                            <input placeholder="Longitude" type="text"  name="longitude"  maxlength="15">
                         </div>
                     </div>
                     <button class="ui blue submit button">Save</button>
+                    <a href="/dashboard/listIslands">
+                        <button class="ui red submit button">Cancel</button>
+                    </a>
                 </form>
                 {{> error }}
             </div>

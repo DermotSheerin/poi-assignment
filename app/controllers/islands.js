@@ -69,10 +69,12 @@ const Islands = {
       const loggedInUser = await User.findById(loggedInUserId).lean();
       const islandId = request.params.id;
       const userID = request.params.userID;
-      const deleteOneUserIsland = await Island.deleteOneUserIsland(
-        userID,
-        islandId
-      );
+      const deleteOneUserIsland = await Island.findByIdAndRemove(islandId);
+      // const userID = request.params.userID;
+      // const deleteOneUserIsland = await Island.deleteOneUserIsland(
+      //   userID,
+      //   islandId
+      // );
       if (loggedInUser.userRole === "admin") {
         return h.redirect("/adminDashboard/" + userID);
       } else return h.redirect("/dashboard/listIslands");

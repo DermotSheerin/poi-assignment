@@ -19,12 +19,17 @@ module.exports = [
   { method: "GET", path: "/dashboard", config: Dashboard.dashboard },
   {
     method: "GET",
-    path: "/dashboard/{userID}/deleteIsland/{id}",
+    path: "/dashboard/deleteIsland/{id}",
     config: Island.deleteUserIsland
   },
+  // { // remove this if the route below works
+  //   method: "GET",
+  //   path: "/dashboard/{userID}/showIslandDetails/{id}",
+  //   config: Island.showIslandDetails
+  // },
   {
     method: "GET",
-    path: "/dashboard/{userID}/showIslandDetails/{id}",
+    path: "/dashboard/showIslandDetails/{id}",
     config: Island.showIslandDetails
   },
   {
@@ -64,7 +69,11 @@ module.exports = [
     path: "/adminDashboard/{userID}/deleteIsland/{id}",
     config: Island.deleteUserIsland
   },
-
+  // {
+  //   method: "GET",
+  //   path: "/adminDashboard/deleteIsland/{id}",
+  //   config: Island.deleteUserIsland
+  // },
   // {
   //   method: "POST",
   //   path: "/dashboard/addIsland",
