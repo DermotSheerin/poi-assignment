@@ -153,7 +153,7 @@ const Islands = {
         );
         console.log(`here are islands details BEFORE change ${islandDetails}`);
         islandDetails.region = newRegionObject; // set the new region
-        islandDetails.name = updateIsland.name; // update island name
+        islandDetails.name = updateIsland.name; // upd  ate island name
         islandDetails.description = updateIsland.description; // update island description
         await islandDetails.save();
         console.log(`here are islands details AFTER save ${islandDetails}`);

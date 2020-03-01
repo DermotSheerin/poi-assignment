@@ -1,20 +1,25 @@
 "use strict";
 
-const dotenv = require("dotenv");
-const result = dotenv.config();
-
-if (result.error) {
-  //  introduce a more orderly and informative error message + exit if there are problems starting the application
-  console.log(result.error.message);
-  process.exit(1);
-}
+// const dotenv = require("dotenv");
+// const result = dotenv.config();
+//
+// if (result.error) {
+//   //  introduce a more orderly and informative error message + exit if there are problems starting the application
+//   console.log(result.error.message);
+//   process.exit(1);
+// }
 
 const Hapi = require("@hapi/hapi");
 require("./app/models/db");
 
+// Original config for local deployment
+// const server = Hapi.server({
+//   port: 3000,
+//   host: "localhost"
+// });
+
 const server = Hapi.server({
-  port: 3000,
-  host: "localhost"
+  port: process.env.PORT || 3000
 });
 
 async function init() {
