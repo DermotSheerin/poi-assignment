@@ -12,9 +12,14 @@ if (result.error) {
 const Hapi = require("@hapi/hapi");
 require("./app/models/db");
 
+// Original config for local deployment
+// const server = Hapi.server({
+//   port: 3000,
+//   host: "localhost"
+// });
+
 const server = Hapi.server({
-  port: 3000,
-  host: "localhost"
+  port: process.env.PORT || 3000
 });
 
 async function init() {
