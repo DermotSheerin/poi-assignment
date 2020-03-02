@@ -4,6 +4,7 @@
 const User = require("../models/user");
 const Boom = require("@hapi/boom");
 const Joi = require("@hapi/joi");
+const Island = require("../models/island");
 
 const Accounts = {
   // home page (index)
@@ -62,7 +63,8 @@ const Accounts = {
           lastName: payload.lastName,
           email: payload.email,
           password: payload.password,
-          userRole: "member"
+          userRole: "member",
+          islandCount: 0
         });
         user = await newUser.save();
         request.cookieAuth.set({ id: user.id }); // This is how we can set a session cookie

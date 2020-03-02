@@ -31,6 +31,7 @@ const Islands = {
     handler: async function(request, h) {
       try {
         const userId = request.auth.credentials.id;
+        //const user = await User.findById(userId);
         const data = request.payload;
         const userRegion = data.region;
         const regionLean = await Region.findByRegionName(userRegion).lean();
@@ -41,6 +42,13 @@ const Islands = {
           user: userId
         });
         await newIsland.save();
+
+        const user = await User.findByIdAndUpdate(userId, {
+          // find the User by ID and increment the islandCount by 1
+          $inc: { islandCount: 1 }
+        });
+        await user.save();
+
         return h.redirect("/dashboard/listIslands"); // display full list of islands for user once they add a new island
       } catch (err) {
         errors: [{ message: err.message }];
@@ -70,14 +78,23 @@ const Islands = {
       const islandId = request.params.id;
       const userID = request.params.userID;
       const deleteOneUserIsland = await Island.findByIdAndRemove(islandId);
-      // const userID = request.params.userID;
-      // const deleteOneUserIsland = await Island.deleteOneUserIsland(
-      //   userID,
-      //   islandId
-      // );
+
+      // depending on whether the admin or member calls this handler, perform the following
       if (loggedInUser.userRole === "admin") {
+        const user = await User.findByIdAndUpdate(userID, {
+          // find the User by ID and decrement the islandCount by 1
+          $inc: { islandCount: -1 }
+        });
+        await user.save();
         return h.redirect("/adminDashboard/" + userID);
-      } else return h.redirect("/dashboard/listIslands");
+      } else {
+        const user = await User.findByIdAndUpdate(loggedInUserId, {
+          // find the User by ID and decrement the islandCount by 1
+          $inc: { islandCount: -1 }
+        });
+        await user.save();
+        return h.redirect("/dashboard/listIslands");
+      }
     }
   },
 
