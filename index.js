@@ -1,32 +1,40 @@
 "use strict";
 
-const dotenv = require("dotenv");
-const result = dotenv.config();
-
-if (result.error) {
-  //  introduce a more orderly and informative error message + exit if there are problems starting the application
-  console.log(result.error.message);
-  process.exit(1);
-}
-
+const ImageStore = require("./app/utils/image-store");
 const Hapi = require("@hapi/hapi");
 require("./app/models/db");
 
-// Original config for local deployment
-// const server = Hapi.server({
-//   port: 3000,
-//   host: "localhost"
-// });
+const dotenv = require("dotenv");
 
 const server = Hapi.server({
   port: process.env.PORT || 3000
 });
+
+const credentials = {
+  cloud_name: process.env.name,
+  api_key: process.env.key,
+  api_secret: process.env.secret
+};
+
+const result = dotenv.config();
+if (result.error) {
+  //  introduce a more orderly and informative error message + exit if there are problems starting the application
+  console.log(result.error.message);
+  process.exit(1);
+
+  // Original config for local deployment
+  // const server = Hapi.server({
+  //   port: 3000,
+  //   host: "localhost"
+  // });
+}
 
 async function init() {
   await server.register(require("@hapi/inert")); // registering the plugins
   await server.register(require("@hapi/vision")); // https://hapi.dev/family/vision/ - Template rendering support for hapi.js - vision is part of the hapi ecosystem.
   await server.register(require("@hapi/cookie"));
 
+  ImageStore.configure(credentials);
   server.validator(require("@hapi/joi")); // initialise Hapi
 
   server.views({

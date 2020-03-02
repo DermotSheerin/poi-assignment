@@ -6,6 +6,7 @@ const Schema = Mongoose.Schema;
 const islandSchema = new Schema({
   name: String,
   description: String,
+  imageURL: String,
   region: {
     type: Schema.Types.ObjectId,
     ref: "Region"

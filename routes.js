@@ -4,6 +4,7 @@ const Accounts = require("./app/controllers/accounts");
 const Dashboard = require("./app/controllers/dashboard");
 const AdminDashboard = require("./app/controllers/adminDashboard");
 const Island = require("./app/controllers/islands");
+const Gallery = require("./app/controllers/gallery");
 
 module.exports = [
   // Accounts
@@ -86,6 +87,15 @@ module.exports = [
   // },
 
   // { method: 'GET', path: '/login', config: Accounts.showLogin },
+
+  // Cloudinary
+  // { method: "GET", path: "/", config: Gallery.index },
+  {
+    method: "POST",
+    path: "/uploadfile/{islandID}",
+    config: Gallery.uploadFile
+  },
+  // { method: "GET", path: "/deleteimage/{id}", config: Gallery.deleteImage },
 
   {
     method: "GET",
