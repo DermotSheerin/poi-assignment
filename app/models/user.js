@@ -8,7 +8,8 @@ const userSchema = new Schema({
   lastName: String,
   email: String,
   password: String,
-  userRole: String
+  userRole: String,
+  islandCount: { type: Number, default: 0 }
 });
 
 userSchema.statics.findByEmail = function(email) {
