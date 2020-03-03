@@ -16,7 +16,7 @@
                 {{#each userIslands}}
                 <tr>
                     <td> {{region.region}} </td>
-                    <td> <a href="{{imageURL}}">{{name}} image</a> </td>
+                    <td> <img src="{{imageURL}}" class="ui medium image"> </td>
                     <td> {{name}} </td>
                     <td> {{description}} </td>
                     <td> {{user.firstName}} {{user.lastName}} </td>
@@ -32,9 +32,3 @@
         </table>
     </article>
 </div>
-
-<!--
-<div class="ui placeholder">
-                        <div class="image"></div>
-                    </div>
--->

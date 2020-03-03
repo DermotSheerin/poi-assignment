@@ -95,6 +95,11 @@ module.exports = [
     path: "/uploadfile/{islandID}",
     config: Gallery.uploadFile
   },
+  // {
+  //   method: "POST",
+  //   path: "/uploadfile/{islandID}/{test*}",
+  //   config: Gallery.uploadFile
+  // },
   // { method: "GET", path: "/deleteimage/{id}", config: Gallery.deleteImage },
 
   {

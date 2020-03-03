@@ -147,12 +147,14 @@ const Islands = {
   showIslandDetails: {
     handler: async function(request, h) {
       const islandId = request.params.id;
+      const noFile = request.query["noFile"]; // In the event the user selects 'upload' when uploading an image (without uploading a file) I redirect to the same page but pass an informational message in a query that is displayed in the view ie., 'No File to Upload
       const islandDetails = await Island.findById(islandId)
         .populate("region")
         .populate("user")
         .lean();
       return h.view("memberEditIslandDetails", {
-        islandDetails: islandDetails
+        islandDetails: islandDetails,
+        noFile: noFile
       });
     }
   },

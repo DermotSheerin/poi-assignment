@@ -33,10 +33,12 @@ const Gallery = {
           console.log(`stalling.....${islandDetails}`);
           return h.redirect("/dashboard/showIslandDetails/" + islandID);
         }
-        return h.view("gallery", {
-          title: "Cloudinary Gallery",
-          error: "No file selected"
-        });
+        return h.redirect(
+          // In the event the user selects 'upload' without uploading a file I redirect to the same page but pass an informational message in a query that is displayed in the view
+          "/dashboard/showIslandDetails/" +
+            islandID +
+            "?noFile=No File Selected !"
+        );
       } catch (err) {
         console.log(err);
       }

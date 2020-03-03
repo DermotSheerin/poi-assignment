@@ -2,10 +2,7 @@
 
 <section class="ui raised segment">
     <div class="ui grid">
-        <aside class="ui four wide column">
-            <img src="" class="ui medium image">
-        </aside>
-        <div class="ui twelve wide column">
+        <div class="ui ten wide column">
             <div class="ui stacked fluid form segment">
                 <form action="/dashboard/editIslandDetails/{{islandDetails._id}}" method="POST">
                     <h3 class="ui header">Edit Island Details</h3>
@@ -27,7 +24,7 @@
                     </div>
                     <div class="field">
                         <label>Description</label>
-                        <input placeholder="Description" value="{{islandDetails.description}}" type="text" name="description" required>
+                        <textarea rows="5" placeholder="Description" name="description"> {{islandDetails.description}} </textarea>
                     </div>
                     <div class="two fields">
                         <div class="field">
@@ -47,11 +44,12 @@
                 {{> error }}
             </div>
         </div>
+        <aside class="ui six wide column">
+            <img src="{{islandDetails.imageURL}}" class="ui large image">
+
+            {{> upload}}
+
+            <h2><span class="ui medium red text">{{noFile}}</span></h2>
+        </aside>
     </div>
-
-    {{> card}}
-
-    <div class="ui  divider"></div>
-
-    {{> gallery}}
 </section>
