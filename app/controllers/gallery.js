@@ -26,19 +26,18 @@ const Gallery = {
         const file = request.payload.imagefile;
         if (Object.keys(file).length > 0) {
           const result = await ImageStore.uploadImage(file);
-          islandDetails.imageURL.push(result.secure_url); // place the Image URL into index 0 of imageURL array in Island schema
-          islandDetails.imageURL.push(result.public_id); // place the Image ID into index 1 of imageURL array in Island schema
-          // islandDetails.imageURL.set(0, result.secure_url); // place the Image URL into index 0 of imageURL array in Island schema
-          // islandDetails.imageURL.set(1, result.public_id); // place the Image ID into index 1 of imageURL array in Island schema
+          islandDetails.imageURL.splice(0, islandDetails.imageURL.length); // empty the image array in the island schema
+          islandDetails.imageURL.set(0, result.secure_url); // place the Image URL into index 0 of imageURL array in Island schema
+          islandDetails.imageURL.set(1, result.public_id); // place the Image ID into index 1 of imageURL array in Island schema
           await islandDetails.save();
-          //console.log(`stalling.....${islandDetails}`);
+          console.log(`stalling.....${islandDetails}`);
           return h.redirect("/dashboard/showIslandDetails/" + islandID);
         }
         return h.redirect(
           // In the event the user selects 'upload' without uploading a file I redirect to the same page but pass an informational message in a query that is displayed in the view
           "/dashboard/showIslandDetails/" +
             islandID +
-            "?noFile=No File Selected !"
+            "?noFile=No File Selected !" // In a later release I will attempt to implement JQuery to perform a similiar task, for now this will suffice and achieve what I need
         );
       } catch (err) {
         console.log(err);

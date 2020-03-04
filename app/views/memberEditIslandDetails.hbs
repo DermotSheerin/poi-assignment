@@ -6,19 +6,9 @@
         {{> memberEditDetailsForm}}
 
         <aside class="ui six wide column">
-
             <img src="{{islandDetails.imageURL.[0]}}" class="ui large image">
-
             {{> upload}}
-
             <h2><span class="ui medium red text">{{noFile}}</span></h2>
-
-
-            <a href="/dashboard/showIslandDetails/{{islandDetails._id}}/deleteImage/{{islandDetails.imageURL.[1]}}" class="ui icon button">
-                <i class="red large icon trash alternate"></i>
-            </a>
-
         </aside>
-
     </div>
 </section>
