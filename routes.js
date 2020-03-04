@@ -100,7 +100,11 @@ module.exports = [
   //   path: "/uploadfile/{islandID}/{test*}",
   //   config: Gallery.uploadFile
   // },
-  // { method: "GET", path: "/deleteimage/{id}", config: Gallery.deleteImage },
+  {
+    method: "GET",
+    path: "/dashboard/showIslandDetails/{islID}/deleteImage/{imageID}",
+    config: Gallery.deleteImage
+  },
 
   {
     method: "GET",

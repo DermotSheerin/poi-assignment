@@ -29,7 +29,12 @@ const ImageStore = {
   },
 
   deleteImage: async function(id) {
-    await cloudinary.v2.uploader.destroy(id, {});
+    console.log(`here is image store ID: ${id}`);
+    const story = await cloudinary.v2.uploader.destroy(id, function(
+      error,
+      result
+    ) {});
+    console.log(story);
   }
 };
 
