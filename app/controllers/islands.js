@@ -77,7 +77,7 @@ const Islands = {
       const loggedInUser = await User.findById(loggedInUserId).lean();
       const islandId = request.params.id;
       const userID = request.params.userID;
-      const deleteOneUserIsland = await Island.findByIdAndRemove(islandId);
+      await Island.findByIdAndRemove(islandId);
 
       // depending on whether the admin or member calls this handler, perform the following
       if (loggedInUser.userRole === "admin") {
@@ -154,7 +154,7 @@ const Islands = {
         .lean();
       return h.view("memberEditIslandDetails", {
         islandDetails: islandDetails,
-        noFile: noFile
+        noFile: noFile // Passing error message when no file is selected - future release will possibly implement a JQuery action to hide the upload button until a file as been uploaded
       });
     }
   },

@@ -26,10 +26,10 @@ const Gallery = {
         const file = request.payload.imagefile;
         if (Object.keys(file).length > 0) {
           const result = await ImageStore.uploadImage(file);
-          islandDetails.imageURL.splice(0, islandDetails.imageURL.length); // empty the image array in the island schema
+          islandDetails.imageURL.splice(0, islandDetails.imageURL.length); // empty the image array in the island schema before adding new Images
           islandDetails.imageURL.set(0, result.secure_url); // place the Image URL into index 0 of imageURL array in Island schema
           islandDetails.imageURL.set(1, result.public_id); // place the Image ID into index 1 of imageURL array in Island schema
-          await islandDetails.save();
+          await islandDetails.save(); // Note using the above array provides a possible base for future development where I can upload multiple images per island
           console.log(`stalling.....${islandDetails}`);
           return h.redirect("/dashboard/showIslandDetails/" + islandID);
         }
@@ -56,11 +56,11 @@ const Gallery = {
       try {
         const islandID = request.params.islID;
         const imageID = request.params.imageID;
-        await ImageStore.deleteImage(imageID);
+        await ImageStore.deleteImage(imageID); // delete image from Cloudinary
         const island = await Island.findById(islandID);
         island.imageURL.splice(0, island.imageURL.length); // empty the image array in the island schema
         await island.save();
-        console.log(`here is island obj after  clear array: ${island}`);
+        console.log(`here is island obj after clear array: ${island}`);
         return h.redirect("/dashboard/showIslandDetails/" + islandID);
       } catch (err) {
         console.log(err);

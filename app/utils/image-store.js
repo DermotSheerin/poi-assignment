@@ -23,18 +23,20 @@ const ImageStore = {
   uploadImage: async function(imagefile) {
     await writeFile("./public/images/temp.img", imagefile);
     return await cloudinary.uploader.upload("./public/images/temp.img"); // return response containing URL to access image
-
-    // const result = await cloudinary.uploader.upload("./public/images/temp.img"); // i added const result and return
-    // return result;
   },
 
   deleteImage: async function(id) {
-    console.log(`here is image store ID: ${id}`);
-    const story = await cloudinary.v2.uploader.destroy(id, function(
-      error,
-      result
-    ) {});
-    console.log(story);
+    await cloudinary.v2.uploader.destroy(id);
+  },
+
+  deleteUserIslandImages: async function(userIslands) {
+    userIslands.forEach(getImageURL); // pass in the users Islands into a forEach and call a function once for each island in the array
+    async function getImageURL(island) {
+      // each island that contains an image, pass the ID of the image to the deleteImage function to delete on cloudinary
+      if (island.imageURL.length) {
+        await ImageStore.deleteImage(island.imageURL[1]); // pass in the image ID to the deleteImage function
+      }
+    }
   }
 };
 
