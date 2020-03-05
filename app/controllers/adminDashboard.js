@@ -3,19 +3,19 @@ const Island = require("../models/island");
 const Region = require("../models/region");
 const Joi = require("@hapi/joi");
 const User = require("../models/user");
+const ImageStore = require("../utils/image-store");
 
 const AdminDashboard = {
   dashboard: {
     handler: async function(request, h) {
       const users = await User.find({ userRole: "member" }).lean();
 
+      // Unused code, keeping in case required in future
       // users.forEach(countUserIslands); // iterate through the users array and call countUserIslands function for each user
       // async function countUserIslands(user) {
       //   // pass the user to the Island model to count the number of Islands created by that user
       //   user.islandCount = await Island.countUserIslands(user._id);
       // }
-      //
-      // console.log(users);
 
       return h.view("adminDashboard", {
         title: "POI Dashboard - ADMIN",
@@ -61,8 +61,10 @@ const AdminDashboard = {
   deleteMember: {
     handler: async function(request, h) {
       const userID = request.params.id;
-      const deleteIslands = await Island.deleteIslandsByUserId(userID); // prior to deleting member, delete all islands associate with the member
-      const deleteMember = await User.findByIdAndDelete(userID);
+      const userIslands = await Island.findIslandsByUserId(userID).lean();
+      await ImageStore.deleteUserIslandImages(userIslands); // delete users Island images from cloudinary before deleting the island and then deleting the user
+      await Island.deleteIslandsByUserId(userID); // prior to deleting member, delete all islands associate with the member
+      await User.findByIdAndDelete(userID);
       return h.redirect("/adminDashboard");
     }
   }

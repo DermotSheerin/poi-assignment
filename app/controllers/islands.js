@@ -3,6 +3,7 @@ const Island = require("../models/island");
 const Region = require("../models/region");
 const User = require("../models/user");
 const Joi = require("@hapi/joi");
+const ImageStore = require("../utils/image-store");
 
 const Boom = require("@hapi/boom");
 
@@ -77,7 +78,9 @@ const Islands = {
       const loggedInUser = await User.findById(loggedInUserId).lean();
       const islandId = request.params.id;
       const userID = request.params.userID;
-      const deleteOneUserIsland = await Island.findByIdAndRemove(islandId);
+      const islandDetails = await Island.findById(islandId).lean();
+      await ImageStore.deleteImage(islandDetails.imageURL[1]); // delete image from Cloudinary
+      await Island.findByIdAndRemove(islandId); // delete island
 
       // depending on whether the admin or member calls this handler, perform the following
       if (loggedInUser.userRole === "admin") {
@@ -147,12 +150,14 @@ const Islands = {
   showIslandDetails: {
     handler: async function(request, h) {
       const islandId = request.params.id;
+      const noFile = request.query["noFile"]; // In the event the user selects 'upload' when uploading an image (without uploading a file) I redirect to the same page but pass an informational message in a query that is displayed in the view ie., 'No File to Upload
       const islandDetails = await Island.findById(islandId)
         .populate("region")
         .populate("user")
         .lean();
       return h.view("memberEditIslandDetails", {
-        islandDetails: islandDetails
+        islandDetails: islandDetails,
+        noFile: noFile // Passing error message when no file is selected - future release will possibly implement a JQuery action to hide the upload button until a file as been uploaded
       });
     }
   },

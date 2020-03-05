@@ -2,50 +2,13 @@
 
 <section class="ui raised segment">
     <div class="ui grid">
-        <aside class="ui four wide column">
-            <img src="" class="ui medium image">
+
+        {{> memberEditDetailsForm}}
+
+        <aside class="ui six wide column">
+            <img src="{{islandDetails.imageURL.[0]}}" class="ui large image">
+            {{> upload}}
+            <h2><span class="ui medium red text">{{noFile}}</span></h2>
         </aside>
-        <div class="ui twelve wide column">
-            <div class="ui stacked fluid form segment">
-                <form action="/dashboard/editIslandDetails/{{islandDetails._id}}" method="POST">
-                    <h3 class="ui header">Edit Island Details</h3>
-                    <div class="two fields">
-                        <div class="field">
-                            <label>Region/Category</label>
-                            <select class="ui dropdown" name="region">
-                                <option value="{{islandDetails.region.region}}">Current Region({{islandDetails.region.region}})</option>
-                                <option value="North East">North East</option>
-                                <option value="East Coast">East Coast</option>
-                                <option value="South Coast">South Coast</option>
-                                <option value="Mid West">Mid West</option>
-                            </select>
-                        </div>
-                        <div class="field">
-                            <label>Island Name</label>
-                            <input placeholder="Last Name" value="{{islandDetails.name}}" type="text" name="name" required>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label>Description</label>
-                        <input placeholder="Description" value="{{islandDetails.description}}" type="text" name="description" required>
-                    </div>
-                    <div class="two fields">
-                        <div class="field">
-                            <label>Latitude</label>
-                            <input placeholder="Latitude" type="text"  name="latitude"  maxlength="15">
-                        </div>
-                        <div class="field">
-                            <label>Longitude</label>
-                            <input placeholder="Longitude" type="text"  name="longitude"  maxlength="15">
-                        </div>
-                    </div>
-                    <button class="ui blue submit button">Save</button>
-                    <a href="/dashboard/listIslands">
-                        <button class="ui red submit button">Cancel</button>
-                    </a>
-                </form>
-                {{> error }}
-            </div>
-        </div>
     </div>
 </section>
