@@ -3,6 +3,7 @@ const Island = require("../models/island");
 const Region = require("../models/region");
 const User = require("../models/user");
 const Joi = require("@hapi/joi");
+const ImageStore = require("../utils/image-store");
 
 const Boom = require("@hapi/boom");
 
@@ -77,7 +78,9 @@ const Islands = {
       const loggedInUser = await User.findById(loggedInUserId).lean();
       const islandId = request.params.id;
       const userID = request.params.userID;
-      await Island.findByIdAndRemove(islandId);
+      const islandDetails = await Island.findById(islandId).lean();
+      await ImageStore.deleteImage(islandDetails.imageURL[1]); // delete image from Cloudinary
+      await Island.findByIdAndRemove(islandId); // delete island
 
       // depending on whether the admin or member calls this handler, perform the following
       if (loggedInUser.userRole === "admin") {
