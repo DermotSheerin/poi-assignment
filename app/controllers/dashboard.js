@@ -8,16 +8,6 @@ const Dashboard = {
     handler: async function(request, h) {
       const userId = request.auth.credentials.id;
       const regions = await Region.find({}).lean();
-      console.log(`here we are again .....${regions}`);
-      // // const returnAllRegionsArray = await RegionUtil.returnAllRegionsArray(
-      //    regions
-      //  );
-      //console.log(`here are the regions Array: ${returnAllRegionsArray}`);
-      //const user = await User.findById(userId);
-      // const userIslandsInRegion = await Island.findIslandsByUserId(userId)
-      //   .populate("user")
-      //   .populate("region")
-      //   .lean(); // Retrieve all islands belonging to this user and render to view
 
       return h.view("dashboard", {
         title: "POI Dashboard",

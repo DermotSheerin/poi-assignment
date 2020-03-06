@@ -34,7 +34,6 @@ const Islands = {
     handler: async function(request, h) {
       try {
         const userId = request.auth.credentials.id;
-        //const user = await User.findById(userId);
         const data = request.payload;
         const userRegion = data.region;
         const regionLean = await Region.findByRegionName(userRegion).lean();
@@ -117,7 +116,7 @@ const Islands = {
         const regions = await Region.find({}).lean(); // adding all region details into the view to enable the drop down menu to display all Region Categories in the DB
 
         let userIslandsInRegion;
-        if (region !== "allRegions") {
+        if (region !== "All Regions") {
           const regionLean = await Region.findByRegionName(region).lean(); // find region object using region name above
           const regionId = regionLean._id; // retrieve region object reference ID
           userIslandsInRegion = await Island.findUserIslandsInRegion(
@@ -131,7 +130,7 @@ const Islands = {
           userIslandsInRegion = await Island.findIslandsByUserId(userId)
             .populate("user")
             .populate("region")
-            .lean(); // if 'all Regions' is requested then retrieve all islands belonging to this user and render to view
+            .lean(); // if 'All Regions' is requested then retrieve all islands belonging to this user and render to view
         return h.view("dashboard", {
           userIslands: userIslandsInRegion,
           userId: userId,
@@ -150,7 +149,7 @@ const Islands = {
       const userIslands = await Island.findIslandsByUserId(userID)
         .populate("user")
         .populate("region")
-        .lean(); // if 'all Regions' is requested then retrieve all islands belonging to this user and render to view
+        .lean();
       return h.view("adminListIslands", {
         userIslands: userIslands,
         userID: userID

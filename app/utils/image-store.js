@@ -27,6 +27,7 @@ const ImageStore = {
 
   deleteImage: async function(id) {
     if (id) {
+      // if the ID is valid, delete, otherwise do nothing
       await cloudinary.v2.uploader.destroy(id);
     }
   },

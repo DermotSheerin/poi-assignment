@@ -9,6 +9,7 @@ const AdminDashboard = {
   dashboard: {
     handler: async function(request, h) {
       const users = await User.find({ userRole: "member" }).lean();
+      const regions = await Region.find({}).lean();
 
       // Unused code, keeping in case required in future
       // users.forEach(countUserIslands); // iterate through the users array and call countUserIslands function for each user
@@ -19,7 +20,8 @@ const AdminDashboard = {
 
       return h.view("adminDashboard", {
         title: "POI Dashboard - ADMIN",
-        users: users
+        users: users,
+        regions: regions
       });
     }
   },
@@ -55,6 +57,14 @@ const AdminDashboard = {
           errors: [{ message: err.message }]
         });
       }
+    }
+  },
+
+  deleteRegion: {
+    handler: async function(request, h) {
+      const regionID = request.params.id;
+      await Region.findByIdAndDelete(regionID);
+      return h.redirect("/adminDashboard");
     }
   },
 
