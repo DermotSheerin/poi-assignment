@@ -14,7 +14,9 @@ const Islands = {
       payload: {
         region: Joi.string(),
         name: Joi.string().required(),
-        description: Joi.string().required()
+        description: Joi.string().required(),
+        latitude: Joi.number().required(),
+        longitude: Joi.number().required()
       },
       options: {
         abortEarly: false
@@ -39,6 +41,8 @@ const Islands = {
         const newIsland = new Island({
           name: data.name,
           description: data.description,
+          latitude: data.latitude,
+          longitude: data.longitude,
           region: regionLean._id,
           user: userId
         });
@@ -61,13 +65,16 @@ const Islands = {
     handler: async function(request, h) {
       const userId = request.auth.credentials.id;
       const user = await User.findById(userId).lean();
+      const regions = await Region.find({}).lean(); // adding all region details into the view to enable the drop down menu to display all Region Categories in the DB
+
       const userIslands = await Island.findIslandsByUserId(userId)
         .populate("user")
         .populate("region")
         .lean(); // Retrieve all islands belonging to this user and render to view
       return h.view("dashboard", {
         userIslands,
-        user
+        user,
+        regions
       });
     }
   },
@@ -80,6 +87,7 @@ const Islands = {
       const userID = request.params.userID;
       const islandDetails = await Island.findById(islandId).lean();
       await ImageStore.deleteImage(islandDetails.imageURL[1]); // delete image from Cloudinary
+      console.log("any joy here " + islandDetails);
       await Island.findByIdAndRemove(islandId); // delete island
 
       // depending on whether the admin or member calls this handler, perform the following
@@ -106,6 +114,8 @@ const Islands = {
       try {
         const region = request.query["region"]; // retrieve the query passed from the regionCategories partial e.g., "href="/dashboard/getIslands?region=North East"" The URL ends at ? and query starts after ?
         const userId = request.auth.credentials.id;
+        const regions = await Region.find({}).lean(); // adding all region details into the view to enable the drop down menu to display all Region Categories in the DB
+
         let userIslandsInRegion;
         if (region !== "allRegions") {
           const regionLean = await Region.findByRegionName(region).lean(); // find region object using region name above
@@ -124,7 +134,8 @@ const Islands = {
             .lean(); // if 'all Regions' is requested then retrieve all islands belonging to this user and render to view
         return h.view("dashboard", {
           userIslands: userIslandsInRegion,
-          userId: userId
+          userId: userId,
+          regions: regions
         });
       } catch (err) {
         return h.view("dashboard", { errors: [{ message: err.message }] });

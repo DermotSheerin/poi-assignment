@@ -26,7 +26,9 @@ const ImageStore = {
   },
 
   deleteImage: async function(id) {
-    await cloudinary.v2.uploader.destroy(id);
+    if (id) {
+      await cloudinary.v2.uploader.destroy(id);
+    }
   },
 
   deleteUserIslandImages: async function(userIslands) {
