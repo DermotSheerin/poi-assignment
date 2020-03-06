@@ -8,6 +8,7 @@ const Dashboard = {
     handler: async function(request, h) {
       const userId = request.auth.credentials.id;
       const regions = await Region.find({}).lean();
+      console.log(`here we are again .....${regions}`);
       // // const returnAllRegionsArray = await RegionUtil.returnAllRegionsArray(
       //    regions
       //  );
