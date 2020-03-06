@@ -70,6 +70,12 @@ module.exports = [
     path: "/adminDashboard/{userID}/deleteIsland/{id}",
     config: Island.deleteUserIsland
   },
+  {
+    method: "GET",
+    path: "/adminDashboard/deleteRegion/{id}",
+    config: AdminDashboard.deleteRegion
+  },
+
   // {
   //   method: "GET",
   //   path: "/adminDashboard/deleteIsland/{id}",

@@ -3,10 +3,9 @@
         <div class="field">
             <label>Region/Category <i class="ie flag"></i> </label>
             <select name="region">
-                <option value="North East">North East</option>
-                <option value="East Coast">East Coast</option>
-                <option value="South Coast">South Coast</option>
-                <option value="Mid West">Mid West</option>
+                {{#each regions}}
+                            <option value="{{region}}">{{region}}</option>
+                {{/each}}
             </select>
         </div>
         <div class="field">
@@ -14,10 +13,6 @@
             <input placeholder="Island Name" value="{{island.name}}" type="text" name="name" >
         </div>
     </div>
-<!--        <div class="field">-->
-<!--            <label>Description</label>-->
-<!--            <input placeholder="Description"  value="{{island.description}}" type="text"  name="description" >-->
-<!--        </div>-->
         <div class="field">
             <label>Description</label>
             <textarea rows="3" placeholder="Description"  type="text"  name="description"> </textarea>
