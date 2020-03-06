@@ -1,23 +1,57 @@
-<div class="ui compact menu">
-  <div class="ui simple dropdown item">
-    View By Costal Region
-    <i class="dropdown icon"></i>
-    <div class="menu">
-        <div class="item">
-            <a href="/dashboard/getIslands?region=allRegions"><span class="ui black text">All Regions</span></a>
-        </div>
-        <div class="item">
-            <a href="/dashboard/getIslands?region=North East"><span class="ui black text">North East</span></a>
-        </div>
-        <div class="item">
-            <a href="/dashboard/getIslands?region=East Coast"><span class="ui black text">East Coast</span></a>
-        </div>
-        <div class="item">
-            <a href="/dashboard/getIslands?region=South Coast"><span class="ui black text">South Coast</span></a>
-        </div>
-        <div class="item">
-            <a href="/dashboard/getIslands?region=Mid West"><span class="ui black text">Mid West</span></a>
+<div class="ui vertical menu">
+    <div class="ui dropdown item">
+        Categories
+        <i class="dropdown icon"></i>
+        <div class="menu">
+            {{#each regions}}
+                <div class="item">
+                    <a href="/dashboard/getIslands?region={{this.region}}"><span class="ui black text">{{this.region}}</span></a>
+                </div>
+            {{/each}}
         </div>
     </div>
-  </div>
 </div>
+
+
+<!--<div class="ui compact menu">-->
+
+<!--        <div class="ui simple dropdown item">-->
+<!--            View By Costal Region-->
+<!--            <i class="dropdown icon"></i>-->
+<!--            <div class="menu">-->
+
+
+<!--                {{log this}}-->
+<!--                <div class="ui items">-->
+<!--                    {{#each regions}}-->
+<!--                        <div class="item">-->
+<!--                            <a href="/dashboard/getIslands?region={{this.region}}"><span class="ui black text">{{this.region}}</span></a>-->
+<!--                        </div>-->
+<!--                    {{/each}}-->
+<!--                </div>-->
+
+
+
+<!--                <div class="item">-->
+<!--                    <a href="/dashboard/getIslands?region=allRegions"><span class="ui black text">All Regions</span></a>-->
+<!--                </div>-->
+<!--                <div class="item">-->
+<!--                    <a href="/dashboard/getIslands?region=North East"><span class="ui black text">North East</span></a>-->
+<!--                </div>-->
+<!--                <div class="item">-->
+<!--                    <a href="/dashboard/getIslands?region=East Coast"><span class="ui black text">East Coast</span></a>-->
+<!--                </div>-->
+<!--                <div class="item">-->
+<!--                    <a href="/dashboard/getIslands?region=South Coast"><span class="ui black text">South Coast</span></a>-->
+<!--                </div>-->
+<!--                <div class="item">-->
+<!--                    <a href="/dashboard/getIslands?region=Mid West"><span class="ui black text">Mid West</span></a>-->
+<!--                </div>-->
+
+
+<!--    </div>-->
+
+<!--  </div>-->
+
+
+<!--</div>-->

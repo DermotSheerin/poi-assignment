@@ -1,0 +1,23 @@
+<div>
+    <article class="four wide column">
+        <table class="ui striped celled table segment">
+            <thead>
+            <tr>
+                <th class="one wide">Region</th>
+                <th class="one wide"> Delete Region</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each regions}}
+            {{log _id}}
+                <tr>
+                    <td> {{region}} </td>
+                    <td> <a href="/adminDashboard/deleteRegion/{{_id}}" class="ui icon button">
+                        <i class="icon trash"></i> </a>
+                    </td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </article>
+</div>

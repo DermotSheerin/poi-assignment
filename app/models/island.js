@@ -6,6 +6,9 @@ const Schema = Mongoose.Schema;
 const islandSchema = new Schema({
   name: String,
   description: String,
+  latitude: Number,
+  longitude: Number,
+  imageURL: Array,
   region: {
     type: Schema.Types.ObjectId,
     ref: "Region"

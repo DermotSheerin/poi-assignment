@@ -1,27 +1,32 @@
 <form class="ui primary segment form" action="/addIsland" method="POST">
-    <div class="three fields">
+    <div class="two fields">
         <div class="field">
             <label>Region/Category <i class="ie flag"></i> </label>
             <select name="region">
-                <option value="North East">North East</option>
-                <option value="East Coast">East Coast</option>
-                <option value="South Coast">South Coast</option>
-                <option value="Mid West">Mid West</option>
+                {{#each regions}}
+                            <option value="{{region}}">{{region}}</option>
+                {{/each}}
             </select>
         </div>
         <div class="field">
             <label>Island Name</label>
             <input placeholder="Island Name" value="{{island.name}}" type="text" name="name" >
         </div>
+    </div>
         <div class="field">
             <label>Description</label>
-            <input placeholder="Description"  value="{{island.description}}" type="text"  name="description" >
+            <textarea rows="3" placeholder="Description"  type="text"  name="description"> </textarea>
         </div>
-  <!--      <div class="field">
-            <label>Image File</label>
-            <input type="file" id="fileUpload" name="filename"/>  https://flaviocopes.com/file-upload-using-ajax/
-        </div> -->
-    </div>
+        <div class="two fields">
+            <div class="field">
+                <label>Latitude</label>
+                <input placeholder="Latitude"  value="{{island.latitude}}" type="text"  name="latitude" >
+            </div>
+            <div class="field">
+                <label>Longitude</label>
+                <input placeholder="Longitude"  value="{{island.longitude}}" type="text"  name="longitude" >
+            </div>
+        </div>
     <button class="ui blue submit button">Add Island</button>
 </form>
 

@@ -7,7 +7,8 @@
                 <th class="two wide"> Image </th>
                 <th class="one wide">Island Name</th>
                 <th>Description</th>
-                <th class="one wide"> User </th>
+                <th class="one wide"> Latitude </th>
+                <th class="one wide"> Longitude </th>
                 <th class="one wide"> Edit Details </th>
                 <th class="one wide"> Delete Island </th>
             </tr>
@@ -16,10 +17,11 @@
                 {{#each userIslands}}
                 <tr>
                     <td> {{region.region}} </td>
-                    <td> {{filename}} </td>
+                    <td> <img src="{{imageURL.[0]}}" class="ui medium image"> </td>
                     <td> {{name}} </td>
                     <td> {{description}} </td>
-                    <td> {{user.firstName}} {{user.lastName}} </td>
+                    <td> {{latitude}} </td>
+                    <td> {{longitude}} </td>
                     <td> <a href="/dashboard/showIslandDetails/{{_id}}" class="ui icon button">
                         <i class="edit icon"></i> </a>
                     </td>
@@ -32,9 +34,3 @@
         </table>
     </article>
 </div>
-
-<!--
-<div class="ui placeholder">
-                        <div class="image"></div>
-                    </div>
--->

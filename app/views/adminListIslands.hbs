@@ -9,7 +9,6 @@
                 <th class="one wide">Island Name</th>
                 <th class="four wide">Description</th>
                 <th class="one wide"> User </th>
-                <th class="one wide"> View Details </th>
                 <th class="one wide"> Delete Island </th>
             </tr>
             </thead>
@@ -17,11 +16,10 @@
             {{#each userIslands}}
                 <tr>
                     <td> {{region.region}} </td>
-                    <td> {{filename}} </td>
+                    <td> <img src="{{imageURL.[0]}}" class="ui medium image">  </td>
                     <td> {{name}} </td>
                     <td> {{description}} </td>
                     <td> {{user.firstName}} {{user.lastName}} </td>
-                    <td>  </td>
                     <td> <a href="/adminDashboard/{{../userID}}/deleteIsland/{{_id}}" class="ui icon button">
                         <i class="icon trash"></i>
                     </a>
