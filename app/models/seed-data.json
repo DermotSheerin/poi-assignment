@@ -1,0 +1,39 @@
+{
+  "users": {
+    "_model": "User",
+    "dermot": {
+      "firstName": "Dermot",
+      "lastName": "Sheerin",
+      "email": "sheerin@gmail.com",
+      "password": "1234",
+      "userRole": "admin",
+      "islandCount": 0
+    },
+    "dee": {
+      "firstName": "Dee",
+      "lastName": "Sheerin",
+      "email": "dee@gmail.com",
+      "password": "1234",
+      "userRole": "member",
+      "islandCount": 1
+    }
+  },
+  "regions": {
+    "_model": "Region",
+    "northEast": {
+      "region": "North East"
+    }
+  },
+  "islands": {
+    "_model": "Island",
+    "northEast": {
+      "imageURL": [],
+      "name": "North East",
+      "description": "Here is island in the North East",
+      "latitude": 23.44,
+      "longitude": 65.44,
+      "region": "->regions.northEast",
+      "user": "->users.dee"
+    }
+  }
+}
