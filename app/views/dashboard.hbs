@@ -1,9 +1,8 @@
 {{> mainmenu _id="dashboard" }}
 
 <section class="ui raised segment">
-    <!-- <button class="ui submit button">
-        <a href="/dashboard/listIslands"> <span class="ui black text">List all Islands</span></a>
-    </button> -->
+    {{>memberStats}}
+
     <h1>Add Island</h1>
     {{> addIsland}}
 
@@ -12,6 +11,7 @@
     <div class="ui  divider"></div>
 
     <h1>View Islands by Region</h1>
+
     {{> regionCategories }}
 
     <div class="ui  divider"></div>

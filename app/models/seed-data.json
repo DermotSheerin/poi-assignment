@@ -1,0 +1,187 @@
+{
+  "users": {
+    "_model": "User",
+    "dermot": {
+      "firstName": "Dermot",
+      "lastName": "Sheerin",
+      "email": "sheerin@gmail.com",
+      "password": "1234",
+      "userRole": "admin",
+      "islandCount": 0
+    },
+    "dee": {
+      "firstName": "Dee",
+      "lastName": "Sheerin",
+      "email": "dee@gmail.com",
+      "password": "1234",
+      "userRole": "member",
+      "islandCount": 16
+    }
+  },
+  "regions": {
+    "_model": "Region",
+    "All Regions": {
+      "region": "All Regions",
+      "adminOwner": true
+    },
+    "North East": {
+      "region": "North East"
+    },
+    "East Coast": {
+      "region": "East Coast"
+    },
+    "South Coast": {
+      "region": "South Coast"
+    },
+    "Mid West": {
+      "region": "Mid West"
+    }
+  },
+  "islands": {
+    "_model": "Island",
+    "Lough Foyle": {
+      "imageURL": [],
+      "name": "Lough Foyle",
+      "description": "Embarkation The logical embarkation point for the outer regions of Lough Foyle is Magilligan Point, by the Martello Tower. Access is by the B202 past the prison and rifle range. Do not block roads. Park by the hotel. The whole region is a security area, frequently patrolled. Especially beware of the military zone on the beach immediately to the E of the point, Benone Beach, on which it’s better not to land (certainly not while firing is going on). Accurate information for those passing the firing range can now be obtained from CANI. Further to the E, beyond the military zone, there is public access at about C716-363. There is a concrete slip across the beach. However, the beach surfs and there is a strong tidal drift. This may have relevance for launching. Expect caravans, lifeguards, and beach casting anglers. Military installations on both sides show the importance of the lough in such terms. The whole lough is less interesting inwards to the SW. There are large areas of mudflats on the E side. That said, it is a busy, well marked and well lit area. It is excellent for night navigation, sheltered but with strong tides. If paddling up into the city, it is possible to take out at Prehen Boat Club upstream of the Craigavon Bridge on the E bank. Road access is better on the Donegal side and there are nice secluded beaches. Greencastle at C648-400 lies directly across from Magilligan Point. The Donegal shore gets the more interesting up towards Inishowen Head at C685-438. The sea is much more exposed beyond the head. Tides Fierce tides push through the narrows. Rates of 3.5kn should not be treated lightly. Eddies on the Donegal side run from Warren Point to Moville and are usable on both flood and ebb. Moville HW is 3:50 after Belfast",
+      "latitude": 55.19369052,
+      "longitude": -6.96442359,
+      "region": "->regions.North East",
+      "user": "->users.dee"
+    },
+    "Downhill": {
+      "imageURL": [],
+      "name": "Downhill",
+      "description": "There is public access at the extreme E end of Benone Beach at a point called Downhill Strand. The Downhill Hotel was closed and demolished. An apartment block now fills the gap. Parking and toilets are beside the apartments and access is by a stream through an archway under the railway. This spot is popular with anglers. The rocky area to the E of the prominent Mussenden Temple at C758-363 is loose basalt, eroded to provide caves and arches. Fulmar and Kittiwake thrive on the sewerage outfall. There is good access and parking at Castlerock village itself at C766-365, where there is parking and toilets at the beach access point. <strong>County Antrim</strong> Tidal overview On the north coast, the tide generally turns west at Belfast HW and east at Belfast LW. The tides are complex, particularly around Rathlin and should be studied carefully. Tides flow strongly at the headlands but there are usable eddies between",
+      "latitude": 55.16721802,
+      "longitude": -6.81917323,
+      "region": "->regions.North East",
+      "user": "->users.dee"
+    },
+    "River Bann": {
+      "imageURL": [],
+      "name": "River Bann",
+      "description": "To the E of Castlerock village is the Bar Mouth, where the River Bann flows into the sea. Turbulent water can be experienced quite a distance offshore. The flood at the mouth is weak by comparison to the ebb. Especially when the river is up, the ebb and the flow of the river combine to produce mighty standing waves. The flow of the river is controlled by floodgates well upstream. Powerful rip currents either side of the mouth are dangerous enough. The mouth artificially narrows the stream and this projects the fresh water out with great force. The fresh water is easily distinguished in the sea water and gives a good guide as to tide direction and strength off the beaches. The river is marked as far up as Coleraine. The area is a noted birding spot in winter",
+      "latitude": 55.17124307,
+      "longitude": -6.77197253,
+      "region": "->regions.North East",
+      "user": "->users.dee"
+    },
+    "Portstewart": {
+      "imageURL": [],
+      "name": "Portstewart",
+      "description": "The area behind Portstewart Strand to the W of the town is part golf course and part National Trust. There is fee-paying access to the NT section, where there are toilets and parking. There is a powerful rip each end of the strand. When the strand is dumping, it is better to launch off a slip at Portnahapple at C813-376, which is usable in most conditions, but be aware that access is difficult from car parks in the area.. The harbour at C815-386 can be difficult to enter or exit in heavy seas, with multi-directional reflected waves. The slip is exposed to surge. There is good parking and this is the access of choice in calm conditions. There is some interesting rock hopping locally, clapotis almost always and some small caves and a blowhole that performs well in good swell. The tide can run fast around Portstewart Point",
+      "latitude": 55.18778894,
+      "longitude": -6.72122191,
+      "region": "->regions.North East",
+      "user": "->users.dee"
+    },
+    "Colt Island": {
+      "imageURL": [],
+      "name": "Colt Island",
+      "description": "A barely detached part of Mace Head, at highest HWS only. From the shore, approach with permission through the grounds of the Mace Head Atmospheric Research Station grounds. From the sea, land at the NE or SW cut between shore and island, both sheltered, that to the NE easier of access. It is an island of two halves, the more shoreward being rough pasture, slightly grazed by cattle and the camping is not great. The unexpected treat in this island is the seaward half, which contains a tidal lagoon that makes for a splendid swimming and sunbathing area. Approachable by sea at all stages of the tide from the NW, the lagoon is partly surrounded by scraped rocks, ideal for recreational purposes. The water never drops below at least 1m",
+      "latitude": 53.24876688,
+      "longitude": -9.90037514,
+      "region": "->regions.East Coast",
+      "user": "->users.dee"
+    },
+    "Saint Patrick’s Island": {
+      "imageURL": [],
+      "name": "Saint Patrick’s Island",
+      "description": "A small island, outside Colt, known locally as Church Island. The accuracy as to whether St. Patrick ever landed here is a source of some debate. This is the jumping off point for Rockabill. Land easily at a sheltered storm beach, just W of the S tip, in almost any conditions. Landing is also possible at higher tides at a shingle cove just further E. There is a further landing place on the N facing shore near a ruined house and marked by two metal poles – a small beachlet among the rocks, for when southerlies prevail. There is the ruin of an Early Christian Church and a small monastery, which dates back to Viking times. It was important enough to merit a synod being held in 1148 in which fifteen bishops, two hundred priests, and several other clergy assisted. The church towards the E tip is still very much worth the visit. St Patrick’s Island has an internationally important breeding population of Cormorants (2001 Census) of 550 pairs. There are breeding gulls, Shags and Fulmars in summer, while geese, ducks and waders provide winter interest. There is a colony of 70-80 Grey Seals, especially during winter. The NE and eastern sides of the island catch the full ebb tide over a rocky underwater reef. Overfalls can develop, especially in S/SE winds against a spring ebb tide. In the sound between St. Patrick’s and Colt Islands, a lesser overfall can develop over a small bar that extends westwards off the corner of St. Patrick’s.",
+      "latitude": 53.58622764,
+      "longitude": -6.0739187,
+      "region": "->regions.East Coast",
+      "user": "->users.dee"
+    },
+    "Shenick Island": {
+      "imageURL": [],
+      "name": "Shenick Island",
+      "description": "Shenick is the most southerly of the inshore group and is dominated by a Martello tower at its northern end. This is a Birdwatch Ireland reserve since May 1987. Kayakers landing should be sensitive to the effects of disturbance in the breeding season (April / June). The island has both a geological and natural history interest. There are breeding Fulmar, gulls, Oystercatcher and Shelduck, while in winter the numbers of Brent Goose, Curlew, Purple Sandpiper, Ringed Plover and Short-eared Owl make the island a nationally important site. Land easily at the NW side onto a beach under the Martello tower. This beach is on the N side of a spit reaching out W towards the mainland, and is usually sheltered. The passage between Shenick Island and the mainland virtually dries out at LW.",
+      "latitude": 53.57297619,
+      "longitude": -6.08810915,
+      "region": "->regions.East Coast",
+      "user": "->users.dee"
+    },
+    "Rockabill ": {
+      "imageURL": [],
+      "name": "Rockabill",
+      "description": "Rockabill is the larger of two granite rocky islets, strictly called Lighthouse Island. The smaller islet is the Bill and they are connected at LWS. They have a total area of 0.9ha above the high water mark. The lighthouse was first constructed in 1860, and was rebuilt in 1900. It was automated in April 1989. The island was designated as a Special Protection Area in 1988 and as a Statutory Refuge for Fauna under the Wildlife Act 1976. The Roseate Tern Conservation Project began in May 1989 and prevents landing in spring and early summer. Ask Birdwatch Ireland at (01) 2819878 if in doubt. Resident wardens enforce the restrictions. The Roseate Tern is an endangered species so do respect the rules. Ireland takes seriously its duty to Roseate Tern and Brent Goose, its two biggest contributions to international conservation. This conservation programme is one of the huge successes for Birdwatch Ireland. 90% of Ireland’s Roseates breed here, which represents 35% of Europe’s population, so it really is off limits in season. Landing Landing on Lighthouse Island is in the sound between the two islands onto a small pier with steps or onto rocks to the side, depending on circumstances. There is another pier with steps just further E, but which is usually more exposed. A narrow cut immediately right of this pier opens to give a convenient pool at low to half tide for landings. Beware of all landings at HWS when considerable lift can occur.",
+      "latitude": 53.59673708,
+      "longitude": -6.0024417,
+      "region": "->regions.East Coast",
+      "user": "->users.dee"
+    },
+    "Little Saltee Island": {
+      "imageURL": [],
+      "name": "Little Saltee Island",
+      "description": "This island is less frequented than its better-known and more interesting neighbour. Historically, 3 people or so lived on Little Saltee until the mid-19th Century, when rumour insists it was connected to the mainland. Little Saltee was farmed until World War 2. The farm speciality was early-season new potatoes, but corn and other vegetables were also grown. 12 people were needed at harvest time. A thresher was brought over, in parts, in small boats. The island was abandoned and overgrown until recently. Since 1999, the owners now farm pedigree Kerry cows, fallow deer, and since 2003 Soay sheep, from the Scottish island of same name, just S of Skye, well known to climbers. The main house and some of its outbuildings have been made habitable. The courtyard has been tidied. There is a fine ruin of a two-storey barn and interesting remains of corn stands in the yard immediately W of the main building. There are the remains of an old well within the courtyard but it did not hold water in April 2003 and appeared long disused. Landing A flagpole above the main landing on the NW side at X966-996 presumably indicates when the family is in residence. Landing is possible among boulders below the house, normally reasonably sheltered by offshore boulders and rocks. One may also land elsewhere less dependably. Try the SW side on any of three storm beaches facing the Great Saltee. These are very much easier on lower tide levels. Camping The most suitable level ground for camping is in the area just W of the main house. Bracken and bluebells dominate the island and there are few grassy areas along the flatter western side. The vegetation is broken, lumpy and heavily grazed. The most pleasant areas are on the southern edge overlooking the storm beaches and the sound to Great Saltee. Do ask permission if the owners are in residence.",
+      "latitude": 52.14031776,
+      "longitude": -6.58976231,
+      "region": "->regions.South Coast",
+      "user": "->users.dee"
+    },
+    "Keeragh Islands": {
+      "imageURL": [],
+      "name": "Keeragh Islands",
+      "description": "These two islets lie in Ballyteige Bay, 12km W of the Saltees, relatively close inshore. They are small low-lying Birdwatch Ireland bird reserves. There are two distinct islands, but they are always regarded as the one. Landing is awkwardly practical at the N tip of each island, on either side of a projecting spit. On the bigger, northern island, there is an easy beachlet in a cut at the SW, facing the smaller island. Approach from the beach at Cullenstown at S869-077, 2km to the NNE. Stay away in spring and early summer, as nests are too numerous to avoid. The ruin on the larger island was built in 1800 for survivors of shipwrecks, but is now dilapidated. There is still a sealed box inside with what looks like electricity going into it, suggesting a phone? SPA Arctic Tern.",
+      "latitude": 52.67563271,
+      "longitude": -6.72043244,
+      "region": "->regions.South Coast",
+      "user": "->users.dee"
+    },
+    "Hook Penninsula": {
+      "imageURL": [],
+      "name": "Hook Penninsula",
+      "description": "Hook Head is a popular kayaking and scuba diving area based on the main town Fethard. A very attractive area, there is almost always sheltered sea-going hereabouts, almost regardless of wind direction. Beloved of divers, there is always calm water somewhere for the training of beginners. Out at the Head there are arches and blowholes, caves and wrecks, and clear shallow water mostly. The extensive sand beaches at Duncannon and Fethard contrast with the rocky cliffs by the Head itself. Across Waterford Harbour lies the beautiful fishing and tourist village of Dunmore East, to which excursions may be made, landing at the pier, which was the first ever built by Nimmo. Early History The early history of the Hook mirrors the early history of Ireland generally. The rocks locally are all sedimentary, limestones from 510,000,000 BP at the tip, then sandstones mudstones and siltstones progressively northwards. Below Wood Village one can see the four post-ice age strata, a wave cut platform of former shoreline cut in folded siltstones, fossil raised beach, overlying mass of earth called “head”, and on top material called “till”, debris deposited by melting ice sheets 10,000 BP. Ptolemy’s map of Ireland 100+AD recognised the Barrow River (called “Birgos”) and appears to recognise Baginbun Head as a promontory fort known to the locals as Dún Domhnaill. There were 45 ring forts once, built 600 – 900 AD, with 13 surviving. These are now accepted as “one off” farmsteads and not specifically military. Almost all placenames are Viking. Bannow Island is where the Normans landed in 1169, invited in by Dermot McMurrough, the ultimate traitor. In quick time they captured Wexford town. In 1170 Richard leGros with +100 men landed at Baginbun Head, on its sheltered beach, with its defendable promontory, which he then defended successfully in battle against the men of Waterford. Shortly after, Richard deClare (Strongbow) landed at Passage East and together they beat the depleted Waterford defences and took the town. All this is considered good news by modern interpretation, but then the English followed in 1172 (not so good). The lighthouse on the Head itself was the first ever in Ireland, possibly in these islands, and it is the only Irish secular mediaeval building still serving its original function. Guided tours are available all summer. In 1,400+ Slade Castle was constructed. Modern History The story of Duncannon Fort reflects more recent Irish history. When Irish Ireland was soundly defeated at Kinsale in 1603, the island of Ireland was severely under-populated at about 750,000",
+      "latitude": 52.12322973,
+      "longitude": -6.9305066,
+      "region": "->regions.South Coast",
+      "user": "->users.dee"
+    },
+    "Fethard Quay": {
+      "imageURL": [],
+      "name": "Fethard Quay",
+      "description": "Sheltered by Ingard Point, this slipway is the logical local put in point for any group of kayakers heading to sea. The parking is tight here but manageable and with care the locals will not be inconvenienced. Sheltered from all wind directions save the N. Baginbun",
+      "latitude": 52.61365374,
+      "longitude": -6.80934641,
+      "region": "->regions.South Coast",
+      "user": "->users.dee"
+    },
+    "Carrig Island": {
+      "imageURL": [],
+      "name": "Carrig Island",
+      "description": "The S/SW side of the island is joined to the mainland by a small bridge and a spit of marshy, grassy land, covered only by high spring tides. Carrig also has an inhabited farm and a Napoleonic battery at Q977-486 on the NW. The population is 13. The major attraction is the well-preserved Carrigafoyle Castle on the SE. The castle is more accessible from the water. Land at HW to avoid mud flats. The castle is a most interesting waystop, not to be missed by the passer-by. Thought to have been impregnable by 16th Century standards, and in 1580 Lord Pelham wasn’t convinced, and he was proved right. Military design quickly moved towards curved walls as a result. County Limerick",
+      "latitude": 52.57946585,
+      "longitude": -9.50984344,
+      "region": "->regions.Mid West",
+      "user": "->users.dee"
+    },
+    "Canon Island": {
+      "imageURL": [],
+      "name": "Canon Island",
+      "description": "Fourth largest island hereabouts, Canon is cattle farmed. It is nearly split in two, being joined by an area of marshy reeds at its narrow waist. The interior of each sector is very wooded, and would need local knowledge to explore. There is an abandoned farmhouse by the landing spot which is at the usual mud / rock compromise at the S end of the W “beach”. There is a square tower at the NE end, with an Augustinian friary ruined beside it.",
+      "latitude": 52.66975163,
+      "longitude": -9.0561664,
+      "region": "->regions.Mid West",
+      "user": "->users.dee"
+    },
+    "Doon Island": {
+      "imageURL": [],
+      "name": "Doon Island",
+      "description": "Tiny pleasant place, the grass under control courtesy of a herd of goats. Flat and unpretentious, land beside the goat pen under the Elder tree at the NE",
+      "latitude": 52.68675603,
+      "longitude": -9.06397065,
+      "region": "->regions.Mid West",
+      "user": "->users.dee"
+    },
+    "Coney Island": {
+      "imageURL": [],
+      "name": "Coney Island",
+      "description": " 0.5km SW of Deadman’s Point, this is an attractive, low-lying and varied island with a truly remote feel. It is reachable by car with difficulty from the mainland to the SE. If driving, leave the mainland 1km off the Sligo/Strandhill Road at G641-369. Posts mark the roadway across 3km of sand. Do not attempt to drive closer than +/- 0230HW locally, which is Galway +0040. If circumnavigating by kayak (strictly top of the tide) the passage is between the 3rd and 4th posts from the island. Landing Land easiest at a pier in a small bay at G623-394 facing the mainland and Oyster Island, just N of Wards Pub at G623-391. For kayakers, the nicest aspect of the island is the W-facing beach mid-W side. Camping is possible at the N end of this beach in a lay-by at the end of the island road. Dunes cover the S end of the island. Beware of the seas off this beach which can be dangerous. Fauna Coney badgers have white noses. Many rabbit. Mink. Rock Pipit. Dunlin. Of the four islands called Coney Island in Ireland, this is the one that gave its name to Coney Island in New York. Sligoman captain Peter O’Connor plied the Atlantic aboard the Arethusa 240 years ago, and named the now better known American version after his homeplace.",
+      "latitude": 54.29653919,
+      "longitude": -8.59511879,
+      "region": "->regions.Mid West",
+      "user": "->users.dee"
+    }
+  }
+}

@@ -113,6 +113,7 @@ const Islands = {
       try {
         const region = request.query["region"]; // retrieve the query passed from the regionCategories partial e.g., "href="/dashboard/getIslands?region=North East"" The URL ends at ? and query starts after ?
         const userId = request.auth.credentials.id;
+        const user = await User.findById(userId).lean();
         const regions = await Region.find({}).lean(); // adding all region details into the view to enable the drop down menu to display all Region Categories in the DB
 
         let userIslandsInRegion;
@@ -134,6 +135,7 @@ const Islands = {
         return h.view("dashboard", {
           userIslands: userIslandsInRegion,
           userId: userId,
+          user: user,
           regions: regions
         });
       } catch (err) {

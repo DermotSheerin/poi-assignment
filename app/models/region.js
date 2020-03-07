@@ -4,7 +4,8 @@ const Mongoose = require("mongoose");
 const Schema = Mongoose.Schema;
 
 const regionSchema = new Schema({
-  region: String
+  region: String,
+  adminOwner: Boolean
 });
 
 regionSchema.statics.findByRegionName = function(region) {
