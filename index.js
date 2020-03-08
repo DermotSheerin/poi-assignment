@@ -28,7 +28,8 @@ async function init() {
   await server.register(require("@hapi/vision")); // https://hapi.dev/family/vision/ - Template rendering support for hapi.js - vision is part of the hapi ecosystem.
   await server.register(require("@hapi/cookie"));
 
-  ImageStore.configure(credentials);
+  //ImageStore.configure(credentials);
+  ImageStore.configure();
   server.validator(require("@hapi/joi")); // initialise Hapi
 
   server.views({
