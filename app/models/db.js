@@ -20,7 +20,7 @@ async function seed() {
   console.log(dbData);
 }
 
-Mongoose.connect(process.env.db);
+Mongoose.connect(process.env.db, { useFindAndModify: false }); // to prevent several deprecations in the MongoDB Node.js driver --> https://mongoosejs.com/docs/deprecations.html#-findandmodify-
 const db = Mongoose.connection;
 
 db.on("error", function(err) {

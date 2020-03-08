@@ -4,7 +4,6 @@
 const User = require("../models/user");
 const Boom = require("@hapi/boom");
 const Joi = require("@hapi/joi");
-const Island = require("../models/island");
 
 const Accounts = {
   // home page (index)
@@ -63,8 +62,8 @@ const Accounts = {
           lastName: payload.lastName,
           email: payload.email,
           password: payload.password,
-          userRole: "member",
-          islandCount: 0
+          userRole: "member", // all users signing up will be members
+          islandCount: 0 // set islandCount to zero on registration, this will be used to track the amount of Islands created by each user
         });
         user = await newUser.save();
         request.cookieAuth.set({ id: user.id }); // This is how we can set a session cookie
@@ -108,7 +107,7 @@ const Accounts = {
         }
         user.comparePassword(password);
         request.cookieAuth.set({ id: user.id });
-        if (user.userRole == "admin") return h.redirect("/adminDashboard");
+        if (user.userRole === "admin") return h.redirect("/adminDashboard");
         // if user is an admin then redirect to the admin Dashboard, otherwise redirect to member dashboard for regular members
         else return h.redirect("/dashboard");
       } catch (err) {
@@ -135,12 +134,7 @@ const Accounts = {
           user: user
         });
       } catch (err) {
-        if (user.role == "member")
-          return h.view("dashboard", { errors: [{ message: err.message }] });
-        else
-          return h.view("adminDashboard", {
-            errors: [{ message: err.message }]
-          });
+        return h.view("dashboard", { errors: [{ message: err.message }] });
       }
     }
   },
@@ -161,7 +155,7 @@ const Accounts = {
       failAction: function(request, h, error) {
         return h
           .view("settings", {
-            title: "Sign up error",
+            title: "Update Settings Error",
             errors: error.details,
             user: request.payload // On page refresh, re-populate the fields with their current values (leaving the problematic fields in their incorrect state)
           })

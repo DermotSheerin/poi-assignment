@@ -60,6 +60,7 @@ module.exports = [
 
   // Island
   { method: "POST", path: "/addIsland", config: Island.addIsland },
+
   {
     method: "GET",
     path: "/adminDashboard/{id}",
