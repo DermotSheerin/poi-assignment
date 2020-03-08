@@ -1,0 +1,13 @@
+<div class="ui link cards">
+    {{#each islandDetails.imageURL}}
+        <div class="card">
+            <div class="image">
+                <img src="{{[0]}}" class="ui medium image">
+            </div>
+            <div class="header">
+                <a href="/dashboard/showIslandDetails/{{../islandDetails._id}}/deleteImage/{{[1]}}" class="ui icon button">
+                    <i class="icon large red alternate trash"></i> </a>
+            </div>
+        </div>
+    {{/each}}
+</div>
