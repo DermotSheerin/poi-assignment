@@ -4,13 +4,15 @@
             <label>Region/Category <i class="ie flag"></i> </label>
             <select name="region">
                 {{#each regions}}
+                    {{#unless adminOwner}} <!-- unless adminOwner field is true then display the region, implemented this to avoid the 'All Regions' region appearing which is there for search purposes, not to assign islands to -->
                             <option value="{{region}}">{{region}}</option>
+                        {{/unless}}
                 {{/each}}
             </select>
         </div>
         <div class="field">
             <label>Island Name</label>
-            <input placeholder="Island Name" value="{{island.name}}" type="text" name="name" >
+            <input placeholder="Island Name" value="{{island.name}}" type="text" name="name" required>
         </div>
     </div>
         <div class="field">
@@ -20,11 +22,11 @@
         <div class="two fields">
             <div class="field">
                 <label>Latitude</label>
-                <input placeholder="Latitude"  value="{{island.latitude}}" type="text"  name="latitude" >
+                <input placeholder="Latitude"  value="{{island.latitude}}" type="number"  step="any" name="latitude" required>
             </div>
             <div class="field">
                 <label>Longitude</label>
-                <input placeholder="Longitude"  value="{{island.longitude}}" type="text"  name="longitude" >
+                <input placeholder="Longitude"  value="{{island.longitude}}" type="number" step="any"  name="longitude" required>
             </div>
         </div>
     <button class="ui blue submit button">Add Island</button>

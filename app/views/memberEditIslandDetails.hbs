@@ -6,9 +6,13 @@
         {{> memberEditDetailsForm}}
 
         <aside class="ui six wide column">
-            <img src="{{islandDetails.imageURL.[0]}}" class="ui large image">
+            <img src="{{islandDetails.imageURL.[0].[0]}}" class="ui large image">
             {{> upload}}
             <h2><span class="ui medium red text">{{noFile}}</span></h2>
         </aside>
+
+        {{> memberIslandGallery}}
+
     </div>
+    {{> error}}
 </section>

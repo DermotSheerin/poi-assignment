@@ -35,9 +35,11 @@ const ImageStore = {
   deleteUserIslandImages: async function(userIslands) {
     userIslands.forEach(getImageURL); // pass in the users Islands into a forEach and call a function once for each island in the array
     async function getImageURL(island) {
-      // each island that contains an image, pass the ID of the image to the deleteImage function to delete on cloudinary
       if (island.imageURL.length) {
-        await ImageStore.deleteImage(island.imageURL[1]); // pass in the image ID to the deleteImage function
+        island.imageURL.forEach(deleteImageURL); // // for each Image array in the island, call the deleteImageURL function and pass the image ID to the deleteImage function to be deleted on Cloudinary
+        async function deleteImageURL(imageURL) {
+          await ImageStore.deleteImage(imageURL[1]);
+        }
       }
     }
   }

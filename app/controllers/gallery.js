@@ -13,34 +13,31 @@ const Gallery = {
           images: allImages
         });
       } catch (err) {
-        console.log(err);
+        return h.view("memberEditIslandDetails", {
+          errors: [{ message: err.message }]
+        });
       }
     }
   },
 
   uploadFile: {
     handler: async function(request, h) {
+      let islandLean;
       try {
         const islandID = request.params.islandID;
         const islandDetails = await Island.findById(islandID);
+        islandLean = await Island.findById(islandID).lean();
         const file = request.payload.imagefile;
         if (Object.keys(file).length > 0) {
           const result = await ImageStore.uploadImage(file);
-          islandDetails.imageURL.splice(0, islandDetails.imageURL.length); // empty the image array in the island schema before adding new Images
-          islandDetails.imageURL.set(0, result.secure_url); // place the Image URL into index 0 of imageURL array in Island schema
-          islandDetails.imageURL.set(1, result.public_id); // place the Image ID into index 1 of imageURL array in Island schema
+          islandDetails.imageURL.push([result.secure_url, result.public_id]); // place the Image URL into index 0 of imageURL array in Island schema
           await islandDetails.save(); // Note using the above array provides a possible base for future development where I can upload multiple images per island
-          console.log(`stalling.....${islandDetails}`);
           return h.redirect("/dashboard/showIslandDetails/" + islandID);
         }
-        return h.redirect(
-          // In the event the user selects 'upload' without uploading a file I redirect to the same page but pass an informational message in a query that is displayed in the view
-          "/dashboard/showIslandDetails/" +
-            islandID +
-            "?noFile=No File Selected !" // In a later release I will attempt to implement JQuery to perform a similiar task, for now this will suffice and achieve what I need
-        );
       } catch (err) {
-        console.log(err);
+        return h.view("memberEditIslandDetails", {
+          errors: [{ message: err.message }]
+        });
       }
     },
     payload: {
@@ -49,6 +46,18 @@ const Gallery = {
       maxBytes: 209715200,
       parse: true
     }
+    // UNUSED CODE
+    // const message =
+    //   "No File Selected for Upload! Please choose a file to Upload before clicking 'Upload'";
+    // throw Boom.badData(message);
+
+    // Original code to handle user not selecting a file to upload
+    // return h.redirect(
+    //   // In the event the user selects 'upload' without uploading a file I redirect to the same page but pass an informational message in a query that is displayed in the view
+    //   "/dashboard/showIslandDetails/" +
+    //     islandID +
+    //     "?noFile=No File Selected !" // In a later release I will attempt to implement JQuery to perform a similiar task, for now this will suffice and achieve what I need
+    // );
   },
 
   deleteImage: {
@@ -58,12 +67,15 @@ const Gallery = {
         const imageID = request.params.imageID;
         await ImageStore.deleteImage(imageID); // delete image from Cloudinary
         const island = await Island.findById(islandID);
-        island.imageURL.splice(0, island.imageURL.length); // empty the image array in the island schema
+        await Island.findByIdAndUpdate(
+          // find the Island and pull the array that contains the imageID
+          { _id: islandID },
+          { $pull: { imageURL: { $in: [imageID] } } }
+        );
         await island.save();
-        console.log(`here is island obj after clear array: ${island}`);
         return h.redirect("/dashboard/showIslandDetails/" + islandID);
       } catch (err) {
-        console.log(err);
+        return h.view("dashboard", { errors: [{ message: err.message }] });
       }
     }
   }

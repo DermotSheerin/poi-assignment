@@ -20,16 +20,16 @@
             </div>
             <div class="field">
                 <label>Description</label>
-                <textarea rows="5" placeholder="Description" name="description"> {{islandDetails.description}} </textarea>
+                <textarea rows="8" placeholder="Description" name="description"> {{islandDetails.description}} </textarea>
             </div>
             <div class="two fields">
                 <div class="field">
                     <label>Latitude</label>
-                    <input placeholder="Latitude" value="{{islandDetails.latitude}}" type="text" name="latitude" required>
+                    <input placeholder="Latitude" value="{{islandDetails.latitude}}" type="number"  step="any" name="latitude" required>
                 </div>
                 <div class="field">
                     <label>Longitude</label>
-                    <input placeholder="Longitude" value="{{islandDetails.longitude}}" type="text" name="latitude" required>
+                    <input placeholder="Longitude" value="{{islandDetails.longitude}}" type="number"  step="any" name="longitude" required>
                 </div>
             </div>
             <button class="ui blue submit button">Save</button>
@@ -37,6 +37,5 @@
                 <button class="ui red submit button">Return to Dashboard</button>
             </a>
         </form>
-        {{> error }}
     </div>
 </div>

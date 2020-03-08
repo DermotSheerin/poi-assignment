@@ -1,19 +1,23 @@
-const Boom = require("@hapi/boom");
-const Island = require("../models/island");
 const Region = require("../models/region");
-const RegionUtil = require("../utils/region-util");
+const User = require("../models/user");
 
 const Dashboard = {
   dashboard: {
     handler: async function(request, h) {
-      const userId = request.auth.credentials.id;
-      const regions = await Region.find({}).lean();
+      try {
+        const userId = request.auth.credentials.id;
+        const user = await User.findById(userId).lean();
+        const regions = await Region.find({}).lean();
 
-      return h.view("dashboard", {
-        title: "POI Dashboard",
-        userId: userId,
-        regions: regions
-      });
+        return h.view("dashboard", {
+          title: "POI Dashboard",
+          userId: userId,
+          user: user,
+          regions: regions
+        });
+      } catch (err) {
+        return h.view("dashboard", { errors: [{ message: err.message }] });
+      }
     }
   }
 };

@@ -5,8 +5,6 @@ const User = require("../models/user");
 const Joi = require("@hapi/joi");
 const ImageStore = require("../utils/image-store");
 
-const Boom = require("@hapi/boom");
-
 const Islands = {
   addIsland: {
     validate: {
@@ -14,7 +12,7 @@ const Islands = {
       payload: {
         region: Joi.string(),
         name: Joi.string().required(),
-        description: Joi.string().required(),
+        description: Joi.string(),
         latitude: Joi.number().required(),
         longitude: Joi.number().required()
       },
@@ -55,55 +53,75 @@ const Islands = {
 
         return h.redirect("/dashboard/listIslands"); // display full list of islands for user once they add a new island
       } catch (err) {
-        errors: [{ message: err.message }];
+        return h.view("dashboard", { errors: [{ message: err.message }] });
       }
     }
   },
 
   listIslands: {
     handler: async function(request, h) {
-      const userId = request.auth.credentials.id;
-      const user = await User.findById(userId).lean();
-      const regions = await Region.find({}).lean(); // adding all region details into the view to enable the drop down menu to display all Region Categories in the DB
+      try {
+        const userId = request.auth.credentials.id;
+        const user = await User.findById(userId).lean();
+        const regions = await Region.find({}).lean(); // adding all region details into the view to enable the drop down menu to display all Region Categories in the DB
 
-      const userIslands = await Island.findIslandsByUserId(userId)
-        .populate("user")
-        .populate("region")
-        .lean(); // Retrieve all islands belonging to this user and render to view
-      return h.view("dashboard", {
-        userIslands,
-        user,
-        regions
-      });
+        const userIslands = await Island.findIslandsByUserId(userId)
+          .populate("user")
+          .populate("region")
+          .lean(); // Retrieve all islands belonging to this user and render to view
+        return h.view("dashboard", {
+          userIslands,
+          user,
+          regions
+        });
+      } catch (err) {
+        return h.view("dashboard", { errors: [{ message: err.message }] });
+      }
     }
   },
 
   deleteUserIsland: {
     handler: async function(request, h) {
-      const loggedInUserId = request.auth.credentials.id;
-      const loggedInUser = await User.findById(loggedInUserId).lean();
-      const islandId = request.params.id;
-      const userID = request.params.userID;
-      const islandDetails = await Island.findById(islandId).lean();
-      await ImageStore.deleteImage(islandDetails.imageURL[1]); // delete image from Cloudinary
-      console.log("any joy here " + islandDetails);
-      await Island.findByIdAndRemove(islandId); // delete island
+      try {
+        const loggedInUserId = request.auth.credentials.id;
+        const loggedInUser = await User.findById(loggedInUserId).lean();
+        const islandId = request.params.id;
+        const userID = request.params.userID;
+        const islandDetails = await Island.findById(islandId).lean();
 
-      // depending on whether the admin or member calls this handler, perform the following
-      if (loggedInUser.userRole === "admin") {
-        const user = await User.findByIdAndUpdate(userID, {
-          // find the User by ID and decrement the islandCount by 1
-          $inc: { islandCount: -1 }
-        });
-        await user.save();
-        return h.redirect("/adminDashboard/" + userID);
-      } else {
-        const user = await User.findByIdAndUpdate(loggedInUserId, {
-          // find the User by ID and decrement the islandCount by 1
-          $inc: { islandCount: -1 }
-        });
-        await user.save();
-        return h.redirect("/dashboard/listIslands");
+        if (islandDetails.imageURL.length) {
+          // if the island contains images
+          islandDetails.imageURL.forEach(deleteImageURL); // for each Image array in the island, call the deleteImageURL function and pass the image ID to the deleteImage function to be deleted on Cloudinary
+          async function deleteImageURL(imageURL) {
+            await ImageStore.deleteImage(imageURL[1]);
+          }
+        }
+        await Island.findByIdAndRemove(islandId); // delete island
+
+        // depending on whether the admin or member calls this handler, perform the following
+        if (loggedInUser.userRole === "admin") {
+          const user = await User.findByIdAndUpdate(userID, {
+            // find the User by ID and decrement the islandCount by 1
+            $inc: { islandCount: -1 }
+          });
+          await user.save();
+          return h.redirect("/adminDashboard/" + userID);
+        } else {
+          const user = await User.findByIdAndUpdate(loggedInUserId, {
+            // find the User by ID and decrement the islandCount by 1
+            $inc: { islandCount: -1 }
+          });
+          await user.save();
+          return h.redirect("/dashboard/listIslands");
+        }
+      } catch (err) {
+        if (loggedInUser.userRole === "admin") {
+          return h.view("adminDashboard", {
+            errors: [{ message: err.message }]
+          });
+        } else {
+          return h.view("dashboard", { errors: [{ message: err.message }] });
+        }
       }
     }
   },
@@ -113,6 +131,7 @@ const Islands = {
       try {
         const region = request.query["region"]; // retrieve the query passed from the regionCategories partial e.g., "href="/dashboard/getIslands?region=North East"" The URL ends at ? and query starts after ?
         const userId = request.auth.credentials.id;
+        const user = await User.findById(userId).lean();
         const regions = await Region.find({}).lean(); // adding all region details into the view to enable the drop down menu to display all Region Categories in the DB
 
         let userIslandsInRegion;
@@ -134,6 +153,7 @@ const Islands = {
         return h.view("dashboard", {
           userIslands: userIslandsInRegion,
           userId: userId,
+          user: user,
           regions: regions
         });
       } catch (err) {
@@ -145,30 +165,42 @@ const Islands = {
   showMembersIslands: {
     // retrieve member islands for the admin view
     handler: async function(request, h) {
-      const userID = request.params.id;
-      const userIslands = await Island.findIslandsByUserId(userID)
-        .populate("user")
-        .populate("region")
-        .lean();
-      return h.view("adminListIslands", {
-        userIslands: userIslands,
-        userID: userID
-      });
+      try {
+        const userID = request.params.id;
+        const userIslands = await Island.findIslandsByUserId(userID)
+          .populate("user")
+          .populate("region")
+          .lean();
+        return h.view("adminListIslands", {
+          userIslands: userIslands,
+          userID: userID
+        });
+      } catch (err) {
+        return h.view("adminListIslands", {
+          errors: [{ message: err.message }]
+        });
+      }
     }
   },
 
   showIslandDetails: {
     handler: async function(request, h) {
-      const islandId = request.params.id;
-      const noFile = request.query["noFile"]; // In the event the user selects 'upload' when uploading an image (without uploading a file) I redirect to the same page but pass an informational message in a query that is displayed in the view ie., 'No File to Upload
-      const islandDetails = await Island.findById(islandId)
-        .populate("region")
-        .populate("user")
-        .lean();
-      return h.view("memberEditIslandDetails", {
-        islandDetails: islandDetails,
-        noFile: noFile // Passing error message when no file is selected - future release will possibly implement a JQuery action to hide the upload button until a file as been uploaded
-      });
+      try {
+        const islandId = request.params.id;
+        const noFile = request.query["noFile"]; // In the event the user selects 'upload' when uploading an image (without uploading a file) I redirect to the same page but pass an informational message in a query that is displayed in the view ie., 'No File to Upload
+        const islandDetails = await Island.findById(islandId)
+          .populate("region")
+          .populate("user")
+          .lean();
+        return h.view("memberEditIslandDetails", {
+          islandDetails: islandDetails,
+          noFile: noFile // Passing error message when no file is selected - future release will possibly implement a JQuery action to hide the upload button until a file as been uploaded
+        });
+      } catch (err) {
+        return h.view("memberEditIslandDetails", {
+          errors: [{ message: err.message }]
+        });
+      }
     }
   },
 
@@ -183,12 +215,10 @@ const Islands = {
           // retrieve island object using the island ID
           "region"
         );
-        console.log(`here are islands details BEFORE change ${islandDetails}`);
         islandDetails.region = newRegionObject; // set the new region
         islandDetails.name = updateIsland.name; // upd  ate island name
         islandDetails.description = updateIsland.description; // update island description
         await islandDetails.save();
-        console.log(`here are islands details AFTER save ${islandDetails}`);
         return h.redirect("/dashboard/listIslands");
       } catch (err) {
         return h.view("dashboard", { errors: [{ message: err.message }] });
