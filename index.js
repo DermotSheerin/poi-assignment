@@ -4,30 +4,24 @@ const ImageStore = require("./app/utils/image-store");
 const Hapi = require("@hapi/hapi");
 require("./app/models/db");
 
-const dotenv = require("dotenv");
+// const dotenv = require("dotenv"); --> comment out for deployment
 
 const server = Hapi.server({
   port: process.env.PORT || 3000
 });
 
-const credentials = {
-  cloud_name: process.env.name,
-  api_key: process.env.key,
-  api_secret: process.env.secret
-};
+// const credentials = {
+//   cloud_name: process.env.name,
+//   api_key: process.env.key,
+//   api_secret: process.env.secret
+// };
 
-const result = dotenv.config();
-if (result.error) {
-  //  introduce a more orderly and informative error message + exit if there are problems starting the application
-  console.log(result.error.message);
-  process.exit(1);
-
-  // Original config for local deployment
-  // const server = Hapi.server({
-  //   port: 3000,
-  //   host: "localhost"
-  // });
-}
+// const result = dotenv.config(); --> comment out for deployment
+// if (result.error) {
+//   //  introduce a more orderly and informative error message + exit if there are problems starting the application
+//   console.log(result.error.message);
+//   process.exit(1);
+// }
 
 async function init() {
   await server.register(require("@hapi/inert")); // registering the plugins
