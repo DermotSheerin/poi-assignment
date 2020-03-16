@@ -187,14 +187,14 @@ const Islands = {
     handler: async function(request, h) {
       try {
         const islandId = request.params.id;
-        const noFile = request.query["noFile"]; // In the event the user selects 'upload' when uploading an image (without uploading a file) I redirect to the same page but pass an informational message in a query that is displayed in the view ie., 'No File to Upload
+        const regions = await Region.find({}).lean();
         const islandDetails = await Island.findById(islandId)
           .populate("region")
           .populate("user")
           .lean();
         return h.view("memberEditIslandDetails", {
           islandDetails: islandDetails,
-          noFile: noFile // Passing error message when no file is selected - future release will possibly implement a JQuery action to hide the upload button until a file as been uploaded
+          regions: regions
         });
       } catch (err) {
         return h.view("memberEditIslandDetails", {
@@ -216,7 +216,7 @@ const Islands = {
           "region"
         );
         islandDetails.region = newRegionObject; // set the new region
-        islandDetails.name = updateIsland.name; // upd  ate island name
+        islandDetails.name = updateIsland.name; // update island name
         islandDetails.description = updateIsland.description; // update island description
         await islandDetails.save();
         return h.redirect("/dashboard/listIslands");

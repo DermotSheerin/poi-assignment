@@ -4,29 +4,26 @@ const ImageStore = require("./app/utils/image-store");
 const Hapi = require("@hapi/hapi");
 require("./app/models/db");
 
+// COMMENT OUT FOR PUBLIC DEPLOYMENT
 const dotenv = require("dotenv");
 
 const server = Hapi.server({
   port: process.env.PORT || 3000
 });
 
+// COMMENT OUT FOR PUBLIC DEPLOYMENT
 const credentials = {
   cloud_name: process.env.name,
   api_key: process.env.key,
   api_secret: process.env.secret
 };
 
+// COMMENT OUT FOR PUBLIC DEPLOYMENT
 const result = dotenv.config();
 if (result.error) {
   //  introduce a more orderly and informative error message + exit if there are problems starting the application
   console.log(result.error.message);
   process.exit(1);
-
-  // Original config for local deployment
-  // const server = Hapi.server({
-  //   port: 3000,
-  //   host: "localhost"
-  // });
 }
 
 async function init() {
@@ -35,6 +32,8 @@ async function init() {
   await server.register(require("@hapi/cookie"));
 
   ImageStore.configure(credentials);
+  // USE THE FOLLOWING FOR PUBLIC DEPLOYMENT
+  //ImageStore.configure();
   server.validator(require("@hapi/joi")); // initialise Hapi
 
   server.views({
