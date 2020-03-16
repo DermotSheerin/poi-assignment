@@ -216,7 +216,7 @@ const Islands = {
           "region"
         );
         islandDetails.region = newRegionObject; // set the new region
-        islandDetails.name = updateIsland.name; // upd  ate island name
+        islandDetails.name = updateIsland.name; // update island name
         islandDetails.description = updateIsland.description; // update island description
         await islandDetails.save();
         return h.redirect("/dashboard/listIslands");
