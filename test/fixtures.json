@@ -1,5 +1,5 @@
 {
-  "donationService": "YOUR SERVER HERE",
+  "islandService": "YOUR SERVER HERE",
   "users": [
     {
       "firstName": "Homer",
@@ -19,28 +19,5 @@
       "email": "bart@simpson.com",
       "password": "secret"
     }
-  ],
-  "candidates": [
-    {
-      "firstName": "Lisa",
-      "lastName": "Simpson",
-      "office": "President"
-    },
-    {
-      "firstName": "Donald",
-      "lastName": "Simpson",
-      "office": "President"
-    }
-  ],
-  "newCandidate": {
-    "firstName": "Barnie",
-    "lastName": "Grumble",
-    "office": "President"
-  },
-  "newUser": {
-    "firstName": "Maggie",
-    "lastName": "Simpson",
-    "email": "maggie@simpson.com",
-    "password": "secret"
-  }
+  ]
 }

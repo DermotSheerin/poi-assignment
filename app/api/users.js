@@ -2,42 +2,37 @@
 
 const User = require("../models/user");
 const Boom = require("@hapi/boom");
+const Joi = require("@hapi/joi");
 
 const Users = {
-  find: {
-    auth: false,
-    handler: async function(request, h) {
-      const users = await User.find();
-      return users;
-    }
-  },
-
-  // Dermot mess test
-  // findBart: {
-  //     //     auth: false,
-  //     //     handler: async function(request, h) {
-  //     //         const bart = await User.findOne({firstName: 'Bart'});
-  //     //         return bart;
-  //     //     }
-  //     // },
-
-  findOne: {
-    auth: false,
-    handler: async function(request, h) {
-      try {
-        const user = await User.findOne({ _id: request.params.id });
-        if (!user) {
-          return Boom.notFound("No User with this id");
-        }
-        return user;
-      } catch (err) {
-        return Boom.notFound("No User with this id");
-      }
-    }
-  },
-
   create: {
     auth: false,
+    validate: {
+      //  Hapi scoped module for validation
+      payload: {
+        // payload: his defines a schema which defines rules that our fields must adhere to
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        email: Joi.string()
+          .email()
+          .required(),
+        password: Joi.string().required()
+      },
+      options: {
+        abortEarly: false
+      },
+      failAction: function(request, h, error) {
+        // failAction: This is the handler to invoke if one or more of the fields fails the validation.
+        return h
+          .view("signup", {
+            title: "Sign up error",
+            errors: error.details,
+            user: request.payload // pass the details entered by the user into the signup view to avoid user having to re-enter some fields
+          })
+          .takeover()
+          .code(400);
+      }
+    },
     handler: async function(request, h) {
       const newUser = new User(request.payload);
       const user = await newUser.save();
@@ -65,7 +60,39 @@ const Users = {
       }
       return Boom.notFound("id not found");
     }
+  },
+
+  findOne: {
+    auth: false,
+    handler: async function(request, h) {
+      try {
+        const user = await User.findOne({ _id: request.params.id });
+        if (!user) {
+          return Boom.notFound("No User with this id");
+        }
+        return user;
+      } catch (err) {
+        return Boom.notFound("No User with this id");
+      }
+    }
+  },
+
+  find: {
+    auth: false,
+    handler: async function(request, h) {
+      const users = await User.find();
+      return users;
+    }
   }
+
+  // Dermot mess test
+  // findBart: {
+  //     //     auth: false,
+  //     //     handler: async function(request, h) {
+  //     //         const bart = await User.findOne({firstName: 'Bart'});
+  //     //         return bart;
+  //     //     }
+  //     // },
 };
 
 module.exports = Users;
