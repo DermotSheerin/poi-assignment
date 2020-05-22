@@ -1,5 +1,5 @@
 {
-  "islandService": "YOUR SERVER HERE",
+  "islandService": "http://localhost:3000",
   "users": [
     {
       "firstName": "Homer",
@@ -19,5 +19,11 @@
       "email": "bart@simpson.com",
       "password": "secret"
     }
-  ]
+  ],
+  "newUser": {
+    "firstName": "Maggie",
+    "lastName": "Simpson",
+    "email": "maggie@simpson.com",
+    "password": "secret"
+  }
 }
