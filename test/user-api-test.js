@@ -11,13 +11,13 @@ suite("Candidate API tests", function() {
 
   const islandService = new IslandService(fixtures.islandService);
 
-  setup(async function() {
-    await islandService.deleteAllUsers();
-  });
-
-  teardown(async function() {
-    await islandService.deleteAllUsers();
-  });
+  // setup(async function() {
+  //   await islandService.deleteAllUsers();
+  // });
+  //
+  // teardown(async function() {
+  //   await islandService.deleteAllUsers();
+  // });
 
   // test('check if Bart exists', async function () {
   //   const bart = await donationService.getBart();

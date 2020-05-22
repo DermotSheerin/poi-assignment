@@ -3,6 +3,7 @@
 const ImageStore = require("./app/utils/image-store");
 const Hapi = require("@hapi/hapi");
 require("./app/models/db");
+const utils = require("./app/api/utils.js");
 
 // COMMENT OUT FOR PUBLIC DEPLOYMENT
 const dotenv = require("dotenv");
@@ -31,6 +32,7 @@ async function init() {
   await server.register(require("@hapi/inert")); // registering the plugins
   await server.register(require("@hapi/vision")); // https://hapi.dev/family/vision/ - Template rendering support for hapi.js - vision is part of the hapi ecosystem.
   await server.register(require("@hapi/cookie"));
+  await server.register(require("hapi-auth-jwt2"));
 
   ImageStore.configure(credentials);
   // USE THE FOLLOWING FOR PUBLIC DEPLOYMENT
@@ -58,6 +60,12 @@ async function init() {
       isSecure: false
     },
     redirectTo: "/"
+  });
+
+  server.auth.strategy("jwt", "jwt", {
+    key: "secretpasswordnotrevealedtoanyone",
+    validate: utils.validate,
+    verifyOptions: { algorithms: ["HS256"] }
   });
 
   server.auth.default("session"); // protect all routes with the standard security strategy. We set this up as the strategy for all routes
