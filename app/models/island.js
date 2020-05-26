@@ -26,6 +26,11 @@ islandSchema.statics.findUserIslandsInRegion = function(regionId, userId) {
   return this.find({ region: regionId, user: userId });
 };
 
+// api retrieve islands in region
+islandSchema.statics.findIslandsInRegion = function(region) {
+  return this.find({ region: region });
+};
+
 islandSchema.statics.deleteIslandsByUserId = function(userId) {
   return this.find({ user: userId }).deleteMany(); // deletes every island document that matches the filter i.e., the userId passed in, in the collection
 };

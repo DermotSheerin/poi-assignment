@@ -1,7 +1,7 @@
 "use strict";
 
 const Users = require("./app/api/users");
-const RegionCategories = require("./app/api/regionCategories");
+const Islands = require("./app/api/islands");
 
 module.exports = [
   { method: "POST", path: "/api/users", config: Users.create },
@@ -18,7 +18,13 @@ module.exports = [
 
   {
     method: "GET",
-    path: "/api/regionCategories",
-    config: RegionCategories.find
+    path: "/api/islands/regionCategories",
+    config: Islands.find
+  },
+
+  {
+    method: "GET",
+    path: "/api/islands/regionCategories/{filter}",
+    config: Islands.categoryFilter
   }
 ];
