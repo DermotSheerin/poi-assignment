@@ -13,4 +13,8 @@ regionSchema.statics.findByRegionName = function(region) {
   return this.findOne({ region: region });
 };
 
+// regionSchema.statics.findUserIslandsInRegion = function(regionId, userId) {
+//   return this.find({ region: regionId, user: userId });
+// };
+
 module.exports = Mongoose.model("Region", regionSchema);
