@@ -2,8 +2,10 @@
 
 const Users = require("./app/api/users");
 const Islands = require("./app/api/islands");
+const Regions = require("./app/api/regions");
 
 module.exports = [
+  // Users
   { method: "POST", path: "/api/users", config: Users.create },
   {
     method: "POST",
@@ -16,15 +18,22 @@ module.exports = [
   { method: "DELETE", path: "/api/users/{id}", config: Users.deleteOne },
   { method: "DELETE", path: "/api/users", config: Users.deleteAll },
 
+  // Region/Category
   {
     method: "GET",
-    path: "/api/islands/regionCategories",
-    config: Islands.find
+    path: "/api/regions/listRegions",
+    config: Regions.find
   },
 
+  // Islands
   {
     method: "GET",
     path: "/api/islands/regionCategories/{filter}",
     config: Islands.categoryFilter
+  },
+  {
+    method: "POST",
+    path: "/api/islands/addIsland",
+    config: Islands.addIsland
   }
 ];

@@ -11,11 +11,11 @@ const islandSchema = new Schema({
   region: {
     type: Schema.Types.ObjectId,
     ref: "Region"
-  },
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: "User"
   }
+  // user: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "User"
+  // }
 });
 
 islandSchema.statics.findIslandsByUserId = function(userId) {

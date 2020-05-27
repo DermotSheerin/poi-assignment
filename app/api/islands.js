@@ -7,11 +7,54 @@ const Joi = require("@hapi/joi");
 const utils = require("./utils.js");
 
 const Islands = {
-  find: {
+  addIsland: {
     auth: false,
+    // validate: {
+    //   //  Hapi scoped module for validation
+    //   payload: {
+    //     region: Joi.string(),
+    //     name: Joi.string().required(),
+    //     description: Joi.string(),
+    //     latitude: Joi.number().required(),
+    //     longitude: Joi.number().required()
+    //   },
+    //   options: {
+    //     abortEarly: false
+    //   },
+    //   failAction: async function(request, h, error) {
+    //     return h
+    //         .view("dashboard", {
+    //           errors: error.details,
+    //           island: request.payload // pass the details entered by the user into the view to avoid user having to re-enter fields
+    //         })
+    //         .takeover()
+    //         .code(400);
+    //   }
+    // },
     handler: async function(request, h) {
-      const regionCategories = await Region.find();
-      return regionCategories;
+      try {
+        //const userId = request.auth.credentials.id;
+        const data = request.payload;
+        const newIsland = new Island({
+          name: data.name,
+          description: data.description,
+          latitude: data.latitude,
+          longitude: data.longitude,
+          region: data.regionCategory
+          //          user: userId
+        });
+        await newIsland.save();
+
+        // const user = await User.findByIdAndUpdate(userId, {
+        //   // find the User by ID and increment the islandCount by 1
+        //   $inc: { islandCount: 1 }
+        // });
+        // await user.save();
+
+        return h.response(newIsland).code(201);
+      } catch (err) {
+        return h.view("dashboard", { errors: [{ message: err.message }] });
+      }
     }
   },
 
