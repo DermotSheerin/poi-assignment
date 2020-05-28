@@ -33,15 +33,15 @@ const Islands = {
     // },
     handler: async function(request, h) {
       try {
-        //const userId = request.auth.credentials.id;
+        const userId = utils.getUserIdFromRequest(request); // retrieve the userId from request
         const data = request.payload;
         const newIsland = new Island({
           name: data.name,
           description: data.description,
           latitude: data.latitude,
           longitude: data.longitude,
-          region: data.regionCategory
-          //          user: userId
+          region: data.regionCategory,
+          user: userId
         });
         await newIsland.save();
 
@@ -58,19 +58,34 @@ const Islands = {
     }
   },
 
+  getUserIslands: {
+    auth: false,
+    handler: async function(request, h) {
+      const userId = request.params.userId;
+      const userIslands = await Island.findIslandsByUserId(userId)
+        .populate("user")
+        .populate("region")
+        .lean(); // Retrieve all islands belonging to this user
+      console.log("here is one island backend: " + userIslands);
+      return userIslands;
+    }
+  },
+
   categoryFilter: {
     // ALL REGIONS NOT IMPLEMENTED YET
     auth: false,
     handler: async function(request, h) {
+      const userId = utils.getUserIdFromRequest(request); // retrieve the userId from request
       if (request.params.filter !== "All Regions") {
         const regionLean = await Region.findByRegionName(
           request.params.filter
         ).lean(); // find region object using region name above
 
         const regionId = regionLean._id; // retrieve region object reference ID
-        const categoryFilter = await Island.findIslandsInRegion(
-          regionId
-          //userId
+        const categoryFilter = await Island.findUserIslandsInRegion(
+          // retrieve the user islands in this region
+          regionId,
+          userId
         )
           .populate("region")
           .populate("user")
