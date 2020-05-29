@@ -32,6 +32,11 @@ module.exports = [
     config: Islands.categoryFilter
   },
   {
+    method: "GET",
+    path: "/api/islands/getUserIslands/{userId}",
+    config: Islands.getUserIslands
+  },
+  {
     method: "POST",
     path: "/api/islands/addIsland",
     config: Islands.addIsland

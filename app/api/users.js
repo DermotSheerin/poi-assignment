@@ -10,14 +10,19 @@ const Users = {
     auth: false,
     handler: async function(request, h) {
       try {
-        const user = await User.findOne({ email: request.payload.email });
+        const user = await User.findOne({
+          email: request.payload.email
+        }).lean();
+        console.log(`here is userID BACKEND: ${user._id}`);
         if (!user) {
           return Boom.unauthorized("User not found");
         } else if (user.password !== request.payload.password) {
           return Boom.unauthorized("Invalid password");
         } else {
           const token = utils.createToken(user);
-          return h.response({ success: true, token: token }).code(201);
+          return h
+            .response({ success: true, token: token, user: user._id })
+            .code(201);
         }
       } catch (err) {
         return Boom.notFound("internal db failure");
