@@ -91,12 +91,11 @@ const Islands = {
           .populate("user")
           .lean(); // find all islands that have this region ID as a region object reference AND user ID as a user object reference then render to dashboard
         return categoryFilter;
-      } else return "not implemented yet";
-      // else {
-      //   return await Region.find({})
-      //     .region()
-      //     .lean();
-      // }
+      } else
+        return await Island.findIslandsByUserId(userId)
+          .populate("user")
+          .populate("region")
+          .lean(); // if 'All Regions' is requested then retrieve all islands belonging to this user and render to view
     }
   }
 };
