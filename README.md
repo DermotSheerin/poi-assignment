@@ -14,13 +14,13 @@ Password: 1234
 
 ## Description
 POI Islands of Ireland allows users create their own unique repository of islands. The App allows users to define:
-* Island Region (North East, East Coast, South Coast, Mid West)
+* Island Regions (North East, East Coast, South Coast, Mid West)
 *	Island Name
 * Description
 * Latitude / Longitude details
 *	Upload multiple images per Island
 
-Users are able to signup and access the App instantly. If a member requires a new Region name to be added they can request this from the Administrator (request currently not available via the App). Once the Administrator creates the new region it is instantly available to the member. They can add  and search islands using this new region.
+Users are able to signup and access the App instantly. If a member requires a new Regions name to be added they can request this from the Administrator (request currently not available via the App). Once the Administrator creates the new region it is instantly available to the member. They can add  and search islands using this new region.
 
 Members can add/modify/delete islands and also categorise the list of islands based on region in the main dashboard. They can also select to display ‘All Regions’ which will display all islands administered. The members name and island Count is displayed on the dashboard.
 

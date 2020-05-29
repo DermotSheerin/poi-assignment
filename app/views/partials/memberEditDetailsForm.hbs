@@ -4,15 +4,15 @@
             <h3 class="ui header">Edit Island Details</h3>
             <div class="two fields">
                 <div class="field">
-                    <label>Region/Category</label>
+                    <label>Regions/Category</label>
                     <select class="ui dropdown" name="region"> <!-- NEED TO TEST THIS CHANGE -->
-                        <option value="{{islandDetails.region.region}}">Current Region({{islandDetails.region.region}})</option>-->
+                        <option value="{{islandDetails.region.region}}">Current Regions({{islandDetails.region.region}})</option>-->
                         {{#each regions}}
                             {{#unless adminOwner}}
                             <option value="{{region}}">{{region}}</option>
                             {{/unless}}
                         {{/each}}
-<!--                        <option value="{{islandDetails.region.region}}">Current Region({{islandDetails.region.region}})</option>-->
+<!--                        <option value="{{islandDetails.region.region}}">Current Regions({{islandDetails.region.region}})</option>-->
 <!--                        <option value="North East">North East</option>-->
 <!--                        <option value="East Coast">East Coast</option>-->
 <!--                        <option value="South Coast">South Coast</option>-->

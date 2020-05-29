@@ -1,7 +1,7 @@
 <form class="ui primary segment form" action="/addIsland" method="POST">
     <div class="two fields">
         <div class="field">
-            <label>Region/Category <i class="ie flag"></i> </label>
+            <label>Regions/Category <i class="ie flag"></i> </label>
             <select name="region">
                 {{#each regions}}
                     {{#unless adminOwner}} <!-- unless adminOwner field is true then display the region, implemented this to avoid the 'All Regions' region appearing which is there for search purposes, not to assign islands to -->
