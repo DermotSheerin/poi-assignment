@@ -211,10 +211,10 @@ const Islands = {
         const newRegionName = updateIsland.region;
         const newRegionObject = await Region.findByRegionName(newRegionName); // retrieve region object using region name
         const islandId = request.params.id;
-        const islandDetails = await Island.findById(islandId).populate(
-          // retrieve island object using the island ID
-          "region"
-        );
+        const islandDetails = await Island.findById(islandId)
+          .populate("region")
+          .populate("user")
+          .lean();
         islandDetails.region = newRegionObject; // set the new region
         islandDetails.name = updateIsland.name; // update island name
         islandDetails.description = updateIsland.description; // update island description

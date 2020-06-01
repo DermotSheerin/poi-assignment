@@ -21,7 +21,7 @@ const Users = {
         } else {
           const token = utils.createToken(user);
           return h
-            .response({ success: true, token: token, user: user._id })
+            .response({ success: true, token: token, user: user }) // pass back success result, token and user details to login function
             .code(201);
         }
       } catch (err) {

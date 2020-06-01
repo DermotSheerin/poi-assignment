@@ -37,6 +37,16 @@ module.exports = [
     config: Islands.getUserIslands
   },
   {
+    method: "PUT",
+    path: "/api/islands/editIslandDetails",
+    config: Islands.editIslandDetails
+  },
+  {
+    method: "GET",
+    path: "/api/islands/showIslandDetails/{id}",
+    config: Islands.showIslandDetails
+  },
+  {
     method: "POST",
     path: "/api/islands/addIsland",
     config: Islands.addIsland
