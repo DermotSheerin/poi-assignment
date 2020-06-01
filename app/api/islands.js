@@ -97,38 +97,49 @@ const Islands = {
           .populate("region")
           .lean(); // if 'All Regions' is requested then retrieve all islands belonging to this user and render to view
     }
+  },
+
+  showIslandDetails: {
+    auth: false,
+    handler: async function(request, h) {
+      try {
+        const islandId = request.params.id;
+        const islandDetails = await Island.findById(islandId)
+          .populate("region")
+          .populate("user")
+          .lean();
+        return { islandDetails: islandDetails };
+      } catch (err) {
+        return err;
+      }
+    }
+  },
+
+  editIslandDetails: {
+    auth: false,
+    handler: async function(request, h) {
+      try {
+        const updateIsland = request.payload;
+        const newRegionName = updateIsland.regionCategory;
+        const newRegionObject = await Region.findByRegionName(
+          newRegionName
+        ).lean(); // retrieve region object using region name
+        const islandId = updateIsland.islandId;
+        const islandDetails = await Island.findById(islandId) // not using lean here as you need the full object in order to do an update and save
+          .populate("region")
+          .populate("user");
+        islandDetails.region = newRegionObject; // set the new region
+        islandDetails.name = updateIsland.name; // update island name
+        islandDetails.description = updateIsland.description; // update island description
+        islandDetails.longitude = updateIsland.longitude;
+        islandDetails.latitude = updateIsland.latitude;
+        await islandDetails.save();
+        return h.response(islandDetails).code(200);
+      } catch (err) {
+        return err.message;
+      }
+    }
   }
 };
-
-//   categoryFilter: {
-//     auth: false,
-//     handler: async function(request, h) {
-//       const regionLean = await Region.findByRegionName(
-//           request.params.filter
-//       ).lean(); // find region object using region name above
-//
-//       if (request.params.filter !== "All Regions") {
-//         const regionId = regionLean._id; // retrieve region object reference ID
-//         const categoryFilter = await Island.findIslandsInRegion(
-//             regionId
-//             //userId
-//         )
-//             .populate("region")
-//             .populate("user")
-//             .lean(); // find all islands that have this region ID as a region object reference AND user ID as a user object reference then render to dashboard
-//         // },
-//         // const categoryFilter = await Island.findIslandsInRegion(
-//         //   request.params.filter
-//         // );
-//         console.log(categoryFilter);
-//         return categoryFilter;
-//       } else {
-//         return await Region.find({})
-//             .region()
-//             .lean();
-//       }
-//     }
-//   }
-// }
 
 module.exports = Islands;
