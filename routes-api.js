@@ -50,5 +50,10 @@ module.exports = [
     method: "POST",
     path: "/api/islands/addIsland",
     config: Islands.addIsland
+  },
+  {
+    method: "DELETE",
+    path: "/api/islands/deleteIsland/{id}",
+    config: Islands.deleteOne
   }
 ];

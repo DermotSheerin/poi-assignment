@@ -40,18 +40,14 @@ const Islands = {
           description: data.description,
           latitude: data.latitude,
           longitude: data.longitude,
-          region: data.regionCategory,
+          region: data.region._id,
           user: userId
         });
-        await newIsland.save();
+        const response = await newIsland.save();
 
-        // const user = await User.findByIdAndUpdate(userId, {
-        //   // find the User by ID and increment the islandCount by 1
-        //   $inc: { islandCount: 1 }
-        // });
-        // await user.save();
+        console.log(response);
 
-        return h.response(newIsland).code(201);
+        return h.response(response).code(201);
       } catch (err) {
         return h.view("dashboard", { errors: [{ message: err.message }] });
       }
@@ -72,7 +68,6 @@ const Islands = {
   },
 
   categoryFilter: {
-    // ALL REGIONS NOT IMPLEMENTED YET
     auth: false,
     handler: async function(request, h) {
       const userId = utils.getUserIdFromRequest(request); // retrieve the userId from request
@@ -120,7 +115,7 @@ const Islands = {
     handler: async function(request, h) {
       try {
         const updateIsland = request.payload;
-        const newRegionName = updateIsland.regionCategory;
+        const newRegionName = updateIsland.region;
         const newRegionObject = await Region.findByRegionName(
           newRegionName
         ).lean(); // retrieve region object using region name
@@ -138,6 +133,17 @@ const Islands = {
       } catch (err) {
         return err.message;
       }
+    }
+  },
+
+  deleteOne: {
+    auth: false,
+    handler: async function(request, h) {
+      const response = await Island.deleteOne({ _id: request.params.id });
+      if (response.deletedCount == 1) {
+        return { success: true };
+      }
+      return Boom.notFound("id not found");
     }
   }
 };
