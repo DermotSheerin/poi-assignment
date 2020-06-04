@@ -7,7 +7,7 @@ const utils = require("./utils.js");
 
 const Regions = {
   find: {
-    auth: false,
+    auth: false, // temporarily leaving this authentication open as it is currently accessed before user login
     handler: async function(request, h) {
       const regions = await Region.find().lean();
       return regions;

@@ -69,7 +69,10 @@ const Users = {
   },
 
   deleteAll: {
-    auth: false,
+    // some work needed here???
+    auth: {
+      strategy: "jwt"
+    },
     handler: async function(request, h) {
       await User.remove({});
       return { success: true };
@@ -77,7 +80,9 @@ const Users = {
   },
 
   deleteOne: {
-    auth: false,
+    auth: {
+      strategy: "jwt"
+    },
     handler: async function(request, h) {
       const response = await User.deleteOne({ _id: request.params.id });
       if (response.deletedCount == 1) {
@@ -88,7 +93,9 @@ const Users = {
   },
 
   findOne: {
-    auth: false,
+    auth: {
+      strategy: "jwt"
+    },
     handler: async function(request, h) {
       try {
         const user = await User.findOne({ _id: request.params.id });
@@ -103,21 +110,14 @@ const Users = {
   },
 
   find: {
-    auth: false,
+    auth: {
+      strategy: "jwt"
+    },
     handler: async function(request, h) {
       const users = await User.find();
       return users;
     }
   }
-
-  // Dermot mess test
-  // findBart: {
-  //     //     auth: false,
-  //     //     handler: async function(request, h) {
-  //     //         const bart = await User.findOne({firstName: 'Bart'});
-  //     //         return bart;
-  //     //     }
-  //     // },
 };
 
 module.exports = Users;

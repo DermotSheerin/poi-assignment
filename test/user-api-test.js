@@ -1,34 +1,42 @@
 "use strict";
 
+// JWT authentication applied to all Users routes except authentication and createUser
+
 const assert = require("chai").assert;
 const IslandService = require("./island-service");
-const fixtures = require("./fixtures.json");
+const seedData = require("./seedData.json");
 const _ = require("lodash");
 
-suite("Candidate API tests", function() {
-  let users = fixtures.users;
-  let newUser = fixtures.newUser;
+suite("User API tests", function() {
+  let users = seedData.users;
+  let newUser = seedData.newUser;
 
-  const islandService = new IslandService(fixtures.islandService);
+  const islandService = new IslandService(seedData.islandService);
 
-  // setup(async function() {
-  //   await islandService.deleteAllUsers();
-  // });
-  //
-  // teardown(async function() {
-  //   await islandService.deleteAllUsers();
-  // });
+  suiteSetup(async function() {
+    await islandService.deleteAllUsers();
+    const returnedUser = await islandService.createUser(newUser);
+    const response = await islandService.authenticate(newUser);
+  });
 
-  // test('check if Bart exists', async function () {
-  //   const bart = await donationService.getBart();
-  //   assert.isDefined(bart._id);
-  // });
+  suiteTeardown(async function() {
+    await islandService.deleteAllUsers();
+    islandService.clearAuth();
+  });
+
+  setup(async function() {
+    // await islandService.deleteAllUsers();
+  });
+
+  teardown(async function() {
+    // await islandService.deleteAllUsers();
+  });
 
   test("create a user", async function() {
     const returnedUser = await islandService.createUser(newUser);
     assert(
       _.some([returnedUser], newUser),
-      "returnedCandidate must be a superset of newCandidate"
+      "returnedUser must be a superset of newUser"
     );
     assert.isDefined(returnedUser._id);
   });
@@ -55,18 +63,34 @@ suite("Candidate API tests", function() {
   });
 
   test("get all users", async function() {
+    await islandService.deleteAllUsers();
+    const returnedUser = await islandService.createUser(newUser);
+    const response = await islandService.authenticate(newUser);
+
     for (let c of users) {
       await islandService.createUser(c);
     }
 
     const allUsers = await islandService.getUsers();
-    assert.equal(allUsers.length, users.length);
+    assert.equal(allUsers.length, users.length + 1);
   });
 
   test("get users detail", async function() {
+    await islandService.deleteAllUsers();
+    const user = await islandService.createUser(newUser);
+    const response = await islandService.authenticate(newUser);
+
     for (let c of users) {
       await islandService.createUser(c);
     }
+
+    const testUser = {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      password: user.password
+    };
+    users.unshift(testUser);
 
     const allUsers = await islandService.getUsers();
     for (var i = 0; i < users.length; i++) {
@@ -78,7 +102,10 @@ suite("Candidate API tests", function() {
   });
 
   test("get all users empty", async function() {
+    await islandService.deleteAllUsers();
+    const user = await islandService.createUser(newUser);
+    const response = await islandService.authenticate(newUser);
     const allUsers = await islandService.getUsers();
-    assert.equal(allUsers.length, 0);
+    assert.equal(allUsers.length, 1);
   });
 });
