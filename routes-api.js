@@ -55,5 +55,15 @@ module.exports = [
     method: "DELETE",
     path: "/api/islands/deleteIsland/{id}",
     config: Islands.deleteOne
+  },
+  {
+    method: "DELETE",
+    path: "/api/islands/deleteAll", // function may need work
+    config: Islands.deleteAll
+  },
+  {
+    method: "GET",
+    path: "/api/islands/find",
+    config: Islands.find
   }
 ];

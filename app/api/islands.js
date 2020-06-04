@@ -7,8 +7,20 @@ const Joi = require("@hapi/joi");
 const utils = require("./utils.js");
 
 const Islands = {
+  find: {
+    auth: {
+      strategy: "jwt"
+    },
+    handler: async function(request, h) {
+      const islands = await Island.find();
+      return islands;
+    }
+  },
+
   addIsland: {
-    auth: false,
+    auth: {
+      strategy: "jwt"
+    },
     // validate: {
     //   //  Hapi scoped module for validation
     //   payload: {
@@ -55,7 +67,9 @@ const Islands = {
   },
 
   getUserIslands: {
-    auth: false,
+    auth: {
+      strategy: "jwt"
+    },
     handler: async function(request, h) {
       const userId = request.params.userId;
       const userIslands = await Island.findIslandsByUserId(userId)
@@ -68,7 +82,9 @@ const Islands = {
   },
 
   categoryFilter: {
-    auth: false,
+    auth: {
+      strategy: "jwt"
+    },
     handler: async function(request, h) {
       const userId = utils.getUserIdFromRequest(request); // retrieve the userId from request
       if (request.params.filter !== "All Regions") {
@@ -95,7 +111,9 @@ const Islands = {
   },
 
   showIslandDetails: {
-    auth: false,
+    auth: {
+      strategy: "jwt"
+    },
     handler: async function(request, h) {
       try {
         const islandId = request.params.id;
@@ -111,7 +129,9 @@ const Islands = {
   },
 
   editIslandDetails: {
-    auth: false,
+    auth: {
+      strategy: "jwt"
+    },
     handler: async function(request, h) {
       try {
         const updateIsland = request.payload;
@@ -137,13 +157,26 @@ const Islands = {
   },
 
   deleteOne: {
-    auth: false,
+    auth: {
+      strategy: "jwt"
+    },
     handler: async function(request, h) {
       const response = await Island.deleteOne({ _id: request.params.id });
       if (response.deletedCount == 1) {
         return { success: true };
       }
       return Boom.notFound("id not found");
+    }
+  },
+
+  deleteAll: {
+    // some work needed here???
+    auth: {
+      strategy: "jwt"
+    },
+    handler: async function(request, h) {
+      const response = await Island.remove({});
+      return { success: true };
     }
   }
 };
