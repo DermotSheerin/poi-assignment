@@ -5,6 +5,7 @@ const Island = require("../models/island"); // THINK ABOUT MOVING THE findIsland
 const Boom = require("@hapi/boom");
 const Joi = require("@hapi/joi");
 const utils = require("./utils.js");
+const ImageStore = require("../utils/image-store");
 
 const Islands = {
   find: {
@@ -153,6 +154,45 @@ const Islands = {
       } catch (err) {
         return err.message;
       }
+    }
+  },
+
+  addImage: {
+    auth: false,
+    handler: async function(request, h) {
+      const imageURL = request.payload.image.url;
+      const imageId = request.payload.image.public_id;
+      const islandId = request.payload.islandId;
+      const islandDetails = await Island.findById(islandId);
+      islandDetails.imageURL.push([imageURL, imageId]);
+      await islandDetails.save();
+      return islandDetails;
+    }
+  },
+
+  deleteImage: {
+    auth: false,
+    handler: async function(request, h) {
+      const imageId = request.payload.imageId;
+      const islandId = request.payload.islandId;
+      await ImageStore.deleteImage(imageId); // delete image from Cloudinary
+      console.log(imageId + islandId);
+      const updateIsland = await Island.findByIdAndUpdate(
+        // find the Island and pull the array that contains the imageID
+        { _id: islandId },
+        { $pull: { imageURL: { $in: [imageId] } } },
+        { safe: true },
+        function(err) {
+          if (err) {
+            console.log(err);
+          }
+        }
+      );
+      await updateIsland.save();
+      const island = await Island.findById(islandId); // when i tried to return the updateIsland object it did not contain the latest imageURL list which resulted
+      // in the image not clearing on FE (it would take 2 attempts). However I could verify the object was deleted in mongoDB correctly. To resolve I retrieve the island details
+      // again and return those
+      return await island;
     }
   },
 
