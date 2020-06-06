@@ -69,7 +69,6 @@ const Users = {
   },
 
   deleteAll: {
-    // some work needed here???
     auth: {
       strategy: "jwt"
     },

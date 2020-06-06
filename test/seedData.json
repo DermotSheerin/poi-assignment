@@ -47,9 +47,7 @@
   {
     "name": "Lough Foyle",
       "imageURL": [
-        ["https://res.cloudinary.com/dsheerincloud/image/upload/v1583696893/w4narqhv78f0w69zsdnl.png", "w4narqhv78f0w69zsdnl"],
-        ["https://res.cloudinary.com/dsheerincloud/image/upload/v1583696971/gee7ggz3ltxzvglxjppw.png", "gee7ggz3ltxzvglxjppw"],
-        ["https://res.cloudinary.com/dsheerincloud/image/upload/v1583696983/oad1zk5gguzdfu0nu0mm.jpg", "oad1zk5gguzdfu0nu0mm"]
+        ["https://res.cloudinary.com/dsheerincloud/image/upload/v1591454149/rr6xlipve6nr8gbry0k1.png"]
       ],
       "description": "Embarkation The logical embarkation point for the outer regions of Lough Foyle is Magilligan Point, by the Martello Tower. Access is by the B202 past the prison and rifle range. Do not block roads. Park by the hotel. The whole region is a security area, frequently patrolled. Especially beware of the military zone on the beach immediately to the E of the point, Benone Beach, on which it’s better not to land (certainly not while firing is going on). Accurate information for those passing the firing range can now be obtained from CANI. Further to the E, beyond the military zone, there is public access at about C716-363. There is a concrete slip across the beach. However, the beach surfs and there is a strong tidal drift. This may have relevance for launching. Expect caravans, lifeguards, and beach casting anglers. Military installations on both sides show the importance of the lough in such terms. The whole lough is less interesting inwards to the SW. There are large areas of mudflats on the E side. That said, it is a busy, well marked and well lit area. It is excellent for night navigation, sheltered but with strong tides. If paddling up into the city, it is possible to take out at Prehen Boat Club upstream of the Craigavon Bridge on the E bank. Road access is better on the Donegal side and there are nice secluded beaches. Greencastle at C648-400 lies directly across from Magilligan Point. The Donegal shore gets the more interesting up towards Inishowen Head at C685-438. The sea is much more exposed beyond the head. Tides Fierce tides push through the narrows. Rates of 3.5kn should not be treated lightly. Eddies on the Donegal side run from Warren Point to Moville and are usable on both flood and ebb. Moville HW is 3:50 after Belfast",
       "latitude": 55.19369052,
@@ -60,9 +58,7 @@
     {
       "name": "Downhill",
       "imageURL": [
-        ["https://res.cloudinary.com/dsheerincloud/image/upload/v1583697461/lgsrjcwynofbmfa3fyjw.png", "lgsrjcwynofbmfa3fyjw"],
-        ["https://res.cloudinary.com/dsheerincloud/image/upload/v1583697470/v9scdgzdeidef1jflxde.png", "v9scdgzdeidef1jflxde"],
-        ["https://res.cloudinary.com/dsheerincloud/image/upload/v1583697485/ubmpmzivgmjimeyzdfvh.png", "ubmpmzivgmjimeyzdfvh"]
+        ["https://res.cloudinary.com/dsheerincloud/image/upload/v1591454182/fum7gwlvu40fpgfs8g0b.png"]
       ],
       "description": "There is public access at the extreme E end of Benone Beach at a point called Downhill Strand. The Downhill Hotel was closed and demolished. An apartment block now fills the gap. Parking and toilets are beside the apartments and access is by a stream through an archway under the railway. This spot is popular with anglers. The rocky area to the E of the prominent Mussenden Temple at C758-363 is loose basalt, eroded to provide caves and arches. Fulmar and Kittiwake thrive on the sewerage outfall. There is good access and parking at Castlerock village itself at C766-365, where there is parking and toilets at the beach access point. <strong>County Antrim</strong> Tidal overview On the north coast, the tide generally turns west at Belfast HW and east at Belfast LW. The tides are complex, particularly around Rathlin and should be studied carefully. Tides flow strongly at the headlands but there are usable eddies between",
       "latitude": 55.16721802,
@@ -71,7 +67,7 @@
       "user": "Dee Sheerin"
     },
     { "name": "River Bann",
-      "imageURL": [],
+      "imageURL": ["https://res.cloudinary.com/dsheerincloud/image/upload/v1591454194/enlmt7hpbhydnjm7ngaj.png"],
       "description": "To the E of Castlerock village is the Bar Mouth, where the River Bann flows into the sea. Turbulent water can be experienced quite a distance offshore. The flood at the mouth is weak by comparison to the ebb. Especially when the river is up, the ebb and the flow of the river combine to produce mighty standing waves. The flow of the river is controlled by floodgates well upstream. Powerful rip currents either side of the mouth are dangerous enough. The mouth artificially narrows the stream and this projects the fresh water out with great force. The fresh water is easily distinguished in the sea water and gives a good guide as to tide direction and strength off the beaches. The river is marked as far up as Coleraine. The area is a noted birding spot in winter",
       "latitude": 55.17124307,
       "longitude": -6.77197253,
@@ -80,8 +76,7 @@
     },
     { "name": "Portstewart",
       "imageURL": [
-        ["https://res.cloudinary.com/dsheerincloud/image/upload/v1583697775/nf4swugznntwjxh9e0dj.png", "nf4swugznntwjxh9e0dj"],
-        ["https://res.cloudinary.com/dsheerincloud/image/upload/v1583697788/w9nuylpujpet8jybdbdu.png", "w9nuylpujpet8jybdbdu"]
+        []
       ],
       "description": "The area behind Portstewart Strand to the W of the town is part golf course and part National Trust. There is fee-paying access to the NT section, where there are toilets and parking. There is a powerful rip each end of the strand. When the strand is dumping, it is better to launch off a slip at Portnahapple at C813-376, which is usable in most conditions, but be aware that access is difficult from car parks in the area.. The harbour at C815-386 can be difficult to enter or exit in heavy seas, with multi-directional reflected waves. The slip is exposed to surge. There is good parking and this is the access of choice in calm conditions. There is some interesting rock hopping locally, clapotis almost always and some small caves and a blowhole that performs well in good swell. The tide can run fast around Portstewart Point",
       "latitude": 55.18778894,
@@ -91,8 +86,7 @@
     },
     { "name": "Colt Island",
       "imageURL": [
-        ["https://res.cloudinary.com/dsheerincloud/image/upload/v1583698112/jplkns76yg8bnzozctuo.png", "jplkns76yg8bnzozctuo"],
-        ["https://res.cloudinary.com/dsheerincloud/image/upload/v1583698119/c74uuxn8ydoen7qptdly.png", "c74uuxn8ydoen7qptdly"]
+        []
       ],
       "description": "A barely detached part of Mace Head, at highest HWS only. From the shore, approach with permission through the grounds of the Mace Head Atmospheric Research Station grounds. From the sea, land at the NE or SW cut between shore and island, both sheltered, that to the NE easier of access. It is an island of two halves, the more shoreward being rough pasture, slightly grazed by cattle and the camping is not great. The unexpected treat in this island is the seaward half, which contains a tidal lagoon that makes for a splendid swimming and sunbathing area. Approachable by sea at all stages of the tide from the NW, the lagoon is partly surrounded by scraped rocks, ideal for recreational purposes. The water never drops below at least 1m",
       "latitude": 53.24876688,
