@@ -6,7 +6,7 @@ require("./app/models/db");
 const utils = require("./app/api/utils.js");
 
 // COMMENT OUT FOR PUBLIC DEPLOYMENT
-const dotenv = require("dotenv");
+// const dotenv = require("dotenv");
 
 const server = Hapi.server({
   port: process.env.PORT || 3000,
@@ -14,19 +14,19 @@ const server = Hapi.server({
 });
 
 // COMMENT OUT FOR PUBLIC DEPLOYMENT
-const credentials = {
-  cloud_name: process.env.name,
-  api_key: process.env.key,
-  api_secret: process.env.secret
-};
+// const credentials = {
+//   cloud_name: process.env.name,
+//   api_key: process.env.key,
+//   api_secret: process.env.secret
+// };
 
 // COMMENT OUT FOR PUBLIC DEPLOYMENT
-const result = dotenv.config();
-if (result.error) {
-  //  introduce a more orderly and informative error message + exit if there are problems starting the application
-  console.log(result.error.message);
-  process.exit(1);
-}
+// const result = dotenv.config();
+// if (result.error) {
+//   //  introduce a more orderly and informative error message + exit if there are problems starting the application
+//   console.log(result.error.message);
+//   process.exit(1);
+// }
 
 async function init() {
   await server.register(require("@hapi/inert")); // registering the plugins
@@ -34,9 +34,9 @@ async function init() {
   await server.register(require("@hapi/cookie"));
   await server.register(require("hapi-auth-jwt2"));
 
-  ImageStore.configure(credentials);
+  // ImageStore.configure(credentials);
   // USE THE FOLLOWING FOR PUBLIC DEPLOYMENT
-  //ImageStore.configure();
+  ImageStore.configure();
   server.validator(require("@hapi/joi")); // initialise Hapi
 
   server.views({
