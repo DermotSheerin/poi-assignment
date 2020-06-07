@@ -1,9 +1,11 @@
 "use strict";
 
 const User = require("../models/user");
+const Island = require("../models/island");
 const Boom = require("@hapi/boom");
 const Joi = require("@hapi/joi");
 const utils = require("./utils.js");
+const ImageStore = require("../utils/image-store");
 
 const Users = {
   authenticate: {
@@ -78,16 +80,38 @@ const Users = {
     }
   },
 
+  // deleteOne: {
+  //     auth: {
+  //       strategy: "jwt"
+  //     },
+  //     handler: async function(request, h) {
+  //       const response = await User.deleteOne({ _id: request.params.id });
+  //       if (response.deletedCount == 1) {
+  //         return { success: true };
+  //       }
+  //       return Boom.notFound("id not found");
+  //     }
+  //   },
+
   deleteOne: {
     auth: {
       strategy: "jwt"
     },
     handler: async function(request, h) {
-      const response = await User.deleteOne({ _id: request.params.id });
-      if (response.deletedCount == 1) {
-        return { success: true };
+      try {
+        const userID = request.params.id;
+        const userIslands = await Island.findIslandsByUserId(userID).lean();
+        await ImageStore.deleteUserIslandImages(userIslands); // delete users Island images from cloudinary before deleting the island and then deleting the user further below
+        await Island.deleteIslandsByUserId(userID); // prior to deleting member, delete all islands associate with the member
+        // await User.findByIdAndDelete(userID);
+        const response = await User.deleteOne({ _id: userID });
+        if (response.deletedCount === 1) {
+          return { success: true };
+        }
+        return Boom.notFound("id not found");
+      } catch (err) {
+        return err.message;
       }
-      return Boom.notFound("id not found");
     }
   },
 
