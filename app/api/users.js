@@ -1,9 +1,11 @@
 "use strict";
 
 const User = require("../models/user");
+const Island = require("../models/island");
 const Boom = require("@hapi/boom");
 const Joi = require("@hapi/joi");
 const utils = require("./utils.js");
+const ImageStore = require("../utils/image-store");
 
 const Users = {
   authenticate: {
@@ -21,7 +23,7 @@ const Users = {
         } else {
           const token = utils.createToken(user);
           return h
-            .response({ success: true, token: token, user: user._id })
+            .response({ success: true, token: token, user: user }) // pass back success result, token and user details to login function
             .code(201);
         }
       } catch (err) {
@@ -30,34 +32,27 @@ const Users = {
     }
   },
 
+  // create: {
+  //   auth: false,
+  //   handler: async function(request, h) {
+  //     let verifyUser = await User.findByEmail(request.payload.email);
+  //     try {
+  //       if (verifyUser) {
+  //         const message = "That Email address already exists!";
+  //         throw Boom.badData(message);
+  //       }
+  //       const newUser = new User(request.payload);
+  //       const user = await newUser.save();
+  //       if (user) {
+  //         return h.response(user).code(201);
+  //       }
+  //       return Boom.badImplementation("error creating user");
+  //     } catch (err) {}
+  //   }
+  // },
+
   create: {
     auth: false,
-    // validate: {
-    //   //  Hapi scoped module for validation
-    //   payload: {
-    //     // payload: his defines a schema which defines rules that our fields must adhere to
-    //     firstName: Joi.string().required(),
-    //     lastName: Joi.string().required(),
-    //     email: Joi.string()
-    //       .email()
-    //       .required(),
-    //     password: Joi.string().required()
-    //   },
-    //   options: {
-    //     abortEarly: false
-    //   },
-
-    // failAction: This is the handler to invoke if one or more of the fields fails the validation.
-    //   return h
-    //     .view("signup", {
-    //       title: "Sign up error",
-    //       errors: error.details,
-    //       user: request.payload // pass the details entered by the user into the signup view to avoid user having to re-enter some fields
-    //     })
-    //     .takeover()
-    //     .code(400);
-    // }
-    // },
     handler: async function(request, h) {
       const newUser = new User(request.payload);
       const user = await newUser.save();
@@ -69,7 +64,9 @@ const Users = {
   },
 
   deleteAll: {
-    auth: false,
+    auth: {
+      strategy: "jwt"
+    },
     handler: async function(request, h) {
       await User.remove({});
       return { success: true };
@@ -77,18 +74,31 @@ const Users = {
   },
 
   deleteOne: {
-    auth: false,
+    auth: {
+      strategy: "jwt"
+    },
     handler: async function(request, h) {
-      const response = await User.deleteOne({ _id: request.params.id });
-      if (response.deletedCount == 1) {
-        return { success: true };
+      try {
+        const userID = request.params.id;
+        const userIslands = await Island.findIslandsByUserId(userID).lean();
+        await ImageStore.deleteUserIslandImages(userIslands); // delete users Island images from cloudinary before deleting the island and then deleting the user further below
+        await Island.deleteIslandsByUserId(userID); // prior to deleting member, delete all islands associate with the member
+        // await User.findByIdAndDelete(userID);
+        const response = await User.deleteOne({ _id: userID });
+        if (response.deletedCount === 1) {
+          return { success: true };
+        }
+        return Boom.notFound("id not found");
+      } catch (err) {
+        return err.message;
       }
-      return Boom.notFound("id not found");
     }
   },
 
   findOne: {
-    auth: false,
+    auth: {
+      strategy: "jwt"
+    },
     handler: async function(request, h) {
       try {
         const user = await User.findOne({ _id: request.params.id });
@@ -103,21 +113,14 @@ const Users = {
   },
 
   find: {
-    auth: false,
+    auth: {
+      strategy: "jwt"
+    },
     handler: async function(request, h) {
       const users = await User.find();
       return users;
     }
   }
-
-  // Dermot mess test
-  // findBart: {
-  //     //     auth: false,
-  //     //     handler: async function(request, h) {
-  //     //         const bart = await User.findOne({firstName: 'Bart'});
-  //     //         return bart;
-  //     //     }
-  //     // },
 };
 
 module.exports = Users;

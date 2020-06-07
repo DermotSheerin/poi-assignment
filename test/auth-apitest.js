@@ -2,20 +2,17 @@
 
 const assert = require("chai").assert;
 const IslandService = require("./island-service");
-const fixtures = require("./fixtures.json");
+const seedData = require("./seedData.json");
 const utils = require("../app/api/utils.js");
 
 suite("Authentication API tests", function() {
-  let users = fixtures.users;
+  let users = seedData.users;
+  let newUser = seedData.newUser;
 
-  let newUser = fixtures.newUser;
-
-  const islandService = new IslandService(fixtures.islandService);
+  const islandService = new IslandService(seedData.islandService);
 
   suiteSetup(async function() {
     await islandService.deleteAllUsers();
-    const returnedUser = await islandService.createUser(newUser);
-    const response = await islandService.authenticate(newUser);
   });
 
   suiteTeardown(async function() {
@@ -23,7 +20,7 @@ suite("Authentication API tests", function() {
     islandService.clearAuth();
   });
 
-  // islandService is our test client, this is the interface to our API
+  // test/island-service is our test client, this is the interface to our API
 
   test("authenticate", async function() {
     const returnedUser = await islandService.createUser(newUser);
