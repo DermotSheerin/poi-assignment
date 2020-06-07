@@ -22,28 +22,6 @@ const Islands = {
     auth: {
       strategy: "jwt"
     },
-    // validate: {
-    //   //  Hapi scoped module for validation
-    //   payload: {
-    //     region: Joi.string(),
-    //     name: Joi.string().required(),
-    //     description: Joi.string(),
-    //     latitude: Joi.number().required(),
-    //     longitude: Joi.number().required()
-    //   },
-    //   options: {
-    //     abortEarly: false
-    //   },
-    //   failAction: async function(request, h, error) {
-    //     return h
-    //         .view("dashboard", {
-    //           errors: error.details,
-    //           island: request.payload // pass the details entered by the user into the view to avoid user having to re-enter fields
-    //         })
-    //         .takeover()
-    //         .code(400);
-    //   }
-    // },
     handler: async function(request, h) {
       try {
         const userId = utils.getUserIdFromRequest(request); // retrieve the userId from request
@@ -58,11 +36,9 @@ const Islands = {
         });
         const response = await newIsland.save();
 
-        console.log(response);
-
         return h.response(response).code(201);
       } catch (err) {
-        return h.view("dashboard", { errors: [{ message: err.message }] });
+        return err.message;
       }
     }
   },
@@ -72,13 +48,17 @@ const Islands = {
       strategy: "jwt"
     },
     handler: async function(request, h) {
-      const userId = request.params.userId;
-      const userIslands = await Island.findIslandsByUserId(userId)
-        .populate("user")
-        .populate("region")
-        .lean(); // Retrieve all islands belonging to this user
-      console.log("here is one island backend: " + userIslands);
-      return userIslands;
+      try {
+        const userId = request.params.userId;
+        const userIslands = await Island.findIslandsByUserId(userId)
+          .populate("user")
+          .populate("region")
+          .lean(); // Retrieve all islands belonging to this user
+        console.log("here is one island backend: " + userIslands);
+        return userIslands;
+      } catch (err) {
+        return err.message;
+      }
     }
   },
 
@@ -87,27 +67,31 @@ const Islands = {
       strategy: "jwt"
     },
     handler: async function(request, h) {
-      const userId = utils.getUserIdFromRequest(request); // retrieve the userId from request
-      if (request.params.filter !== "All Regions") {
-        const regionLean = await Region.findByRegionName(
-          request.params.filter
-        ).lean(); // find region object using region name above
+      try {
+        const userId = utils.getUserIdFromRequest(request); // retrieve the userId from request
+        if (request.params.filter !== "All Regions") {
+          const regionLean = await Region.findByRegionName(
+            request.params.filter
+          ).lean(); // find region object using region name above
 
-        const regionId = regionLean._id; // retrieve region object reference ID
-        const categoryFilter = await Island.findUserIslandsInRegion(
-          // retrieve the user islands in this region
-          regionId,
-          userId
-        )
-          .populate("region")
-          .populate("user")
-          .lean(); // find all islands that have this region ID as a region object reference AND user ID as a user object reference then render to dashboard
-        return categoryFilter;
-      } else
-        return await Island.findIslandsByUserId(userId)
-          .populate("user")
-          .populate("region")
-          .lean(); // if 'All Regions' is requested then retrieve all islands belonging to this user and render to view
+          const regionId = regionLean._id; // retrieve region object reference ID
+          const categoryFilter = await Island.findUserIslandsInRegion(
+            // retrieve the user islands in this region
+            regionId,
+            userId
+          )
+            .populate("region")
+            .populate("user")
+            .lean(); // find all islands that have this region ID as a region object reference AND user ID as a user object reference then render to dashboard
+          return categoryFilter;
+        } else
+          return await Island.findIslandsByUserId(userId)
+            .populate("user")
+            .populate("region")
+            .lean(); // if 'All Regions' is requested then retrieve all islands belonging to this user and render to view
+      } catch (err) {
+        return err.message;
+      }
     }
   },
 
@@ -160,39 +144,45 @@ const Islands = {
   addImage: {
     auth: false,
     handler: async function(request, h) {
-      const imageURL = request.payload.image.url;
-      const imageId = request.payload.image.public_id;
-      const islandId = request.payload.islandId;
-      const islandDetails = await Island.findById(islandId);
-      islandDetails.imageURL.push([imageURL, imageId]);
-      await islandDetails.save();
-      return islandDetails;
+      try {
+        const imageURL = request.payload.image.url;
+        const imageId = request.payload.image.public_id;
+        const islandId = request.payload.islandId;
+        const islandDetails = await Island.findById(islandId);
+        islandDetails.imageURL.push([imageURL, imageId]);
+        await islandDetails.save();
+        return islandDetails;
+      } catch (err) {
+        return err.message;
+      }
     }
   },
 
   deleteImage: {
     auth: false,
     handler: async function(request, h) {
-      const imageId = request.payload.imageId;
-      const islandId = request.payload.islandId;
-      await ImageStore.deleteImage(imageId); // delete image from Cloudinary
-      console.log(imageId + islandId);
-      const updateIsland = await Island.findByIdAndUpdate(
-        // find the Island and pull the array that contains the imageID
-        { _id: islandId },
-        { $pull: { imageURL: { $in: [imageId] } } },
-        { safe: true },
-        function(err) {
-          if (err) {
-            console.log(err);
+      try {
+        const imageId = request.payload.imageId;
+        const islandId = request.payload.islandId;
+        await ImageStore.deleteImage(imageId); // delete image from Cloudinary
+        console.log(imageId + islandId);
+        const updateIsland = await Island.findByIdAndUpdate(
+          // find the Island and pull the array that contains the imageID
+          { _id: islandId },
+          { $pull: { imageURL: { $in: [imageId] } } },
+          { safe: true },
+          function(err) {
+            if (err) {
+              console.log(err);
+            }
           }
-        }
-      );
-      await updateIsland.save();
-      const island = await Island.findById(islandId); // when i tried to return the updateIsland object it did not contain the latest imageURL list which resulted
-      // in the image not clearing on FE (it would take 2 attempts). However I could verify the object was deleted in mongoDB correctly. To resolve I retrieve the island details
-      // again and return those
-      return await island;
+        );
+        await updateIsland.save();
+        const island = await Island.findById(islandId); // when i tried to return the updateIsland object it did not contain the latest imageURL list which resulted
+        // in the image not clearing on FE (it would take 2 attempts). However I could verify the object was deleted in mongoDB correctly. To resolve I retrieve the island details
+        // again and return those
+        return await island;
+      } catch (err) {}
     }
   },
 
@@ -201,21 +191,25 @@ const Islands = {
       strategy: "jwt"
     },
     handler: async function(request, h) {
-      const islandId = request.params.id;
-      const islandDetails = await Island.findById(islandId).lean();
+      try {
+        const islandId = request.params.id;
+        const islandDetails = await Island.findById(islandId).lean();
 
-      if (islandDetails.imageURL.length) {
-        // if the island contains images
-        islandDetails.imageURL.forEach(deleteImageURL); // for each Image array in the island, call the deleteImageURL function and pass the image ID to the deleteImage function to be deleted on Cloudinary
-        async function deleteImageURL(imageURL) {
-          await ImageStore.deleteImage(imageURL[1]);
+        if (islandDetails.imageURL.length) {
+          // if the island contains images
+          islandDetails.imageURL.forEach(deleteImageURL); // for each Image array in the island, call the deleteImageURL function and pass the image ID to the deleteImage function to be deleted on Cloudinary
+          async function deleteImageURL(imageURL) {
+            await ImageStore.deleteImage(imageURL[1]);
+          }
         }
+        const response = await Island.deleteOne({ _id: request.params.id });
+        if (response.deletedCount == 1) {
+          return { success: true };
+        }
+        return Boom.notFound("id not found");
+      } catch (err) {
+        return err.message;
       }
-      const response = await Island.deleteOne({ _id: request.params.id });
-      if (response.deletedCount == 1) {
-        return { success: true };
-      }
-      return Boom.notFound("id not found");
     }
   },
 
@@ -224,8 +218,12 @@ const Islands = {
       strategy: "jwt"
     },
     handler: async function(request, h) {
-      const response = await Island.remove({});
-      return { success: true };
+      try {
+        const response = await Island.remove({});
+        return { success: true };
+      } catch (err) {
+        return err.message;
+      }
     }
   }
 };

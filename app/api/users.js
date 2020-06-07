@@ -32,34 +32,27 @@ const Users = {
     }
   },
 
+  // create: {
+  //   auth: false,
+  //   handler: async function(request, h) {
+  //     let verifyUser = await User.findByEmail(request.payload.email);
+  //     try {
+  //       if (verifyUser) {
+  //         const message = "That Email address already exists!";
+  //         throw Boom.badData(message);
+  //       }
+  //       const newUser = new User(request.payload);
+  //       const user = await newUser.save();
+  //       if (user) {
+  //         return h.response(user).code(201);
+  //       }
+  //       return Boom.badImplementation("error creating user");
+  //     } catch (err) {}
+  //   }
+  // },
+
   create: {
     auth: false,
-    // validate: {
-    //   //  Hapi scoped module for validation
-    //   payload: {
-    //     // payload: his defines a schema which defines rules that our fields must adhere to
-    //     firstName: Joi.string().required(),
-    //     lastName: Joi.string().required(),
-    //     email: Joi.string()
-    //       .email()
-    //       .required(),
-    //     password: Joi.string().required()
-    //   },
-    //   options: {
-    //     abortEarly: false
-    //   },
-
-    // failAction: This is the handler to invoke if one or more of the fields fails the validation.
-    //   return h
-    //     .view("signup", {
-    //       title: "Sign up error",
-    //       errors: error.details,
-    //       user: request.payload // pass the details entered by the user into the signup view to avoid user having to re-enter some fields
-    //     })
-    //     .takeover()
-    //     .code(400);
-    // }
-    // },
     handler: async function(request, h) {
       const newUser = new User(request.payload);
       const user = await newUser.save();
@@ -79,19 +72,6 @@ const Users = {
       return { success: true };
     }
   },
-
-  // deleteOne: {
-  //     auth: {
-  //       strategy: "jwt"
-  //     },
-  //     handler: async function(request, h) {
-  //       const response = await User.deleteOne({ _id: request.params.id });
-  //       if (response.deletedCount == 1) {
-  //         return { success: true };
-  //       }
-  //       return Boom.notFound("id not found");
-  //     }
-  //   },
 
   deleteOne: {
     auth: {

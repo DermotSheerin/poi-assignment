@@ -15,8 +15,8 @@ suite("User API tests", function() {
 
   suiteSetup(async function() {
     await islandService.deleteAllUsers();
-    const returnedUser = await islandService.createUser(newUser);
-    const response = await islandService.authenticate(newUser);
+    // const returnedUser = await islandService.createUser(newUser);
+    // const response = await islandService.authenticate(newUser);
   });
 
   suiteTeardown(async function() {
@@ -25,11 +25,11 @@ suite("User API tests", function() {
   });
 
   setup(async function() {
-    // await islandService.deleteAllUsers();
+    await islandService.deleteAllUsers();
   });
 
   teardown(async function() {
-    // await islandService.deleteAllUsers();
+    await islandService.deleteAllUsers();
   });
 
   test("create a user", async function() {
@@ -42,6 +42,7 @@ suite("User API tests", function() {
   });
 
   test("get user", async function() {
+    const response = await islandService.authenticate(newUser);
     const c1 = await islandService.createUser(newUser);
     const c2 = await islandService.getUser(c1._id);
     assert.deepEqual(c1, c2);
@@ -72,7 +73,7 @@ suite("User API tests", function() {
     }
 
     const allUsers = await islandService.getUsers();
-    assert.equal(allUsers.length, users.length + 1);
+    assert.equal(allUsers.length, users.length + 2);
   });
 
   test("get users detail", async function() {
