@@ -201,6 +201,16 @@ const Islands = {
       strategy: "jwt"
     },
     handler: async function(request, h) {
+      const islandId = request.params.id;
+      const islandDetails = await Island.findById(islandId).lean();
+
+      if (islandDetails.imageURL.length) {
+        // if the island contains images
+        islandDetails.imageURL.forEach(deleteImageURL); // for each Image array in the island, call the deleteImageURL function and pass the image ID to the deleteImage function to be deleted on Cloudinary
+        async function deleteImageURL(imageURL) {
+          await ImageStore.deleteImage(imageURL[1]);
+        }
+      }
       const response = await Island.deleteOne({ _id: request.params.id });
       if (response.deletedCount == 1) {
         return { success: true };
@@ -210,7 +220,6 @@ const Islands = {
   },
 
   deleteAll: {
-    // some work needed here???
     auth: {
       strategy: "jwt"
     },
